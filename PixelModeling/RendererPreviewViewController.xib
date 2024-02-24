@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.AVKitIBPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RendererPreviewViewController" customModule="PixelModeling" customModuleProvider="target">
+            <connections>
+                <outlet property="playerView" destination="GEF-0d-vax" id="ub0-SV-10U"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <avPlayerView controlsStyle="none" videoGravity="resizeAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEF-0d-vax">
+                    <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
+                </avPlayerView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="GEF-0d-vax" secondAttribute="trailing" id="89b-lc-6ra"/>
+                <constraint firstItem="GEF-0d-vax" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="GRg-2m-DHb"/>
+                <constraint firstItem="GEF-0d-vax" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Gu9-ft-xPx"/>
+                <constraint firstAttribute="bottom" secondItem="GEF-0d-vax" secondAttribute="bottom" id="Ral-AQ-Nf7"/>
+            </constraints>
+            <point key="canvasLocation" x="-82.5" y="96"/>
+        </customView>
+    </objects>
+</document>

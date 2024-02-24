@@ -1,0 +1,55 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "other string" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Others"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інші"
+          }
+        }
+      }
+    },
+    "projects string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projects"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проєкти"
+          }
+        }
+      }
+    },
+    "untitled string" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untitled"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без Назви"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
