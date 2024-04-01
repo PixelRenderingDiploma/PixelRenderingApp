@@ -124,6 +124,8 @@
 		BCD19AD72B4E7D22004DCC48 /* PMShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */; };
 		BCD19AD92B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
 		BCD19ADA2B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
+		BCEE73912BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
+		BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCFF4A432B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
 		BCFF4A442B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
 		BCFF4A462B6F99CA00E8B608 /* RenderingRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */; };
@@ -210,6 +212,7 @@
 		BCD19AD02B4E747A004DCC48 /* PixelModeling-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixelModeling-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PMShaders.metal; sourceTree = "<group>"; };
 		BCD19AD82B4E8680004DCC48 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingButton.swift; sourceTree = "<group>"; };
 		BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingSettings.swift; sourceTree = "<group>"; };
 		BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingRequestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -289,6 +292,7 @@
 		BCD19A982B4E70EE004DCC48 = {
 			isa = PBXGroup;
 			children = (
+				BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */,
 				BC3D48732B88401C001A831D /* OBJHelper.swift */,
 				BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */,
 				BCBF6C7C2B6F215500ED97B1 /* UTType+Custom.swift */,
@@ -550,6 +554,7 @@
 				BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift in Sources */,
 				BCBF6C802B6F32DC00ED97B1 /* DetailedViewController.swift in Sources */,
 				BCD19AA52B4E70EE004DCC48 /* AppDelegate.swift in Sources */,
+				BCEE73912BBA72CD00149B7F /* ProcessingButton.swift in Sources */,
 				BC1F60072B849D68002050C7 /* ThreeDModel.swift in Sources */,
 				BC3D48912B89B51C001A831D /* RenderingViewMenuController.swift in Sources */,
 				BC473B6C2B68C79500C413A1 /* RendererPreviewViewController.swift in Sources */,
@@ -583,6 +588,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC87CB3F2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,
+				BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */,
 				BC473B762B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */,
 				BCD19ACB2B4E7181004DCC48 /* RenderingViewController.swift in Sources */,
 				BC3D48752B88401C001A831D /* OBJHelper.swift in Sources */,

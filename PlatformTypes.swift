@@ -9,6 +9,7 @@
     import UIKit
     typealias PlatformViewController = UIViewController
     typealias PlatformView = UIView
+    typealias PlatformButton = UIButton
     typealias PlatformColor = UIColor
     typealias PlatformImage = UIImage
     typealias PlatformImageView = UIImageView
@@ -19,6 +20,7 @@
     import AppKit
     typealias PlatformViewController = NSViewController
     typealias PlatformView = NSView
+    typealias PlatformButton = NSButton
     typealias PlatformColor = NSColor
     typealias PlatformImage = NSImage
     typealias PlatformImageView = NSImageView
