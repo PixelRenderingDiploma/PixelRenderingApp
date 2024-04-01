@@ -15,10 +15,14 @@ class RenderingViewController: PlatformViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let view = self.view as? MTKView,
+        guard let view = self.view as? RenderingView,
               let device = view.device else {
             return
         }
+        
+        let menuController = RenderingViewMenuController()
+        menuController.delegate = self
+        view.menuController = menuController
         
         mtkView = view
         
@@ -51,3 +55,12 @@ class RenderingViewController: PlatformViewController {
     }
 }
 
+extension RenderingViewController: RenderingViewMenuControllerDelegate {
+    func didAddShape(_ shape: BasicShape) {
+        scene?.add(mesh: Mesh(shape: shape))
+    }
+    
+    func didRemoveShape() {
+        
+    }
+}

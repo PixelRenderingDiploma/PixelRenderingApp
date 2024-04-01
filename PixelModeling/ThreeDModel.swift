@@ -18,9 +18,9 @@ class ThreeDModel {
     }
 }
 
-enum BasicShape {
+enum BasicShape: Int, CaseIterable {
     case cube
-    case sphere(segments: Int, rings: Int)
+    case sphere
     case cone
     case piramid
     
@@ -28,7 +28,7 @@ enum BasicShape {
         switch self {
         case .cube:
             "cube"
-        case .sphere(let segments, let rings):
+        case .sphere:
             "sphere"
         case .cone:
             "cone"

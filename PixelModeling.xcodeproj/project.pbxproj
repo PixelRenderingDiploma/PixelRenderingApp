@@ -27,6 +27,7 @@
 		BC1F60142B85B575002050C7 /* RenderingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F60132B85B575002050C7 /* RenderingView.swift */; };
 		BC3D48742B88401C001A831D /* OBJHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48732B88401C001A831D /* OBJHelper.swift */; };
 		BC3D48752B88401C001A831D /* OBJHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48732B88401C001A831D /* OBJHelper.swift */; };
+		BC3D48912B89B51C001A831D /* RenderingViewMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */; };
 		BC473B6C2B68C79500C413A1 /* RendererPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B6A2B68C79500C413A1 /* RendererPreviewViewController.swift */; };
 		BC473B6D2B68C79500C413A1 /* RendererPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC473B6B2B68C79500C413A1 /* RendererPreviewViewController.xib */; };
 		BC473B6F2B68C7A900C413A1 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */; };
@@ -143,6 +144,7 @@
 		BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformTypes.swift; sourceTree = "<group>"; };
 		BC1F60132B85B575002050C7 /* RenderingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingView.swift; sourceTree = "<group>"; };
 		BC3D48732B88401C001A831D /* OBJHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBJHelper.swift; sourceTree = "<group>"; };
+		BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingViewMenuController.swift; sourceTree = "<group>"; };
 		BC473B6A2B68C79500C413A1 /* RendererPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererPreviewViewController.swift; sourceTree = "<group>"; };
 		BC473B6B2B68C79500C413A1 /* RendererPreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RendererPreviewViewController.xib; sourceTree = "<group>"; };
 		BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				BC1F60062B849D68002050C7 /* ThreeDModel.swift */,
 				BCD19AA62B4E70EE004DCC48 /* RenderingViewController.swift */,
 				BC1F60132B85B575002050C7 /* RenderingView.swift */,
+				BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */,
 			);
 			path = PixelModeling;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				BCBF6C802B6F32DC00ED97B1 /* DetailedViewController.swift in Sources */,
 				BCD19AA52B4E70EE004DCC48 /* AppDelegate.swift in Sources */,
 				BC1F60072B849D68002050C7 /* ThreeDModel.swift in Sources */,
+				BC3D48912B89B51C001A831D /* RenderingViewMenuController.swift in Sources */,
 				BC473B6C2B68C79500C413A1 /* RendererPreviewViewController.swift in Sources */,
 				BC473B6F2B68C7A900C413A1 /* NibLoadable.swift in Sources */,
 				BC87CB412B5B73810002CCDC /* MSAuthAdapter.swift in Sources */,

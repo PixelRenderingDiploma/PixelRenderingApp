@@ -15,15 +15,15 @@ class SampleScene: Scene {
         super.init()
         
         let url = try! FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appending(path: "test").appendingPathExtension(for: .obj)
-        OBJHelper().export(primitive: Sphere(radius: 1, rings: 8, sectors: 8), to: url)
+//        OBJHelper().export(primitive: Sphere(radius: 1, rings: 8, sectors: 8), to: url)
 //        OBJHelper().export(primitive: Cube(), to: url)
         
-        root.addChild(sphere)
+        root.addChild(cube)
         camera.setPosition(SIMD3<Float>(0, 0, -8))
     }
     
     override func update() {
-        sphere.rotate(around: .y, by: 0.01)
-        sphere.rotate(around: .x, by: 0.01)
+        cube.rotate(around: .y, by: 0.01)
+        cube.rotate(around: .x, by: 0.01)
     }
 }

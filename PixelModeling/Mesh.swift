@@ -34,6 +34,21 @@ class Mesh {
         self.init(vertices: primitive.vertices, indices: primitive.indices, instanceCount: instanceCount)
     }
     
+    convenience init(shape: BasicShape) {
+        let primitive: Primitive
+        
+        switch shape {
+        case .cube:
+            primitive = Cube()
+        case .sphere:
+            primitive = Sphere(radius: 1, rings: 8, sectors: 8)
+        default:
+            primitive = Cube()
+        }
+        
+        self.init(primitive: primitive)
+    }
+    
     private func createBuffer() {
         guard vertexCount > 0 else {
             return

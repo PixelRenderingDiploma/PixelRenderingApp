@@ -7,7 +7,11 @@
 
 import MetalKit
 
+
+
 class RenderingView: MTKView {
+    var menuController: RenderingViewMenuController?
+    
     required init(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -16,5 +20,10 @@ class RenderingView: MTKView {
         self.clearColor = Preferences.clearColor
         self.colorPixelFormat = Preferences.mainPixelFormat
         self.depthStencilPixelFormat = Preferences.mainDepthPixelFormat
+    }
+    
+    override func menu(for event: NSEvent) -> NSMenu? {
+        menuController?.validate()
+        return menuController?.menu
     }
 }

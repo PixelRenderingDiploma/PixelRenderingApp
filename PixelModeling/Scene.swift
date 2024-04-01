@@ -24,6 +24,10 @@ class Scene {
     func update() {
         
     }
+    
+    func add(mesh: Mesh) {
+        root.addChild(SceneObject(mesh: mesh))
+    }
 }
 
 class CamerasManager {
