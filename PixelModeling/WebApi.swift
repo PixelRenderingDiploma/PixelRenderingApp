@@ -11,9 +11,12 @@ class WebApi {
     enum Error: Swift.Error {
         case unauthorizedRequest
         case invalidURL(stringURL: String? = nil)
+        case failedToConvert
     }
     
     private let apiUrl = "https://pixelrenderer-azurefunctions.azurewebsites.net/api"
+    
+    private let encoder = JSONEncoder()
     
     private var auth = MSAuthState()
     
@@ -153,9 +156,14 @@ class WebApi {
         return ((response as? HTTPURLResponse)?.statusCode ?? 400) == 201
     }
     
-    func getRendererPostJson(id: UUID, renderingType: RenderingType) throws -> [String: Any] {
+    func getRendererPostJson(id: UUID, settings: RenderingSettings) throws -> [String: Any] {
         guard let idToken = auth.idToken else {
             throw Error.unauthorizedRequest
+        }
+        
+        guard let settingsData = try? JSONEncoder().encode(settings),
+              let settingsJson = String(data: settingsData, encoding: .utf8) else {
+            throw Error.failedToConvert
         }
         
         let idString = id.uuidString.lowercased()
@@ -165,14 +173,14 @@ class WebApi {
             "id_token": idToken,
             "model": "models/\(idString).glb",
             "status": "queue",
-            "rendering_type": renderingType.rawValue
+            "settings": settingsJson
         ]
         
         return json
     }
     
-    func submitRendering(id: UUID, renderingType: RenderingType, session: URLSession = .shared) async throws {
-        let json = try getRendererPostJson(id: id, renderingType: renderingType)
+    func submitRendering(id: UUID, settings: RenderingSettings, session: URLSession = .shared) async throws {
+        let json = try getRendererPostJson(id: id, settings: settings)
         let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
         
         try await putUserBlob(blobPath: "configs/models/\(id.uuidString.lowercased()).json", data: jsonData, session: session)
