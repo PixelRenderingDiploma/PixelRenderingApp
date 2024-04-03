@@ -35,9 +35,13 @@ class ProjectsGalleryViewController: NSViewController {
         collectionView?.register(ProjectsGalleryCollectionViewItem.self, forItemWithIdentifier: ProjectsGalleryCollectionViewItem.Constants.reuseIdentifier)
         
         DispatchQueue.main.async { [weak self] in
-            self?.items = self?.storageManager.getAll() ?? []
-            self?.collectionView?.reloadData()
+            self?.reload()
         }
+    }
+    
+    func reload() {
+        items = storageManager.getAll()
+        collectionView?.reloadData()
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -127,13 +131,11 @@ extension ProjectsGalleryViewController: NSCollectionViewDelegate {
 
 extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelegate {
     func didUserUploadItem(with id: UUID) {
-        guard let item = storageManager.get(with: id),
-              let webApi = appDelegate?.webApi else {
+        guard let item = storageManager.get(with: id) else {
             return
         }
         
-        ProjectSyncService().sync(item, webApi: webApi)
-//        performSegue(withIdentifier: "UploadSheetSegue", sender: id)
+        performSegue(withIdentifier: "UploadSheetSegue", sender: id)
     }
     
     func didUserDeleteItem(with id: UUID) {
