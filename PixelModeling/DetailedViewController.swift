@@ -5,7 +5,7 @@
 //  Created by Hlib Sobolevskyi on 2024-02-03.
 //
 
-import Foundation
+import AppKit
 
 class DetailedViewController: PlatformViewController {
     /** You embed a child view controller into the detail view controller each time a different outline view item becomes selected.
@@ -14,4 +14,6 @@ class DetailedViewController: PlatformViewController {
         menu item in the View menu.
     */
     override var acceptsFirstResponder: Bool { return true }
+  
+    @IBOutlet weak var containerView: PlatformView?
 }

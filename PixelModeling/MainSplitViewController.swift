@@ -30,12 +30,10 @@ class MainSplitViewController: NSSplitViewController {
            let viewController = self.storyboard?.instantiateController(withIdentifier: "LoginViewController") as? LoginViewController {
             self.presentAsSheet(viewController)
         }
-        
-        let threeDModel = ThreeDModelFactory().threeDModel(for: .cube)
     }
     
-    private var detailViewController: NSViewController {
-        splitViewItems[1].viewController
+    private var detailViewController: DetailedViewController {
+        splitViewItems[1].viewController as! DetailedViewController
     }
     
     private var hasChildViewController: Bool {
@@ -46,7 +44,7 @@ class MainSplitViewController: NSSplitViewController {
         // This embeds a new child view controller.
         let currentDetailVC = detailViewController
         currentDetailVC.addChild(childViewController)
-        currentDetailVC.view.addSubview(childViewController.view)
+        currentDetailVC.containerView?.addSubview(childViewController.view)
         
         // Build the horizontal, vertical constraints so that an added child view controller matches the width and height of its parent.
         let views = ["targetView": childViewController.view]
@@ -87,7 +85,7 @@ class MainSplitViewController: NSSplitViewController {
                     */
                     currentDetailVC.removeChild(at: 0)
                     // Remove the old child detail view.
-                    detailViewController.view.subviews[0].removeFromSuperview()
+                    detailViewController.containerView?.subviews[0].removeFromSuperview()
                     // Add the new child detail view.
                     embedChildViewController(vcForDetail)
                 } else {
@@ -100,7 +98,7 @@ class MainSplitViewController: NSSplitViewController {
                 // No selection. You don't have a child view controller to embed, so remove the current child view controller.
                 if hasChildViewController {
                     currentDetailVC.removeChild(at: 0)
-                    detailViewController.view.subviews[0].removeFromSuperview()
+                    detailViewController.containerView?.subviews[0].removeFromSuperview()
                 }
             }
         }
