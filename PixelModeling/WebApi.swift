@@ -18,14 +18,10 @@ class WebApi {
     
     private let encoder = JSONEncoder()
     
-    private var auth = MSAuthState()
+    private(set) var auth = MSAuthState()
     
-    func authorize(_ auth: MSAuthState) {
+    init (_ auth: MSAuthState) {
         self.auth = auth
-    }
-    
-    func unauthorize() {
-        self.auth = MSAuthState()
     }
     
     func getUserBlobSasUrl(blobPath: String, session: URLSession = .shared) async throws -> URL {
@@ -156,7 +152,7 @@ class WebApi {
         return ((response as? HTTPURLResponse)?.statusCode ?? 400) == 201
     }
     
-    func getRendererPostJson(id: UUID, settings: RenderingSettings) throws -> [String: Any] {
+    func getRendererPostJson(id: UUID, id_model: UUID, settings: RenderingSettings) throws -> [String: Any] {
         guard let idToken = auth.idToken else {
             throw Error.unauthorizedRequest
         }
@@ -167,11 +163,12 @@ class WebApi {
         }
         
         let idString = id.uuidString.lowercased()
+        let idModelString = id_model.uuidString.lowercased()
         
         let json: [String: Any] = [
             "id": idString,
             "id_token": idToken,
-            "model": "models/\(idString).glb",
+            "model": "models/\(idModelString).glb",
             "status": "queue",
             "settings": settingsJson
         ]
@@ -179,11 +176,11 @@ class WebApi {
         return json
     }
     
-    func submitRendering(id: UUID, settings: RenderingSettings, session: URLSession = .shared) async throws {
-        let json = try getRendererPostJson(id: id, settings: settings)
+    func submitRendering(id: UUID, id_model: UUID, settings: RenderingSettings, session: URLSession = .shared) async throws {
+        let json = try getRendererPostJson(id: id, id_model: id_model, settings: settings)
         let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
         
-        try await putUserBlob(blobPath: "configs/models/\(id.uuidString.lowercased()).json", data: jsonData, session: session)
+        try await putUserBlob(blobPath: "configs/requests/\(id.uuidString.lowercased()).json", data: jsonData, session: session)
         try await notifyRendererQueue(json: json, session: session)
     }
 }

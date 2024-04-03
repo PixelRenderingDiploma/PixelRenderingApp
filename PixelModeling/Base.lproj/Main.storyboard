@@ -1201,7 +1201,31 @@ Gw
                     <view key="view" id="gGE-OS-G02">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CHj-d0-UB0">
+                                <rect key="frame" x="8" y="271" width="434" height="20"/>
+                                <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="dZh-0D-yzV">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <url key="url" string="file://localhost/Applications/"/>
+                                </pathCell>
+                            </pathControl>
+                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="aLf-3s-lXq">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="271"/>
+                            </containerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aLf-3s-lXq" secondAttribute="trailing" id="8VS-mv-Tup"/>
+                            <constraint firstAttribute="trailing" secondItem="CHj-d0-UB0" secondAttribute="trailing" constant="8" id="9qZ-oU-iFQ"/>
+                            <constraint firstItem="CHj-d0-UB0" firstAttribute="leading" secondItem="gGE-OS-G02" secondAttribute="leading" constant="8" id="QCW-vo-inO"/>
+                            <constraint firstItem="aLf-3s-lXq" firstAttribute="leading" secondItem="gGE-OS-G02" secondAttribute="leading" id="SFq-ee-B02"/>
+                            <constraint firstItem="CHj-d0-UB0" firstAttribute="top" secondItem="gGE-OS-G02" secondAttribute="top" constant="9" id="hEX-qD-7IE"/>
+                            <constraint firstAttribute="bottom" secondItem="aLf-3s-lXq" secondAttribute="bottom" id="ui4-BA-nTp"/>
+                            <constraint firstItem="aLf-3s-lXq" firstAttribute="top" secondItem="CHj-d0-UB0" secondAttribute="bottom" id="zhq-MS-a2Q"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="containerView" destination="aLf-3s-lXq" id="5fb-c3-ge3"/>
+                    </connections>
                 </viewController>
                 <customObject id="NZm-Ig-iaQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -41,11 +41,11 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     func reloadRenderedContentPreview() {
         renderedPreviewViewController?.view.removeFromSuperview()
         
-        guard let item, let folderManager, let delegate = NSApplication.shared.delegate as? AppDelegate else {
+        guard let item, let folderManager else {
             return
         }
         
-        let viewModel = RendererPreviewViewModel(with: item, folderManager: folderManager, webApi: delegate.webApi)
+        let viewModel = RendererPreviewViewModel(with: item, folderManager: folderManager)
         let viewController = RendererPreviewViewController(with: viewModel)
         renderedPreviewViewController = viewController
         renderedContentView?.addSubview(viewController.view)

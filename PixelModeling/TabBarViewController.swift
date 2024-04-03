@@ -30,6 +30,7 @@ class TabBarViewController: NSViewController {
     @objc dynamic var contents: [AnyObject] = []
     
     @Service var storageManager: StorageManagerProtocol
+    @Service var syncService: SyncService
     
     private var imageDetailedViewController: ImageDetailedViewController?
     private var videoDetailedViewController: VideoDetailedViewController?
@@ -93,12 +94,11 @@ class TabBarViewController: NSViewController {
             let name = selectedFile.deletingPathExtension().lastPathComponent
             let item = StorageItem(id: id, name: name, bookmark: bookmark)
             self.storageManager.insert(item)
-//            self.items.append(item)
-//            self.collectionView?.reloadData()
+            self.galleryViewController?.reload()
             
-            Task {
-                try? await self.appDelegate?.webApi.putUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb", data: Data(contentsOf: selectedFile))
-            }
+//            Task {
+//                try? await self.syncService.createProject(with: id, modelPath: selectedFile)
+//            }
         }
     }
     
@@ -180,6 +180,8 @@ class TabBarViewController: NSViewController {
         // Note that the system shares the nodeID and the expansion restoration ID.
         
         addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
+        
+        // Fetch cloud projects
         
         let projects = ProjectFolderManager.getProjects()
         for project in projects {

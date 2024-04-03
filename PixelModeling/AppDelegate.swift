@@ -13,8 +13,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     static let subsystem: String = Bundle.main.bundleIdentifier ?? "hlebushek.PixelModeling-iOS"
     
-    let webApi = WebApi()
-    
     override init() {
         super.init()
         setupDependencyContainer()
@@ -35,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setupDependencyContainer() {
         ServiceContainer.register(type: MSAuthAdapter.self, MSAuthAdapter())
         ServiceContainer.register(type: StorageManagerProtocol.self, StorageManagerMacOS())
+        ServiceContainer.register(type: SyncService.self, SyncService())
     }
 }
 

@@ -9,6 +9,7 @@ import AppKit
 
 class LoginViewController: PlatformViewController {
     @Service var authAdapter: MSAuthAdapter
+    @Service var syncService: SyncService
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +27,7 @@ class LoginViewController: PlatformViewController {
             switch result {
             case .success(let auth):
                 print(auth)
-                let delegate = NSApplication.shared.delegate as? AppDelegate
-                delegate?.webApi.authorize(auth)
+                self?.syncService.authorize(auth)
                 self?.dismiss(nil)
             case .failure(let error):
                 print(error)
