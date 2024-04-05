@@ -206,7 +206,7 @@ class TabBarViewController: NSViewController {
                 if let storageItem = storageManager.get(with: id),
                    let url = storageItem.url {
                     let modelNode = Node()
-                    modelNode.identifier = url.lastPathComponent
+                    modelNode.identifier = id.uuidString.lowercased()
                     modelNode.title = url.lastPathComponent
                     modelNode.url = url
                     modelNode.type = .document
@@ -315,7 +315,7 @@ class TabBarViewController: NSViewController {
                         viewController = galleryViewController
                     } else if let type = UTType(filenameExtension: url.pathExtension) {
                         // It is a file URL of appropriate type.
-                        if type == .glb, let id = UUID(uuidString: url.deletingPathExtension().lastPathComponent) {
+                        if type == .glb, let id = UUID(uuidString: node.identifier) {
                             threeDModelDetailedViewController?.update(with: storageManager.get(with: id))
                             threeDModelDetailedViewController?.reload()
                             viewController = threeDModelDetailedViewController
