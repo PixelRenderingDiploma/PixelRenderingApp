@@ -67,6 +67,31 @@ class SyncService {
         return try await webApi.getUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb")
     }
     
+    func delete(project id: UUID) async throws {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        async let imagePathsRequest = webApi.getUserFilesListInResources(blobPrefix: "renders/images/\(id.uuidString.lowercased())/")
+        async let videoPathsRequest = webApi.getUserFilesListInResources(blobPrefix: "renders/videos/\(id.uuidString.lowercased())/")
+        
+        let (imagePaths, videoPaths) = try await (imagePathsRequest, videoPathsRequest)
+        
+        for path in imagePaths + videoPaths {
+            _ = try await webApi.deleteUserBlob(blobPath: path.path())
+        }
+        
+        try await delete(model: id)
+    }
+    
+    func delete(model id: UUID) async throws {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        _ = try await webApi.deleteUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb")
+    }
+    
     func syncStatus(for storageItem: StorageItem) async throws -> SyncStatus {
         guard let webApi else {
             throw SyncError.unauthorizedRequest

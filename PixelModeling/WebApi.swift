@@ -94,6 +94,25 @@ class WebApi {
         _ = try await session.data(for: request)
     }
     
+    func deleteUserBlob(blobPath: String, session: URLSession = .shared) async throws -> Bool {
+        guard let idToken = auth.idToken else {
+            throw Error.unauthorizedRequest
+        }
+        
+        let apiEndpoint = "\(apiUrl)/DeleteUserResourceFile?blobPath=\(blobPath)"
+        guard let url = URL(string: apiEndpoint) else {
+            throw Error.invalidURL(stringURL: apiEndpoint)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(idToken)", forHTTPHeaderField: "Authorization")
+        
+        let (_, response) = try await session.data(for: request)
+        
+        return (response as? HTTPURLResponse)?.statusCode == 200
+    }
+    
     func getUserResources(blobPrefix: String, session: URLSession = .shared) async throws -> [String: Any] {
         guard let idToken = auth.idToken else {
             throw Error.unauthorizedRequest

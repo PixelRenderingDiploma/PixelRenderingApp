@@ -112,7 +112,37 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     @objc
     private func didSelectDeleteItem(_ sender: Any) {
         guard let id = folderManager?.id else { return }
-        delegate?.didUserDeleteItem(with: id)
+        
+        let alert = NSAlert()
+        alert.messageText = "Delete Project"
+        alert.informativeText = "Are you shure you want to delete project"
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
+        
+        alert.buttons.first?.bezelColor = .red
+        
+        let accessoryView = NSView()
+        let btn = NSButton(checkboxWithTitle: "Delete on Cloud", target: self, action: nil)
+        
+        accessoryView.addSubview(btn)
+        accessoryView.frame = CGRect(x: 0, y: 0, width: 200, height: 8)
+        
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        let centerXConstraint = NSLayoutConstraint(item: btn, attribute: .centerX, relatedBy: .equal, toItem: accessoryView, attribute: .centerX, multiplier: 1, constant: 0)
+        let centerYConstraint = NSLayoutConstraint(item: btn, attribute: .centerY, relatedBy: .equal, toItem: accessoryView, attribute: .centerY, multiplier: 1, constant: 0)
+        NSLayoutConstraint.activate([centerXConstraint, centerYConstraint])
+        
+        alert.accessoryView = accessoryView
+        
+        let response = alert.runModal()
+        
+        switch response {
+        case .alertFirstButtonReturn:
+            delegate?.didUserDeleteItem(with: id, cloud: btn.state == .on)
+        default:
+            break
+        }
     }
     
     @objc

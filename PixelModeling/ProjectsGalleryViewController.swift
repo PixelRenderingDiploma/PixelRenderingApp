@@ -169,11 +169,17 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
         performSegue(withIdentifier: "UploadSheetSegue", sender: id)
     }
     
-    func didUserDeleteItem(with id: UUID) {
-        ProjectFolderManager.delete(with: id)
-        storageManager.delete(with: id)
-        
-        reload()
+    func didUserDeleteItem(with id: UUID, cloud: Bool) {
+        Task {
+            if cloud {
+                try? await syncService.delete(project: id)
+            }
+            
+            ProjectFolderManager.delete(with: id)
+            storageManager.delete(with: id)
+            
+            reload()
+        }
     }
     
     func didUserSelectVideo(with id: UUID) {
