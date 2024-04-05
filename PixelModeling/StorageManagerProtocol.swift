@@ -87,10 +87,14 @@ extension StorageManagerProtocol {
     
     @MainActor
     func delete(_ item: StorageItem) {
-        persistantContainer.mainContext.delete(item)
-        
-        debugPrint("Delete item: \(item)")
-        try? persistantContainer.mainContext.save()
+        do {
+            persistantContainer.mainContext.delete(item)
+            
+            debugPrint("Delete item: \(item)")
+            try persistantContainer.mainContext.save()
+        } catch {
+            debugPrint("deleting item with id: \(item.id), name: \(item.name) failed")
+        }
     }
     
     @MainActor
@@ -102,7 +106,7 @@ extension StorageManagerProtocol {
             
             try persistantContainer.mainContext.save()
         } catch {
-            debugPrint("deleting object with id: \(id) failed")
+            debugPrint("deleting item with id: \(id) failed")
         }
     }
 }

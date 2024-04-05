@@ -13,8 +13,9 @@ class ProjectsGalleryViewController: NSViewController {
     @IBOutlet weak var collectionView: NSCollectionView?
     
     @Service private var storageManager: StorageManagerProtocol
+    @Service private var syncService: SyncService
     
-    private var items: [StorageItem] = []
+    private var items: [URL] = []
     private lazy var operationQueue: OperationQueue = {
         let opQueue = OperationQueue()
         opQueue.maxConcurrentOperationCount = 1
@@ -35,8 +36,24 @@ class ProjectsGalleryViewController: NSViewController {
         }
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        Task {
+            if let cloudIDs = try? await syncService.fetchCloudProjects() {
+                let local = storageManager.getAll()
+                let localIDs = Set(local.map { $0.id })
+                
+                for id in Set(cloudIDs).subtracting(localIDs) {
+                    let item = StorageItem(id: id, name: id.uuidString, bookmark: Data())
+                    storageManager.insert(item)
+                }
+            }
+        }
+    }
+    
     func reload() {
-        items = storageManager.getAll()
+        items = ProjectFolderManager.getProjects()
         collectionView?.reloadData()
     }
     
@@ -45,10 +62,12 @@ class ProjectsGalleryViewController: NSViewController {
         case "ThreeDModelDetailedSegue":
             guard let indexPath = sender as? IndexPath else { return }
             
-            let selectedItem = items[indexPath.item]
+            let url = items[indexPath.item]
             
-            if let destinationVC = segue.destinationController as? ThreeDModelDetailedViewController {
-                destinationVC.update(with: selectedItem)
+            if let destinationVC = segue.destinationController as? ThreeDModelDetailedViewController,
+               let id = UUID(uuidString: url.lastPathComponent),
+               let item = storageManager.get(with: id) {
+                destinationVC.update(with: item)
             }
         case "PlayerDetailedSegue":
             guard let id = sender as? UUID else { return }
@@ -82,8 +101,24 @@ extension ProjectsGalleryViewController: NSCollectionViewDataSource {
         if let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem, indexPath.item < items.count {
             galleryViewItem.delegate = self
             
-            let item = items[indexPath.item]
+            let url = items[indexPath.item]
+            
+            guard let id = UUID(uuidString: url.lastPathComponent) else {
+                return viewItem
+            }
+            
+            guard let item = storageManager.get(with: id) else {
+                galleryViewItem.update(with: id)
+                return viewItem
+            }
+            
             galleryViewItem.update(with: item)
+            
+            Task {
+                if let status = try? await syncService.syncStatus(for: item) {
+                    galleryViewItem.update(with: status)
+                }
+            }
             
             operationQueue.addOperation {
                 var isStale = false
@@ -135,10 +170,10 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
     }
     
     func didUserDeleteItem(with id: UUID) {
-        items.removeAll(where: { $0.id == id })
+        ProjectFolderManager.delete(with: id)
         storageManager.delete(with: id)
         
-        collectionView?.reloadData()
+        reload()
     }
     
     func didUserSelectVideo(with id: UUID) {

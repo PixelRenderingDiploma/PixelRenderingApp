@@ -29,7 +29,6 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     @IBOutlet weak var optionsButton: NSButton?
     
-    private var item: StorageItem?
     private var folderManager: ProjectFolderManager?
     
     override func viewDidLoad() {
@@ -41,11 +40,11 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     func reloadRenderedContentPreview() {
         renderedPreviewViewController?.view.removeFromSuperview()
         
-        guard let item, let folderManager else {
+        guard let folderManager else {
             return
         }
         
-        let viewModel = RendererPreviewViewModel(with: item, folderManager: folderManager)
+        let viewModel = RendererPreviewViewModel(with: folderManager)
         let viewController = RendererPreviewViewController(with: viewModel)
         renderedPreviewViewController = viewController
         renderedContentView?.addSubview(viewController.view)
@@ -58,16 +57,23 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     }
     
     func update(with item: StorageItem) {
-        self.item = item
-        self.folderManager = ProjectFolderManager(with: item.id)
-        
         self.nameLabel?.stringValue = item.name
+        
+        update(with: item.id)
+    }
+    
+    func update(with id: UUID) {
+        self.folderManager = ProjectFolderManager(with: id)
         
         reloadRenderedContentPreview()
     }
     
     func update(with image: PlatformImage?) {
         self.previewImageView?.image = image
+    }
+    
+    func update(with status: SyncStatus) {
+        print(status)
     }
     
     @IBAction func onOptionsButtonAction(_ sender: Any) {
@@ -84,19 +90,19 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     @objc
     private func didSelectUploadItem(_ sender: Any) {
-        guard let id = item?.id else { return }
+        guard let id = folderManager?.id else { return }
         delegate?.didUserUploadItem(with: id)
     }
     
     @objc
     private func didSelectDeleteItem(_ sender: Any) {
-        guard let id = item?.id else { return }
+        guard let id = folderManager?.id else { return }
         delegate?.didUserDeleteItem(with: id)
     }
     
     @objc
     private func didSelectVideoItem(_ sender: Any) {
-        guard let id = item?.id else { return }
+        guard let id = folderManager?.id else { return }
         delegate?.didUserSelectVideo(with: id)
     }
 }

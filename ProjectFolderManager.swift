@@ -50,6 +50,10 @@ class ProjectFolderManager {
         _ = ProjectFolderManager.createDirectoryRecursively(videosFolder)
     }
     
+    var id: UUID {
+        UUID(uuidString: rootProjectFolder.lastPathComponent)!
+    }
+    
     var images: [URL] {
         (try? FileManager.default.contentsOfDirectory(at: imagesFolder, includingPropertiesForKeys: [], options: [.skipsHiddenFiles])) ?? []
     }
@@ -157,6 +161,17 @@ class ProjectFolderManager {
         }
     }
     
+    static func delete(with id: UUID) {
+        guard let projectsFolder = rootProjectsFolder() else {
+            logger.error("Can't get user document dir!")
+            return
+        }
+        
+        try? FileManager.default.removeItem(at: projectsFolder.appending(path: id.uuidString.lowercased()))
+        
+        NotificationCenter.default.post(name: .didDeleteProjectFolder, object: nil, userInfo: ["id": id])
+    }
+    
     // - MARK: Private interface below.
 
     /// Creates all path components for the output directory.
@@ -200,4 +215,8 @@ extension ProjectFolderManager {
     var paragraphs: [URL] {
         [videosFolder, imagesFolder]
     }
+}
+
+extension Notification.Name {
+     static let didDeleteProjectFolder = Notification.Name("didDeleteProject")
 }

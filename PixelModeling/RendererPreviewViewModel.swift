@@ -8,20 +8,14 @@
 import Foundation
 
 class RendererPreviewViewModel {
-    private(set) var storageItem: StorageItem?
     private var folderManager: ProjectFolderManager
     
-    init(with storageItem: StorageItem?, folderManager: ProjectFolderManager) {
-        self.storageItem = storageItem
+    init(with folderManager: ProjectFolderManager) {
         self.folderManager = folderManager
     }
     
     func loadVideo() async throws -> URL? {
-        guard let id = storageItem?.id else {
-            return nil
-        }
-        
-        return folderManager.video(with: id)
+        return folderManager.video(with: folderManager.id)
         
 //        let idStr = id.uuidString.lowercased()
 //        let mediaURL = URL(fileURLWithPath: "renders/videos/" + idStr).appendingPathExtension(for: .mpeg4Movie)
@@ -37,6 +31,6 @@ class RendererPreviewViewModel {
     }
     
     var title: String {
-        storageItem?.id.uuidString.lowercased() ?? ""
+        folderManager.id.uuidString.lowercased()
     }
 }
