@@ -11,6 +11,8 @@ protocol ProjectsGalleryCollectionViewItemDelegate: AnyObject {
     func didUserUploadItem(with id: UUID)
     func didUserDeleteItem(with id: UUID)
     func didUserSelectVideo(with id: UUID)
+    
+    func didUserSyncProject(with id: UUID)
 }
 
 class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
@@ -27,6 +29,7 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     @IBOutlet weak var previewImageView: NSImageView?
     @IBOutlet weak var nameLabel: NSTextField?
     
+    @IBOutlet weak var syncStatusButton: NSButton?
     @IBOutlet weak var optionsButton: NSButton?
     
     private var folderManager: ProjectFolderManager?
@@ -73,7 +76,19 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     }
     
     func update(with status: SyncStatus) {
-        print(status)
+        switch status {
+        case .local, .cloud:
+            syncStatusButton?.isEnabled = true
+        case .synced:
+            syncStatusButton?.isEnabled = false
+        }
+        
+        syncStatusButton?.image = NSImage(systemSymbolName: status.systemSymbolName, accessibilityDescription: nil)
+    }
+    
+    @IBAction func syncButtonAction(_ sender: Any) {
+        guard let id = folderManager?.id else { return }
+        delegate?.didUserSyncProject(with: id)
     }
     
     @IBAction func onOptionsButtonAction(_ sender: Any) {

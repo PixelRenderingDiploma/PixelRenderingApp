@@ -11,6 +11,17 @@ enum SyncStatus {
     case local
     case cloud
     case synced
+    
+    var systemSymbolName: String {
+        switch self {
+        case .local:
+            "icloud.and.arrow.up"
+        case .cloud:
+            "icloud.and.arrow.down"
+        case .synced:
+            "checkmark.icloud"
+        }
+    }
 }
 
 class SyncService {
@@ -48,6 +59,14 @@ class SyncService {
         try await webApi.putUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb", data: Data(contentsOf: modelPath))
     }
     
+    func downloadProjectModel(with id: UUID) async throws -> Data {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        return try await webApi.getUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb")
+    }
+    
     func syncStatus(for storageItem: StorageItem) async throws -> SyncStatus {
         guard let webApi else {
             throw SyncError.unauthorizedRequest
@@ -58,7 +77,6 @@ class SyncService {
         }
         
         let local = FileManager.default.fileExists(atPath: url.path())
-        
         
         let blobPaths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
         let blobIDs = Set(blobPaths.map { $0.deletingPathExtension().lastPathComponent })

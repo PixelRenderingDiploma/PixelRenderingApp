@@ -11,6 +11,7 @@
                 <outlet property="optionsButton" destination="lse-5W-5z6" id="8bl-hr-xJf"/>
                 <outlet property="previewImageView" destination="PjR-NP-JLV" id="4FJ-xe-8ic"/>
                 <outlet property="renderedContentView" destination="shG-5k-riQ" id="3A4-rw-Bkt"/>
+                <outlet property="syncStatusButton" destination="PsF-Wj-ITm" id="1bi-Bq-heB"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -48,7 +49,7 @@
                                 <constraint firstItem="PjR-NP-JLV" firstAttribute="leading" secondItem="QCP-bz-ejC" secondAttribute="leading" id="vDe-0L-H13"/>
                             </constraints>
                         </customView>
-                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="73L-jw-f5N">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="73L-jw-f5N">
                             <rect key="frame" x="-2" y="0.0" width="37" height="16"/>
                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="tbB-NL-bGu">
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -66,24 +67,48 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
-                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lse-5W-5z6">
-                    <rect key="frame" x="89" y="109" width="26" height="26"/>
-                    <buttonCell key="cell" type="round" bezelStyle="circular" image="NSActionTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ppf-t5-pkT">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="onOptionsButtonAction:" target="-2" id="eyg-NF-Pjb"/>
-                    </connections>
-                </button>
+                <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CFr-Rf-iPL">
+                    <rect key="frame" x="16" y="112" width="96" height="20"/>
+                    <subviews>
+                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PsF-Wj-ITm">
+                            <rect key="frame" x="-3" y="-3" width="26" height="26"/>
+                            <buttonCell key="cell" type="round" bezelStyle="circular" imagePosition="only" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5et-kL-mFb">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="syncButtonAction:" target="-2" id="0O9-ki-3xL"/>
+                            </connections>
+                        </button>
+                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lse-5W-5z6">
+                            <rect key="frame" x="73" y="-3" width="26" height="26"/>
+                            <buttonCell key="cell" type="round" bezelStyle="circular" image="NSActionTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ppf-t5-pkT">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="onOptionsButtonAction:" target="-2" id="eyg-NF-Pjb"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </subviews>
             <constraints>
-                <constraint firstItem="lse-5W-5z6" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="16" id="Ds4-o8-cOn"/>
                 <constraint firstItem="CUk-dI-nAC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="XdQ-Vq-l1i"/>
                 <constraint firstAttribute="bottom" secondItem="CUk-dI-nAC" secondAttribute="bottom" id="bfI-EM-I1J"/>
                 <constraint firstAttribute="trailing" secondItem="CUk-dI-nAC" secondAttribute="trailing" id="fRQ-Fd-lHb"/>
                 <constraint firstItem="CUk-dI-nAC" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="kTG-lD-1hx"/>
-                <constraint firstAttribute="trailing" secondItem="lse-5W-5z6" secondAttribute="trailing" constant="16" id="r2J-aa-FSL"/>
+                <constraint firstItem="CFr-Rf-iPL" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="16" id="pul-Wx-k8r"/>
+                <constraint firstItem="CFr-Rf-iPL" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="16" id="yKh-mx-m3n"/>
+                <constraint firstAttribute="trailing" secondItem="CFr-Rf-iPL" secondAttribute="trailing" constant="16" id="zmc-Oh-P1a"/>
             </constraints>
             <point key="canvasLocation" x="-153" y="-176"/>
         </customView>

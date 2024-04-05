@@ -179,4 +179,27 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
     func didUserSelectVideo(with id: UUID) {
         performSegue(withIdentifier: "PlayerDetailedSegue", sender: id)
     }
+    
+    func didUserSyncProject(with id: UUID) {
+        guard let item = storageManager.get(with: id),
+              let url = item.url else {
+            return
+        }
+              
+        Task {
+            guard let status = try? await syncService.syncStatus(for: item) else {
+                return
+            }
+            
+            switch status {
+            case .local:
+                try? await syncService.createProject(with: id, modelPath: url)
+            case .cloud:
+                let data = try? await syncService.downloadProjectModel(with: id)
+                FileManager.default.createFile(atPath: url.path(), contents: data)
+            case .synced:
+                break
+            }
+        }
+    }
 }
