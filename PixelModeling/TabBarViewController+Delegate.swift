@@ -7,7 +7,7 @@
 
 import Cocoa
 
-extension TabBarViewController: NSOutlineViewDelegate {
+extension TabBarViewController: MenuOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
         let node = TabBarViewController.node(from: item)
         return node?.isSpecialGroup ?? false
@@ -66,5 +66,37 @@ extension TabBarViewController: NSOutlineViewDelegate {
 
         // Save the outline selection state for later when the app relaunches.
         self.invalidateRestorableState()
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, menuFor item: Any) -> NSMenu? {
+        let menu = NSMenu()
+        let finderItem = NSMenuItem(title: "Show in Finder", action: #selector(showInFinder), keyEquivalent: "")
+        finderItem.representedObject = item
+        
+        menu.addItem(finderItem)
+        
+        return menu
+    }
+    
+    @objc private func showInFinder(_ sender: Any?) {
+        guard let menuItem = sender as? NSMenuItem,
+              let treeNode = menuItem.representedObject as? NSTreeNode,
+              let node = treeNode.representedObject as? Node else {
+            return
+        }
+        
+        let url: URL?
+        switch node.identifier {
+        case Node.projectsID:
+            url = ProjectFolderManager.rootProjectsFolder()
+        default:
+            url = node.url
+        }
+        
+        guard let url else {
+            return
+        }
+        
+        NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 }
