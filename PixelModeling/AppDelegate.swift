@@ -31,9 +31,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupDependencyContainer() {
-        ServiceContainer.register(type: MSAuthAdapter.self, MSAuthAdapter())
-        ServiceContainer.register(type: StorageManagerProtocol.self, StorageManagerMacOS())
-        ServiceContainer.register(type: SyncService.self, SyncService())
+        ServiceContainer.register(type: MSAuthAdapter.self, as: .singleton, MSAuthAdapter())
+        ServiceContainer.register(type: StorageManagerProtocol.self, as: .singleton, StorageManagerMacOS())
+        ServiceContainer.register(type: SyncService.self, as: .singleton, SyncService())
     }
 }
 

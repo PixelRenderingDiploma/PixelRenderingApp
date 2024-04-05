@@ -22,10 +22,6 @@ class ProjectsGalleryViewController: NSViewController {
         return opQueue
     }()
     
-    var appDelegate: AppDelegate? {
-        (NSApplication.shared.delegate as? AppDelegate)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

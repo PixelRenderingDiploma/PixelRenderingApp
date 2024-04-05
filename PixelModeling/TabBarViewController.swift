@@ -39,10 +39,6 @@ class TabBarViewController: NSViewController {
     private var galleryViewController: ProjectsGalleryViewController?
     private var renderingViewController: RenderingViewController?
     
-    var appDelegate: AppDelegate? {
-        (NSApplication.shared.delegate as? AppDelegate)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
