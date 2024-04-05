@@ -75,7 +75,7 @@ class ProjectsGalleryViewController: NSViewController {
                let url = ProjectFolderManager(with: id)?.video(with: id) {
                 destinationVC.update(with: url)
             }
-        case "UploadSheetSegue":
+        case "RenderRequestSheetSegue":
             guard let id = sender as? UUID else { return }
             if let destinationVC = segue.destinationController as? RenderingRequestViewController {
                 destinationVC.id = id
@@ -161,12 +161,12 @@ extension ProjectsGalleryViewController: NSCollectionViewDelegate {
 }
 
 extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelegate {
-    func didUserUploadItem(with id: UUID) {
+    func didUserRequestRenderItem(with id: UUID) {
         guard let item = storageManager.get(with: id) else {
             return
         }
         
-        performSegue(withIdentifier: "UploadSheetSegue", sender: id)
+        performSegue(withIdentifier: "RenderRequestSheetSegue", sender: id)
     }
     
     func didUserDeleteItem(with id: UUID, cloud: Bool) {

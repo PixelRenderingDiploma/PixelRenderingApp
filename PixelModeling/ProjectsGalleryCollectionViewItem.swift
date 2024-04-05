@@ -8,8 +8,8 @@
 import Cocoa
 
 protocol ProjectsGalleryCollectionViewItemDelegate: AnyObject {
-    func didUserUploadItem(with id: UUID)
-    func didUserDeleteItem(with id: UUID)
+    func didUserRequestRenderItem(with id: UUID)
+    func didUserDeleteItem(with id: UUID, cloud: Bool)
     func didUserSelectVideo(with id: UUID)
     
     func didUserSyncProject(with id: UUID)
@@ -97,16 +97,16 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
         }
         
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Upload", action: #selector(didSelectUploadItem), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Render", action: #selector(didSelectRequestRenderItem), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Delete", action: #selector(didSelectDeleteItem), keyEquivalent: ""))
         
         NSMenu.popUpContextMenu(menu, with: event, for: optionsButton, with: nil)
     }
     
     @objc
-    private func didSelectUploadItem(_ sender: Any) {
+    private func didSelectRequestRenderItem(_ sender: Any) {
         guard let id = folderManager?.id else { return }
-        delegate?.didUserUploadItem(with: id)
+        delegate?.didUserRequestRenderItem(with: id)
     }
     
     @objc
