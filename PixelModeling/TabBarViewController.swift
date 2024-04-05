@@ -67,6 +67,8 @@ class TabBarViewController: NSViewController {
         
         renderingViewController = storyboard?.instantiateController(withIdentifier: "RenderingViewController") as? RenderingViewController
         renderingViewController?.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didDeleteProject), name: .didDeleteProjectFolder, object: nil)
     }
     
     @IBAction func importModel(_ sender: Any) {
@@ -92,9 +94,22 @@ class TabBarViewController: NSViewController {
             self.storageManager.insert(item)
             self.galleryViewController?.reload()
             
-//            Task {
-//                try? await self.syncService.createProject(with: id, modelPath: selectedFile)
-//            }
+            if let url = ProjectFolderManager.createNewProjectDirectory(id) {
+                guard let indexPath = self.indexPathOfNode(matching: { node in
+                    node.identifier == Node.projectsID
+                }, in: [self.treeController.arrangedObjects]) else {
+                    return
+                }
+                
+                self.treeController.setSelectionIndexPath(indexPath)
+                
+                let node = Node()
+                node.identifier = url.lastPathComponent
+                node.url = url
+                node.type = .project
+                
+                self.addNode(node, endOffset: 1) // Offset for adding before separator
+            }
         }
     }
     
@@ -127,17 +142,17 @@ class TabBarViewController: NSViewController {
         treeController.insert(node, atArrangedObjectIndexPath: insertionIndexPath)
     }
     
-    private func addNode(_ node: Node) {
+    private func addNode(_ node: Node, endOffset: Int = 0) {
         // Find the selection to insert the node.
         var indexPath: IndexPath
         if treeController.selectedObjects.isEmpty {
             // No selection, so just add the child to the end of the tree.
-            indexPath = IndexPath(index: contents.count)
+            indexPath = IndexPath(index: contents.count - endOffset)
         } else {
             // There's a selection, so insert the child at the end of the selection.
             indexPath = treeController.selectionIndexPath!
             if let node = treeController.selectedObjects[0] as? Node {
-                indexPath.append(node.children.count)
+                indexPath.append(node.children.count - endOffset)
             }
         }
         
@@ -203,9 +218,9 @@ class TabBarViewController: NSViewController {
             }
             
             addNode(node)
+            selectParentFromSelection()
         }
         
-        selectParentFromSelection()
         let separator = Node()
         separator.type = .separator
         addNode(separator)
@@ -314,6 +329,8 @@ class TabBarViewController: NSViewController {
                             viewController = imageDetailedViewController
                         }
                     }
+                } else if node.type == .container {
+                    viewController = galleryViewController
                 } else {
                     // The node doesn't have a URL.
                     // TODO: currently handling testing rendering
@@ -326,5 +343,45 @@ class TabBarViewController: NSViewController {
         }
 
         return viewController
+    }
+    
+    @objc
+    private func didDeleteProject(_ notification: NSNotification) {
+        guard let id = notification.userInfo?["id"] as? UUID,
+              let indexPath = indexPathOfNode(matching: { node in
+                  node.identifier == id.uuidString.lowercased()
+              }, in: [treeController.arrangedObjects]) else {
+            return
+        }
+        
+        treeController.removeObject(atArrangedObjectIndexPath: indexPath)
+    }
+    
+    func findNode(matching criteria: (Node) -> Bool, in nodes: [NSTreeNode]) -> NSTreeNode? {
+        for node in nodes {
+            if let model = node.representedObject as? Node, criteria(model) {
+                return node
+            }
+            
+            if let children = node.children, let found = findNode(matching: criteria, in: children) {
+                return found
+            }
+        }
+        
+        return nil
+    }
+    
+    func indexPathOfNode(matching criteria: (Node) -> Bool, in nodes: [NSTreeNode]) -> IndexPath? {
+        for node in nodes {
+            if let model = node.representedObject as? Node, criteria(model) {
+                return node.indexPath
+            }
+            
+            if let children = node.children, let path = indexPathOfNode(matching: criteria, in: children) {
+                return path
+            }
+        }
+        
+        return nil
     }
 }
