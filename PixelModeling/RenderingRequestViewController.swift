@@ -18,6 +18,13 @@ class RenderingRequestViewController: NSViewController {
     
     @IBOutlet weak var submitButton: ProcessingButton?
     
+    private let infoPopover = {
+        let popover = NSPopover()
+        popover.contentViewController = RenderingSettingsInfoPopoverViewController()
+        popover.behavior = .semitransient
+        return popover
+    }()
+    
     @Service var authAdapter: MSAuthAdapter
     
     override func viewDidLoad() {
@@ -56,6 +63,15 @@ class RenderingRequestViewController: NSViewController {
                 frameField.isEnabled = false
             }
         }
+    }
+    
+    @IBAction func infoButtonAction(_ sender: Any) {
+        guard !infoPopover.isShown,
+              let view = sender as? NSView else {
+            return
+        }
+        
+        infoPopover.show(relativeTo: view.bounds, of: view, preferredEdge: .maxY)
     }
     
     func submitButtonAction(_ sender: Any) async {

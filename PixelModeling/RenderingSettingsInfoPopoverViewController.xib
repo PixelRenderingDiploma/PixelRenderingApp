@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="RenderingSettingsInfoPopoverViewController" customModule="PixelModeling" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="w0C-0k-wd5">
+                    <rect key="frame" x="32" y="32" width="416" height="208"/>
+                </customView>
+                <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="247" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Pv-wV-FKb">
+                    <rect key="frame" x="12" y="132" width="456" height="9"/>
+                    <subviews>
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="8kO-mf-9HC">
+                            <rect key="frame" x="0.0" y="-2" width="10" height="14"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="chevron.left" catalog="system" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="FxS-LX-tng">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <button translatesAutoresizingMaskIntoConstraints="NO" id="7Ma-Kc-DbW">
+                            <rect key="frame" x="446" y="-2" width="10" height="14"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="chevron.right" catalog="system" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="rDE-zD-XJU">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="w0C-0k-wd5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="32" id="7DL-6c-6WP"/>
+                <constraint firstItem="3Pv-wV-FKb" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="7zP-e4-DUN"/>
+                <constraint firstAttribute="trailing" secondItem="w0C-0k-wd5" secondAttribute="trailing" constant="32" id="DUr-Da-zs0"/>
+                <constraint firstItem="w0C-0k-wd5" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="32" id="F8V-oX-TpG"/>
+                <constraint firstAttribute="bottom" secondItem="w0C-0k-wd5" secondAttribute="bottom" constant="32" id="SlY-WN-WbI"/>
+                <constraint firstItem="3Pv-wV-FKb" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="gwE-4m-eBM"/>
+                <constraint firstAttribute="trailing" secondItem="3Pv-wV-FKb" secondAttribute="trailing" constant="12" id="oRw-Iz-ePc"/>
+            </constraints>
+            <point key="canvasLocation" x="30" y="136"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="chevron.left" catalog="system" width="10" height="14"/>
+        <image name="chevron.right" catalog="system" width="10" height="14"/>
+    </resources>
+</document>

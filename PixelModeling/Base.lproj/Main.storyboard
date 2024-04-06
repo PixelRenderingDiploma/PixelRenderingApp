@@ -4,6 +4,7 @@
         <plugIn identifier="com.apple.AVKitIBPlugin" version="22505"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <plugIn identifier="com.apple.SceneKitIBPlugin" version="22505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -923,12 +924,25 @@ Gw
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="asw-wt-lAf">
+                                <rect key="frame" x="234" y="295" width="20" height="20"/>
+                                <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Zqd-la-zP0">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="info.circle" catalog="system" symbolScale="large"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="infoButtonAction:" target="huL-Xz-2Tp" id="rIW-jP-OaY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="hSA-Yv-X9b" secondAttribute="trailing" constant="24" id="9dl-60-RDU"/>
+                            <constraint firstItem="asw-wt-lAf" firstAttribute="top" secondItem="HMx-24-NVQ" secondAttribute="top" constant="16" id="G4S-YD-hgk"/>
                             <constraint firstItem="rKR-Qe-BXd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HMx-24-NVQ" secondAttribute="leading" constant="64" id="Wu1-3W-9IB"/>
                             <constraint firstItem="rKR-Qe-BXd" firstAttribute="centerX" secondItem="HMx-24-NVQ" secondAttribute="centerX" id="adJ-Ig-oww"/>
                             <constraint firstItem="rKR-Qe-BXd" firstAttribute="centerY" secondItem="HMx-24-NVQ" secondAttribute="centerY" id="fpL-U1-Nmt"/>
+                            <constraint firstAttribute="trailing" secondItem="asw-wt-lAf" secondAttribute="trailing" constant="16" id="kDM-4p-JgK"/>
                             <constraint firstAttribute="bottom" secondItem="hSA-Yv-X9b" secondAttribute="bottom" constant="32" id="thw-gD-Mom"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rKR-Qe-BXd" secondAttribute="trailing" constant="64" id="x4e-j3-0J3"/>
                         </constraints>
@@ -1317,6 +1331,7 @@ Gw
     </scenes>
     <resources>
         <image name="NSActionTemplate" width="20" height="20"/>
+        <image name="info.circle" catalog="system" width="20" height="20"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
