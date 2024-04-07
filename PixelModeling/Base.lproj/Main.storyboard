@@ -89,7 +89,7 @@
                                         <menuItem title="Import Model" id="q2Y-M9-Uhx">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="importModel:" target="Ady-hI-5gd" id="11F-WV-KuF"/>
+                                                <action selector="importModelAction:" target="Ady-hI-5gd" id="OXF-jl-0S3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
@@ -999,7 +999,7 @@ Gw
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="importModel:" target="QEd-bg-RHJ" id="7TH-mk-pyk"/>
+                                    <action selector="importModelAction:" target="QEd-bg-RHJ" id="EKp-Zr-bAL"/>
                                 </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="28" horizontalPageScroll="10" verticalLineScroll="28" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOE-l5-XYd">

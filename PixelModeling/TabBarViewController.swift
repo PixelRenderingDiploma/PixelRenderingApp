@@ -42,14 +42,6 @@ class TabBarViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let defaults = UserDefaults.standard
-//        let initialDisclosure = defaults.string(forKey: "initialDisclosure")
-//        if initialDisclosure == nil {
-//            outlineView.expandItem(treeController.arrangedObjects.children![0])
-//            outlineView.expandItem(treeController.arrangedObjects.children![1])
-//            defaults.set("initialDisclosure", forKey: "initialDisclosure")
-//        }
-        
         imageDetailedViewController = storyboard?.instantiateController(withIdentifier: "ImageDetailedViewController") as? ImageDetailedViewController
         imageDetailedViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -68,49 +60,55 @@ class TabBarViewController: NSViewController {
         renderingViewController = storyboard?.instantiateController(withIdentifier: "RenderingViewController") as? RenderingViewController
         renderingViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
+        outlineView?.registerForDraggedTypes([.fileURL])
+        outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(didDeleteProject), name: .didDeleteProjectFolder, object: nil)
     }
     
-    @IBAction func importModel(_ sender: Any) {
+    @IBAction func importModelAction(_ sender: Any) {
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = true
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.allowedContentTypes = [UTType(filenameExtension: "glb")!]
-        openPanel.begin { result in
+        openPanel.begin { [weak self] result in
             guard result == .OK, let selectedFile = openPanel.url else {
                 return
             }
             
-            print("Selected file: \(selectedFile.path)")
-            
-            let id = UUID()
-            guard let bookmark = try? selectedFile.bookmarkData() else {
-                return
-            }
-            
-            let name = selectedFile.deletingPathExtension().lastPathComponent
-            let item = StorageItem(id: id, name: name, bookmark: bookmark)
-            self.storageManager.insert(item)
-            self.galleryViewController?.reload()
-            
-            if let url = ProjectFolderManager.createNewProjectDirectory(id) {
-                guard let indexPath = self.indexPathOfNode(matching: { node in
-                    node.identifier == Node.projectsID
-                }, in: [self.treeController.arrangedObjects]) else {
-                    return
-                }
-                
-                self.treeController.setSelectionIndexPath(indexPath)
-                
-                let node = Node()
-                node.identifier = url.lastPathComponent
-                node.url = url
-                node.type = .project
-                
-                self.addNode(node, endOffset: 1) // Offset for adding before separator
-            }
+            self?.importModel(url: selectedFile)
         }
+    }
+    
+    func importModel(url: URL) {
+        print("Selected file: \(url.path)")
+        
+        let id = UUID()
+        guard let bookmark = try? url.bookmarkData() else {
+            return
+        }
+        
+        let name = url.deletingPathExtension().lastPathComponent
+        let item = StorageItem(id: id, name: name, bookmark: bookmark)
+        self.storageManager.insert(item)
+        self.galleryViewController?.reload()
+        
+        guard let url = ProjectFolderManager.createNewProjectDirectory(id),
+              let indexPath = self.indexPathOfNode(matching: { node in
+                  node.identifier == Node.projectsID
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        self.treeController.setSelectionIndexPath(indexPath)
+        
+        let node = Node()
+        node.identifier = url.lastPathComponent
+        node.url = url
+        node.type = .project
+        
+        self.addNode(node, endOffset: 1) // Offset for adding before separator
     }
     
     private func addGroupNode(_ folderName: String, identifier: String) {

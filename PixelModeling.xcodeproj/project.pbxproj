@@ -103,7 +103,7 @@
 		BCBAE4D72B6B3C270095E92D /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAE4D62B6B3C270095E92D /* Node.swift */; };
 		BCBAE4D92B6B57850095E92D /* TabBarViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAE4D82B6B57850095E92D /* TabBarViewController+Helpers.swift */; };
 		BCBAE4DB2B6B5C760095E92D /* TabBarOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAE4DA2B6B5C760095E92D /* TabBarOutlineView.swift */; };
-		BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift */; };
+		BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift */; };
 		BCBAE4DF2B6CBB4B0095E92D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCBAE4DE2B6CBB4B0095E92D /* Localizable.xcstrings */; };
 		BCBAE4E02B6CBB4B0095E92D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCBAE4DE2B6CBB4B0095E92D /* Localizable.xcstrings */; };
 		BCBD4BCB2B71F484003E6C2C /* ProjectSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBD4BCA2B71F484003E6C2C /* ProjectSyncService.swift */; };
@@ -197,7 +197,7 @@
 		BCBAE4D62B6B3C270095E92D /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		BCBAE4D82B6B57850095E92D /* TabBarViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabBarViewController+Helpers.swift"; sourceTree = "<group>"; };
 		BCBAE4DA2B6B5C760095E92D /* TabBarOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarOutlineView.swift; sourceTree = "<group>"; };
-		BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabBarViewController+DrapDrop.swift"; sourceTree = "<group>"; };
+		BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabBarViewController+DragDrop.swift"; sourceTree = "<group>"; };
 		BCBAE4DE2B6CBB4B0095E92D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BCBD4BCA2B71F484003E6C2C /* ProjectSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSyncService.swift; sourceTree = "<group>"; };
 		BCBF6C7C2B6F215500ED97B1 /* UTType+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+Custom.swift"; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 				BCBAE4D02B6A57D00095E92D /* MainSplitViewController.swift */,
 				BCBAE4D22B6A5A6D0095E92D /* TabBarViewController.swift */,
 				BCBAE4D42B6B2D030095E92D /* TabBarViewController+Delegate.swift */,
-				BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift */,
+				BCBAE4DC2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift */,
 				BCBAE4D82B6B57850095E92D /* TabBarViewController+Helpers.swift */,
 				BCBAE4DA2B6B5C760095E92D /* TabBarOutlineView.swift */,
 				BC3C969F2BBFB22C0009A83C /* MenuOutlineViewDelegate.swift */,
@@ -566,7 +566,7 @@
 				BC1F60032B84733C002050C7 /* FolderGalleryViewController.swift in Sources */,
 				BC87CB442B5B76DF0002CCDC /* Services.swift in Sources */,
 				BC7CB3B82B53A3C60086D31C /* Engine.swift in Sources */,
-				BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DrapDrop.swift in Sources */,
+				BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift in Sources */,
 				BCBF6C802B6F32DC00ED97B1 /* DetailedViewController.swift in Sources */,
 				BC3C96A02BBFB22C0009A83C /* MenuOutlineViewDelegate.swift in Sources */,
 				BCD19AA52B4E70EE004DCC48 /* AppDelegate.swift in Sources */,

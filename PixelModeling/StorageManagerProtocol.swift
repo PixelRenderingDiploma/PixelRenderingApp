@@ -54,10 +54,10 @@ extension StorageManagerProtocol {
     @MainActor func getAll() -> [StorageItem] {
         do {
             let data = try persistantContainer.mainContext.fetch(FetchDescriptor<StorageItem>())
-            debugPrint("getAllObjects : \(data)")
+            debugPrint("getAllObjects: \(data.map { ($0.id, $0.url) })")
             return data
         } catch {
-            debugPrint("getAllObjects : data is nil")
+            debugPrint("getAllObjects: data is nil")
             return []
         }
     }
