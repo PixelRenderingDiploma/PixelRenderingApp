@@ -830,7 +830,7 @@
                                                     <action selector="typeDidChange:" target="huL-Xz-2Tp" id="Rkw-fO-hEC"/>
                                                 </connections>
                                             </popUpButton>
-                                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ELK-74-u3b">
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ELK-74-u3b">
                                                 <rect key="frame" x="44" y="0.0" width="32" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="32" id="m3f-4G-AbM"/>
@@ -1031,7 +1031,7 @@ Gw
                                                             <rect key="frame" x="11" y="0.0" width="135" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Sh0-m3-b2x">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Sh0-m3-b2x">
                                                                     <rect key="frame" x="0.0" y="5" width="135" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="THp-2B-wmD">
                                                                         <font key="font" metaFont="smallSystemBold"/>
@@ -1060,7 +1060,7 @@ Gw
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="lYX-DY-KkI"/>
                                                                 </imageView>
-                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="neB-U0-pqn">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="neB-U0-pqn">
                                                                     <rect key="frame" x="25" y="4" width="92" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="PvI-fa-MWs">
                                                                         <font key="font" usesAppearanceFont="YES"/>

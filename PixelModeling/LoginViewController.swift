@@ -29,9 +29,16 @@ class LoginViewController: PlatformViewController {
                 print(auth)
                 self?.syncService.authorize(auth)
                 self?.dismiss(nil)
+                
+                NotificationCenter.default.post(name: .didUserLogIn, object: nil, userInfo: nil)
             case .failure(let error):
                 print(error)
             }
         }
     }
+}
+
+extension Notification.Name {
+    static let didUserLogIn = Notification.Name("didUserLogIn")
+    static let didUserLogOut = Notification.Name("didUserLogOut")
 }

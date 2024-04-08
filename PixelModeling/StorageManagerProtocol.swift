@@ -48,6 +48,8 @@ protocol StorageManagerProtocol {
     
     func delete(_ item: StorageItem)
     func delete(with id: UUID)
+    
+    func validate()
 }
 
 extension StorageManagerProtocol {
@@ -107,6 +109,17 @@ extension StorageManagerProtocol {
             try persistantContainer.mainContext.save()
         } catch {
             debugPrint("deleting item with id: \(id) failed")
+        }
+    }
+    
+    @MainActor
+    func validate() {
+        for item in getAll() {
+            if let url = item.url, FileManager.default.fileExists(atPath: url.path()) {
+                
+            } else {
+                delete(item)
+            }
         }
     }
 }

@@ -54,6 +54,11 @@ class ProjectFolderManager {
         UUID(uuidString: rootProjectFolder.lastPathComponent)!
     }
     
+    // Default model path. Used when project fetched from cloud
+    var defaultModelURL: URL {
+        return rootProjectFolder.appending(path: id.uuidString.lowercased()).appendingPathExtension(for: .glb)
+    }
+    
     var images: [URL] {
         (try? FileManager.default.contentsOfDirectory(at: imagesFolder, includingPropertiesForKeys: [], options: [.skipsHiddenFiles])) ?? []
     }

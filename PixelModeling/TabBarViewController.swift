@@ -42,6 +42,8 @@ class TabBarViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        storageManager.validate()
+        
         imageDetailedViewController = storyboard?.instantiateController(withIdentifier: "ImageDetailedViewController") as? ImageDetailedViewController
         imageDetailedViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -64,6 +66,44 @@ class TabBarViewController: NSViewController {
         outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didDeleteProject), name: .didDeleteProjectFolder, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProjects), name: .didUserLogIn, object: nil)
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        refreshProjects()
+    }
+    
+    @objc
+    private func refreshProjects() {
+        Task {
+            guard let cloudIDs = try? await syncService.fetchCloudProjects() else {
+                return
+            }
+            
+            let local = storageManager.getAll()
+            let localIDs = Set(local.map { $0.id })
+            
+            for id in Set(cloudIDs).subtracting(localIDs) {
+                guard let folderManager = ProjectFolderManager(with: id) else {
+                    continue
+                }
+                
+                // TODO: For now, create empty placeholder for bookmark. Consider other options
+                FileManager.default.createFile(atPath: folderManager.defaultModelURL.path(), contents: nil)
+                guard let bookmark = try? folderManager.defaultModelURL.bookmarkData() else {
+                    continue
+                }
+                
+                let item = StorageItem(id: id, name: id.uuidString, bookmark: bookmark)
+                storageManager.insert(item)
+                
+                addProjectNode(id: id)
+            }
+            
+            self.galleryViewController?.reload()
+        }
     }
     
     @IBAction func importModelAction(_ sender: Any) {
@@ -94,21 +134,7 @@ class TabBarViewController: NSViewController {
         self.storageManager.insert(item)
         self.galleryViewController?.reload()
         
-        guard let url = ProjectFolderManager.createNewProjectDirectory(id),
-              let indexPath = self.indexPathOfNode(matching: { node in
-                  node.identifier == Node.projectsID
-              }, in: [self.treeController.arrangedObjects]) else {
-            return
-        }
-        
-        self.treeController.setSelectionIndexPath(indexPath)
-        
-        let node = Node()
-        node.identifier = url.lastPathComponent
-        node.url = url
-        node.type = .project
-        
-        self.addNode(node, endOffset: 1) // Offset for adding before separator
+        addProjectNode(id: id)
     }
     
     private func addGroupNode(_ folderName: String, identifier: String) {
@@ -190,43 +216,51 @@ class TabBarViewController: NSViewController {
         
         addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
         
-        // Fetch cloud projects
-        
-        let projects = ProjectFolderManager.getProjects()
+        let projects = ProjectFolderManager.getProjects().compactMap { UUID(uuidString: $0.lastPathComponent) }
         for project in projects {
-            let node = Node()
-            node.identifier = project.lastPathComponent
-            node.url = project
-            node.type = .project
-            
-            if let id = UUID(uuidString: project.lastPathComponent),
-               let projectFolderManager = ProjectFolderManager(with: id) {
-                if let storageItem = storageManager.get(with: id),
-                   let url = storageItem.url {
-                    let modelNode = Node()
-                    modelNode.identifier = id.uuidString.lowercased()
-                    modelNode.title = url.lastPathComponent
-                    modelNode.url = url
-                    modelNode.type = .document
-                    
-                    node.children.append(modelNode)
-                }
-                
-                addContent(of: projectFolderManager, to: node)
-            }
-            
-            addNode(node)
-            selectParentFromSelection()
+            addProjectNode(id: project)
         }
         
-        let separator = Node()
-        separator.type = .separator
-        addNode(separator)
+//        let separator = Node()
+//        separator.type = .separator
+//        addNode(separator)
         
         treeController?.setSelectionIndexPath(nil) // Start back at the root level.
     }
     
-    private func addContent(of project: ProjectFolderManager, to parent: Node) {
+    func addProjectNode(id: UUID) {
+        guard let project = ProjectFolderManager(with: id),
+              let indexPath = self.indexPathOfNode(matching: { node in
+                  node.identifier == Node.projectsID
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        self.treeController.setSelectionIndexPath(indexPath)
+        
+        let node = Node()
+        node.identifier = project.rootProjectFolder.lastPathComponent
+        node.url = project.rootProjectFolder
+        node.type = .project
+        
+        if let storageItem = storageManager.get(with: id),
+           let url = storageItem.url {
+            let modelNode = Node()
+            modelNode.identifier = id.uuidString.lowercased()
+            modelNode.title = url.lastPathComponent
+            modelNode.url = url
+            modelNode.type = .document
+            
+            node.children.append(modelNode)
+        }
+        
+        addParagraphs(of: project, to: node)
+        
+        addNode(node)
+        selectParentFromSelection()
+    }
+    
+    private func addParagraphs(of project: ProjectFolderManager, to parent: Node) {
         for paragraph in project.paragraphs {
             let node = buildFileSystemNode(paragraph)
             node.identifier = project.rootProjectFolder.lastPathComponent + paragraph.lastPathComponent

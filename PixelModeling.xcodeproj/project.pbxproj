@@ -11,6 +11,20 @@
 		BC0F44E42B6718C400C41584 /* ThreeDModelDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */; };
 		BC0F44F22B67395800C41584 /* ThreeDModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44F12B67395800C41584 /* ThreeDModelView.swift */; };
 		BC0F44F32B67395800C41584 /* ThreeDModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44F12B67395800C41584 /* ThreeDModelView.swift */; };
+		BC1D5BE62BC224B800CD66BA /* DataTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */; };
+		BC1D5BE72BC224B800CD66BA /* DataTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */; };
+		BC1D5BEC2BC2422F00CD66BA /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */; };
+		BC1D5BED2BC2422F00CD66BA /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */; };
+		BC1D5BEF2BC24D2300CD66BA /* DataTransferSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */; };
+		BC1D5BF02BC24D2300CD66BA /* DataTransferSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */; };
+		BC1D5BF22BC24FDA00CD66BA /* DownloadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */; };
+		BC1D5BF32BC24FDA00CD66BA /* DownloadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */; };
+		BC1D5BF52BC2530F00CD66BA /* DataTransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */; };
+		BC1D5BF62BC2530F00CD66BA /* DataTransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */; };
+		BC1D5BF82BC2534200CD66BA /* UntilProcessingCompleteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */; };
+		BC1D5BF92BC2534200CD66BA /* UntilProcessingCompleteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */; };
+		BC1D5BFB2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */; };
+		BC1D5BFC2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */; };
 		BC1F5FFC2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFA2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift */; };
 		BC1F5FFD2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC1F5FFB2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib */; };
 		BC1F60002B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFE2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift */; };
@@ -140,6 +154,13 @@
 /* Begin PBXFileReference section */
 		BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModelDetailedViewController.swift; sourceTree = "<group>"; };
 		BC0F44F12B67395800C41584 /* ThreeDModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModelView.swift; sourceTree = "<group>"; };
+		BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferService.swift; sourceTree = "<group>"; };
+		BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferSession.swift; sourceTree = "<group>"; };
+		BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadingSession.swift; sourceTree = "<group>"; };
+		BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferOperation.swift; sourceTree = "<group>"; };
+		BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UntilProcessingCompleteFilter.swift; sourceTree = "<group>"; };
+		BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineAsyncPublisher.swift; sourceTree = "<group>"; };
 		BC1F5FFA2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryVideoCollectionViewItem.swift; sourceTree = "<group>"; };
 		BC1F5FFB2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectsGalleryVideoCollectionViewItem.xib; sourceTree = "<group>"; };
 		BC1F5FFE2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryImageCollectionViewItem.swift; sourceTree = "<group>"; };
@@ -302,6 +323,13 @@
 			isa = PBXGroup;
 			children = (
 				BC24CE842BBD0FC300E74480 /* SyncService.swift */,
+				BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */,
+				BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */,
+				BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */,
+				BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */,
+				BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */,
+				BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */,
+				BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */,
 				BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */,
 				BC3D48732B88401C001A831D /* OBJHelper.swift */,
 				BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */,
@@ -535,6 +563,7 @@
 				BCBAE4D12B6A57D00095E92D /* MainSplitViewController.swift in Sources */,
 				BC473B842B69050000C413A1 /* RendererPreviewViewModel.swift in Sources */,
 				BC3C96A32BBFE0010009A83C /* RenderingSettingsInfoPopoverViewController.swift in Sources */,
+				BC1D5BF22BC24FDA00CD66BA /* DownloadingSession.swift in Sources */,
 				BC87CB3E2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,
 				BCBAE4D52B6B2D030095E92D /* TabBarViewController+Delegate.swift in Sources */,
 				BC9AFC4D2B661C2A009170B0 /* SCNPreviewGenerator.swift in Sources */,
@@ -546,10 +575,13 @@
 				BCD19AD92B4E8680004DCC48 /* Camera.swift in Sources */,
 				BC9AFC332B66052E009170B0 /* ProjectsGalleryViewController.swift in Sources */,
 				BCD19AA72B4E70EE004DCC48 /* RenderingViewController.swift in Sources */,
+				BC1D5BF82BC2534200CD66BA /* UntilProcessingCompleteFilter.swift in Sources */,
 				BC7CB3C92B53B4FC0086D31C /* PMShared.metal in Sources */,
 				BC0F44E32B6718C400C41584 /* ThreeDModelDetailedViewController.swift in Sources */,
 				BC7CB3A32B5390D50086D31C /* Primitive.swift in Sources */,
+				BC1D5BF52BC2530F00CD66BA /* DataTransferOperation.swift in Sources */,
 				BC1F5FFC2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift in Sources */,
+				BC1D5BE62BC224B800CD66BA /* DataTransferService.swift in Sources */,
 				BC0F44F22B67395800C41584 /* ThreeDModelView.swift in Sources */,
 				BCBD4BCB2B71F484003E6C2C /* ProjectSyncService.swift in Sources */,
 				BC1F60052B849B39002050C7 /* ThreeDModelCreatingViewController.swift in Sources */,
@@ -559,11 +591,13 @@
 				BC7CB3C52B53AC740086D31C /* SamplerStateLibrary.swift in Sources */,
 				BC7CB3AC2B5395160086D31C /* PMShaderTypes.swift in Sources */,
 				BC87CB482B5D04E70002CCDC /* WebApi.swift in Sources */,
+				BC1D5BFB2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */,
 				BC7CB39A2B537AC30086D31C /* SceneNode.swift in Sources */,
 				BC7CB3B22B539BBE0086D31C /* Graphics.swift in Sources */,
 				BCBF6C7D2B6F215500ED97B1 /* UTType+Custom.swift in Sources */,
 				BC1F60002B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift in Sources */,
 				BC1F60032B84733C002050C7 /* FolderGalleryViewController.swift in Sources */,
+				BC1D5BEC2BC2422F00CD66BA /* AsyncOperation.swift in Sources */,
 				BC87CB442B5B76DF0002CCDC /* Services.swift in Sources */,
 				BC7CB3B82B53A3C60086D31C /* Engine.swift in Sources */,
 				BCBAE4DD2B6B5F2C0095E92D /* TabBarViewController+DragDrop.swift in Sources */,
@@ -581,6 +615,7 @@
 				BCBAE4D32B6A5A6E0095E92D /* TabBarViewController.swift in Sources */,
 				BCBAE4D72B6B3C270095E92D /* Node.swift in Sources */,
 				BCBAE4D92B6B57850095E92D /* TabBarViewController+Helpers.swift in Sources */,
+				BC1D5BEF2BC24D2300CD66BA /* DataTransferSession.swift in Sources */,
 				BCD19AD62B4E7D22004DCC48 /* PMShaders.metal in Sources */,
 				BCBAE4DB2B6B5C760095E92D /* TabBarOutlineView.swift in Sources */,
 				BC7CB3BF2B53A93A0086D31C /* RenderPipelineStateLibrary.swift in Sources */,
@@ -608,11 +643,14 @@
 				BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */,
 				BC24CE862BBD0FC300E74480 /* SyncService.swift in Sources */,
 				BC473B762B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */,
+				BC1D5BF62BC2530F00CD66BA /* DataTransferOperation.swift in Sources */,
 				BCD19ACB2B4E7181004DCC48 /* RenderingViewController.swift in Sources */,
 				BC3D48752B88401C001A831D /* OBJHelper.swift in Sources */,
 				BC7CB3A72B5391B20086D31C /* Mesh.swift in Sources */,
 				BC7CB3A12B5390A60086D31C /* SampleScene.swift in Sources */,
 				BC7CB3982B5379C80086D31C /* SceneObject.swift in Sources */,
+				BC1D5BFC2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */,
+				BC1D5BE72BC224B800CD66BA /* DataTransferService.swift in Sources */,
 				BC7CB39E2B5381C60086D31C /* Scene.swift in Sources */,
 				BCD19AD72B4E7D22004DCC48 /* PMShaders.metal in Sources */,
 				BC7CB3BD2B53A7120086D31C /* VertexDescriptorLibrary.swift in Sources */,
@@ -625,8 +663,10 @@
 				BC7CB3B02B5399AF0086D31C /* SceneManager.swift in Sources */,
 				BC87CB492B5D04E70002CCDC /* WebApi.swift in Sources */,
 				BCD19ADA2B4E8680004DCC48 /* Camera.swift in Sources */,
+				BC1D5BED2BC2422F00CD66BA /* AsyncOperation.swift in Sources */,
 				BC1F60082B849D68002050C7 /* ThreeDModel.swift in Sources */,
 				BC7CB3A42B5390D50086D31C /* Primitive.swift in Sources */,
+				BC1D5BF92BC2534200CD66BA /* UntilProcessingCompleteFilter.swift in Sources */,
 				BC87CB452B5B76DF0002CCDC /* Services.swift in Sources */,
 				BC7CB3B32B539BBE0086D31C /* Graphics.swift in Sources */,
 				BCBD4BCC2B71F484003E6C2C /* ProjectSyncService.swift in Sources */,
@@ -637,6 +677,7 @@
 				BC7CB3C32B53ABE40086D31C /* DepthStencilStateLibrary.swift in Sources */,
 				BC9AFC4E2B661C2A009170B0 /* SCNPreviewGenerator.swift in Sources */,
 				BC7CB3C02B53A93A0086D31C /* RenderPipelineStateLibrary.swift in Sources */,
+				BC1D5BF02BC24D2300CD66BA /* DataTransferSession.swift in Sources */,
 				BC0F44E42B6718C400C41584 /* ThreeDModelDetailedViewController.swift in Sources */,
 				BC7CB3C62B53AC740086D31C /* SamplerStateLibrary.swift in Sources */,
 				BCBF6C812B6F32DC00ED97B1 /* DetailedViewController.swift in Sources */,
@@ -646,6 +687,7 @@
 				BCD19ABC2B4E7127004DCC48 /* SceneDelegate.swift in Sources */,
 				BC7CB3AD2B5395160086D31C /* PMShaderTypes.swift in Sources */,
 				BC7CB3B62B539CCD0086D31C /* ShadersLibrary.swift in Sources */,
+				BC1D5BF32BC24FDA00CD66BA /* DownloadingSession.swift in Sources */,
 				BCD19ACE2B4E73AB004DCC48 /* Renderer.swift in Sources */,
 				BCFF4A472B6F99CA00E8B608 /* RenderingRequestViewController.swift in Sources */,
 			);

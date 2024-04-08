@@ -20,6 +20,7 @@ enum SyncStatus {
             "icloud.and.arrow.down"
         case .synced:
             "checkmark.icloud"
+//        case .needSync:
         }
     }
 }
@@ -30,18 +31,8 @@ class SyncService {
         case unprocessableEntity
     }
     
-    private let queue = {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 3
-        return queue
-    }()
-    
-    private var operationIDs = [UUID]()
-    private var webApi: WebApi?
-    
-    init() {
-        print("sync init")
-    }
+    let dataTransfer = DataTransferService()
+    private(set) var webApi: WebApi?
     
     func authorize(_ auth: MSAuthState) {
         self.webApi = WebApi(auth)
@@ -51,20 +42,41 @@ class SyncService {
         self.webApi = nil
     }
     
-    func createProject(with id: UUID, modelPath: URL) async throws {
+    func createProject(with id: UUID) throws {
         guard let webApi else {
             throw SyncError.unauthorizedRequest
         }
         
-        try await webApi.putUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb", data: Data(contentsOf: modelPath))
+        guard let folderManager = ProjectFolderManager(with: id) else {
+            return
+        }
+        
+//        let session = UploadingSession(blobPath: "models/\(id.uuidString.lowercased()).glb",
+//                                       data: Data(contentsOf: folderManager.defaultModelURL))
+//        
+//        dataTransfer.add(session: session)
     }
     
-    func downloadProjectModel(with id: UUID) async throws -> Data {
+    func downloadProject(with id: UUID) throws {
         guard let webApi else {
             throw SyncError.unauthorizedRequest
         }
         
-        return try await webApi.getUserBlob(blobPath: "models/\(id.uuidString.lowercased()).glb")
+        guard let folderManager = ProjectFolderManager(with: id) else {
+            return
+        }
+        
+        let session = DownloadingSession(id: id,
+                                         webApi: webApi,
+                                         blobPath: "models/\(id.uuidString.lowercased()).glb",
+                                         saveURL: folderManager.defaultModelURL)
+        
+        dataTransfer.add(session: session)
+    }
+    
+    // Download missing/new images/videos
+    func syncProject(with id: UUID) {
+        
     }
     
     func delete(project id: UUID) async throws {
@@ -101,7 +113,8 @@ class SyncService {
             throw SyncError.unprocessableEntity
         }
         
-        let local = FileManager.default.fileExists(atPath: url.path())
+        let modelSize = try? FileManager.default.attributesOfItem(atPath: url.path())[.size] as? NSNumber
+        let local = (modelSize?.intValue ?? 0) > 1 // Check if file is not a placeholder
         
         let blobPaths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
         let blobIDs = Set(blobPaths.map { $0.deletingPathExtension().lastPathComponent })

@@ -36,22 +36,6 @@ class ProjectsGalleryViewController: NSViewController {
         }
     }
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        Task {
-            if let cloudIDs = try? await syncService.fetchCloudProjects() {
-                let local = storageManager.getAll()
-                let localIDs = Set(local.map { $0.id })
-                
-                for id in Set(cloudIDs).subtracting(localIDs) {
-                    let item = StorageItem(id: id, name: id.uuidString, bookmark: Data())
-                    storageManager.insert(item)
-                }
-            }
-        }
-    }
-    
     func reload() {
         items = ProjectFolderManager.getProjects()
         collectionView?.reloadData()
@@ -162,10 +146,6 @@ extension ProjectsGalleryViewController: NSCollectionViewDelegate {
 
 extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelegate {
     func didUserRequestRenderItem(with id: UUID) {
-        guard let item = storageManager.get(with: id) else {
-            return
-        }
-        
         performSegue(withIdentifier: "RenderRequestSheetSegue", sender: id)
     }
     
@@ -187,22 +167,37 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
     }
     
     func didUserSyncProject(with id: UUID) {
-        guard let item = storageManager.get(with: id),
-              let url = item.url else {
-            return
-        }
-              
         Task {
-            guard let status = try? await syncService.syncStatus(for: item) else {
+            guard let item = storageManager.get(with: id),
+                  let status = try? await syncService.syncStatus(for: item) else {
                 return
             }
             
             switch status {
             case .local:
-                try? await syncService.createProject(with: id, modelPath: url)
+                try? syncService.createProject(with: id)
             case .cloud:
-                let data = try? await syncService.downloadProjectModel(with: id)
-                FileManager.default.createFile(atPath: url.path(), contents: data)
+                try? syncService.downloadProject(with: id)
+                
+                guard let updates = syncService.dataTransfer.updates(for: id) else {
+                    return
+                }
+                
+                Task {
+                    for await output in updates {
+                        switch output {
+                        case .requestCompleted:
+                            guard let url = ProjectFolderManager(with: id)?.rootProjectFolder,
+                                  let idx = items.firstIndex(of: url) else {
+                                return
+                            }
+                            
+                            self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+                        default:
+                            break
+                        }
+                    }
+                }
             case .synced:
                 break
             }

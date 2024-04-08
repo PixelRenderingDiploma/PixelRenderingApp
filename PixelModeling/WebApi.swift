@@ -58,7 +58,7 @@ class WebApi {
         return data
     }
     
-    func getUserBlob(blobPath: String, session: URLSession, delegate: URLSessionDownloadDelegate, progressHandler: @escaping (Double) -> Void) async throws -> Data {
+    func getUserBlob(blobPath: String, session: URLSession, delegate: URLSessionDownloadDelegate, progressHandler: @escaping (Float) -> Void) async throws -> Data {
         let sasUrl = try await getUserBlobSasUrl(blobPath: blobPath)
         
         var request = URLRequest(url: sasUrl)
@@ -69,10 +69,10 @@ class WebApi {
         let expectedLength = Int(urlResponse.expectedContentLength)
         var data = Data(capacity: expectedLength)
         
-        var fastRunningProgress: Double = 0
+        var fastRunningProgress: Float = 0
         for try await bytes in bytesStream {
             data.append(bytes)
-            let progress = Double(data.count) / Double(expectedLength)
+            let progress = Float(data.count) / Float(expectedLength)
             if Int(fastRunningProgress * 100) != Int(progress * 100) {
                 fastRunningProgress = progress
                 progressHandler(progress)
