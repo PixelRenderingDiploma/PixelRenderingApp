@@ -216,8 +216,7 @@ class TabBarViewController: NSViewController {
         
         addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
         
-        let projects = ProjectFolderManager.getProjects().compactMap { UUID(uuidString: $0.lastPathComponent) }
-        for project in projects {
+        for project in ProjectFolderManager.getProjects() {
             addProjectNode(id: project)
         }
         

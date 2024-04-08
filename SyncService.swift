@@ -138,7 +138,7 @@ class SyncService {
             throw SyncError.unauthorizedRequest
         }
         
-        let blobPaths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
-        return blobPaths.compactMap { UUID(uuidString: $0.deletingPathExtension().lastPathComponent) }
+        let paths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
+        return paths.compactMap { UUID(uuidString: $0.deletingPathExtension().lastPathComponent) }
     }
 }

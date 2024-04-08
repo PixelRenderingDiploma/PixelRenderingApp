@@ -141,7 +141,7 @@ class ProjectFolderManager {
         return projectsFolder.appending(path: id.uuidString.lowercased(), directoryHint: .isDirectory)
     }
     
-    static func getProjects() -> [URL] {
+    static func getProjects() -> [UUID] {
         guard let projectsFolder = rootProjectsFolder() else {
             logger.error("Can't get user document dir!")
             return []
@@ -159,7 +159,7 @@ class ProjectFolderManager {
                 return false
             }
             
-            return directories.map { projectsFolder.appending(path: $0, directoryHint: .isDirectory) }
+            return directories.compactMap { UUID(uuidString: $0) }
         } catch {
             logger.error("\(error.localizedDescription)")
             return []

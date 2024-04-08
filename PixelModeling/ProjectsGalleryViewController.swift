@@ -15,7 +15,7 @@ class ProjectsGalleryViewController: NSViewController {
     @Service private var storageManager: StorageManagerProtocol
     @Service private var syncService: SyncService
     
-    private var items: [URL] = []
+    private var items: [UUID] = []
     private lazy var operationQueue: OperationQueue = {
         let opQueue = OperationQueue()
         opQueue.maxConcurrentOperationCount = 1
@@ -46,10 +46,9 @@ class ProjectsGalleryViewController: NSViewController {
         case "ThreeDModelDetailedSegue":
             guard let indexPath = sender as? IndexPath else { return }
             
-            let url = items[indexPath.item]
+            let id = items[indexPath.item]
             
             if let destinationVC = segue.destinationController as? ThreeDModelDetailedViewController,
-               let id = UUID(uuidString: url.lastPathComponent),
                let item = storageManager.get(with: id) {
                 destinationVC.update(with: item)
             }
@@ -85,11 +84,7 @@ extension ProjectsGalleryViewController: NSCollectionViewDataSource {
         if let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem, indexPath.item < items.count {
             galleryViewItem.delegate = self
             
-            let url = items[indexPath.item]
-            
-            guard let id = UUID(uuidString: url.lastPathComponent) else {
-                return viewItem
-            }
+            let id = items[indexPath.item]
             
             guard let item = storageManager.get(with: id) else {
                 galleryViewItem.update(with: id)
@@ -151,6 +146,7 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
     
     func didUserDeleteItem(with id: UUID, cloud: Bool) {
         Task {
+            // TODO: Delete content but replace with placeholder and updated sync state
             if cloud {
                 try? await syncService.delete(project: id)
             }
@@ -187,8 +183,7 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
                     for await output in updates {
                         switch output {
                         case .requestCompleted:
-                            guard let url = ProjectFolderManager(with: id)?.rootProjectFolder,
-                                  let idx = items.firstIndex(of: url) else {
+                            guard let idx = items.firstIndex(of: id) else {
                                 return
                             }
                             
