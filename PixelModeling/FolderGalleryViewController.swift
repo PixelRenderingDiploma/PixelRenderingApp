@@ -14,7 +14,7 @@ class FolderGalleryViewController: NSViewController {
     var url: URL? {
         didSet {
             guard let url,
-                  let content = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) else {
+                  let content = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles]) else {
                 return
             }
             
