@@ -54,9 +54,20 @@ extension TabBarViewController: MenuOutlineViewDelegate {
             // Folder titles are editable only if they don't have a file URL,
             // You don't want users to rename file system-based nodes.
             view?.textField?.isEditable = node.canChange
+            
+            view?.textField?.textColor = node.isRemote ? .secondaryLabelColor : .labelColor
         }
 
         return view
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
+        if let treeNode = item as? NSTreeNode,
+           let node = treeNode.representedObject as? Node {
+            return !node.isRemote
+        }
+        
+        return false
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {

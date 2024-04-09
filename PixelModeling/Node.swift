@@ -55,6 +55,10 @@ extension Node {
             (title == Node.NameConstants.projects || title == Node.NameConstants.other))
     }
     
+    var isRemote: Bool {
+        url?.isPlaceholder ?? false
+    }
+    
     override class func description() -> String {
         return "Node"
     }
@@ -62,8 +66,13 @@ extension Node {
     var nodeIcon: NSImage {
         var icon = NSImage()
         if let nodeURL = url {
-            // If the node has a URL, use it to obtain its icon.
-            icon = nodeURL.icon
+            if isRemote,
+               let cloudIcon = NSImage(systemSymbolName: "cloud", accessibilityDescription: nil) {
+                icon = cloudIcon
+            } else {
+                // If the node has a URL, use it to obtain its icon.
+                icon = nodeURL.icon
+            }
         } else {
             // There's no URL for this node, so determine its icon generically.
             let type = isDirectory ? UTType.folder : UTType.image

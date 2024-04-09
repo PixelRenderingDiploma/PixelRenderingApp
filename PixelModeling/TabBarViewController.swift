@@ -85,12 +85,14 @@ class TabBarViewController: NSViewController {
             let local = storageManager.getAll()
             let localIDs = Set(local.map { $0.id })
             
-            for id in Set(cloudIDs).subtracting(localIDs) {
+            let missingProjectIDs = Set(cloudIDs).subtracting(localIDs)
+            
+            // Create placeholders for missing projects
+            for id in missingProjectIDs {
                 guard let folderManager = ProjectFolderManager(with: id) else {
                     continue
                 }
                 
-                // TODO: For now, create empty placeholder for bookmark. Consider other options
                 FileManager.default.createFile(atPath: folderManager.defaultModelURL.path(), contents: nil)
                 guard let bookmark = try? folderManager.defaultModelURL.bookmarkData() else {
                     continue
@@ -98,8 +100,31 @@ class TabBarViewController: NSViewController {
                 
                 let item = StorageItem(id: id, name: id.uuidString, bookmark: bookmark)
                 storageManager.insert(item)
+            }
+            
+            // Refresh content of all projects
+            for id in Set(cloudIDs).union(localIDs) {
+                guard let content = try? await syncService.missingContent(for: id, includePlaceholders: false),
+                      let folderManager = ProjectFolderManager(with: id) else {
+                    continue
+                }
                 
-                addProjectNode(id: id)
+                guard content.values.reduce(0, { $0 + $1.count }) > 0 else {
+                    continue
+                }
+                
+                for (paragraph, names) in content {
+                    for name in names {
+                        let url = folderManager.rootProjectFolder.appending(path: paragraph).appending(path: name)
+                        FileManager.default.createFile(atPath: url.path(), contents: nil)
+                    }
+                }
+                
+                if missingProjectIDs.contains(id) {
+                    addProjectNode(with: id)
+                } else {
+                    addMissingContent(for: id, with: content)
+                }
             }
             
             self.galleryViewController?.reload()
@@ -134,7 +159,7 @@ class TabBarViewController: NSViewController {
         self.storageManager.insert(item)
         self.galleryViewController?.reload()
         
-        addProjectNode(id: id)
+        addProjectNode(with: id)
     }
     
     private func addGroupNode(_ folderName: String, identifier: String) {
@@ -217,7 +242,7 @@ class TabBarViewController: NSViewController {
         addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
         
         for project in ProjectFolderManager.getProjects() {
-            addProjectNode(id: project)
+            addProjectNode(with: project)
         }
         
 //        let separator = Node()
@@ -227,7 +252,7 @@ class TabBarViewController: NSViewController {
         treeController?.setSelectionIndexPath(nil) // Start back at the root level.
     }
     
-    func addProjectNode(id: UUID) {
+    func addProjectNode(with id: UUID) {
         guard let project = ProjectFolderManager(with: id),
               let indexPath = self.indexPathOfNode(matching: { node in
                   node.identifier == Node.projectsID
@@ -257,6 +282,27 @@ class TabBarViewController: NSViewController {
         
         addNode(node)
         selectParentFromSelection()
+    }
+    
+    func addMissingContent(for id: UUID, with content: [String: Set<String>]) {
+        guard let project = ProjectFolderManager(with: id),
+              let projectNode = self.findNode(matching: { node in
+                  node.identifier == id.uuidString.lowercased()
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        for (paragraph, names) in content {
+            if let node = self.findNode(matching: { node in
+                node.type == .projectParagraph && node.title == paragraph
+            }, in: projectNode.children ?? []) {
+                treeController.setSelectionIndexPath(node.indexPath)
+                for name in names {
+                    let childNode = buildFileSystemNode(project.rootProjectFolder.appending(path: paragraph).appending(path: name))
+                    addNode(childNode)
+                }
+            }
+        }
     }
     
     private func addParagraphs(of project: ProjectFolderManager, to parent: Node) {

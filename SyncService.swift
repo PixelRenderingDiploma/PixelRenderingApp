@@ -108,7 +108,12 @@ class SyncService {
         }
     }
     
-    func missingContent(for id: UUID) async throws -> [String: Set<String>] {
+    /// Return missing content for project
+    /// - Parameters:
+    ///   - id: project id
+    ///   - includePlaceholders: if ture, when counting missing files, if placeholders exists in file system, will count it as missing (remote) file
+    /// - Returns: dictionary of "paragraph": [content]
+    func missingContent(for id: UUID, includePlaceholders: Bool = true) async throws -> [String: Set<String>] {
         guard let webApi else {
             throw SyncError.unauthorizedRequest
         }
@@ -123,8 +128,8 @@ class SyncService {
         async let videoPathsRequest = webApi.getUserFilesListInResources(blobPrefix: "renders/videos/\(idStr)/")
         let (imagePaths, videoPaths) = try await (imagePathsRequest, videoPathsRequest)
         
-        let localImagePaths = project.images
-        let localVideoPaths = project.videos
+        let localImagePaths = project.images.filter { includePlaceholders ? !$0.isPlaceholder : true }
+        let localVideoPaths = project.videos.filter { includePlaceholders ? !$0.isPlaceholder : true }
         
         let missingImages = Set(imagePaths.map { $0.lastPathComponent }).subtracting(Set(localImagePaths.map { $0.lastPathComponent }))
         let missingVideos = Set(videoPaths.map { $0.lastPathComponent }).subtracting(Set(localVideoPaths.map { $0.lastPathComponent }))
@@ -172,7 +177,7 @@ class SyncService {
         let idStr = storageItem.id.uuidString.lowercased()
         
         let modelSize = try? FileManager.default.attributesOfItem(atPath: url.path())[.size] as? NSNumber
-        let local = (modelSize?.intValue ?? 0) > 1 // Check if file is not a placeholder
+        let local = (modelSize?.intValue ?? 0) > 0 // Check if file is not a placeholder
         
         let blobPaths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
         let blobIDs = Set(blobPaths.map { $0.deletingPathExtension().lastPathComponent })

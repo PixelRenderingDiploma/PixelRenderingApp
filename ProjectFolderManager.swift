@@ -26,12 +26,12 @@ class ProjectFolderManager {
         
         rootProjectFolder = newFolder
         
-        imagesFolder = newFolder.appendingPathComponent("Images/")
+        imagesFolder = newFolder.appendingPathComponent("images/")
         guard ProjectFolderManager.createDirectoryRecursively(imagesFolder) else {
             return nil
         }
         
-        videosFolder = newFolder.appendingPathComponent("Videos/")
+        videosFolder = newFolder.appendingPathComponent("videos/")
         guard ProjectFolderManager.createDirectoryRecursively(videosFolder) else {
             return nil
         }
@@ -44,9 +44,9 @@ class ProjectFolderManager {
         
         rootProjectFolder = existingFolder
         
-        imagesFolder = existingFolder.appendingPathComponent("Images/")
+        imagesFolder = existingFolder.appendingPathComponent("images/")
         _ = ProjectFolderManager.createDirectoryRecursively(imagesFolder)
-        videosFolder = existingFolder.appendingPathComponent("Videos/")
+        videosFolder = existingFolder.appendingPathComponent("videos/")
         _ = ProjectFolderManager.createDirectoryRecursively(videosFolder)
     }
     
