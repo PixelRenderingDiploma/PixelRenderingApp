@@ -187,7 +187,7 @@ class WebApi {
         let json: [String: Any] = [
             "id": idString,
             "id_token": idToken,
-            "model": "models/\(idModelString).glb",
+            "id_model": idModelString,
             "status": "queue",
             "settings": settingsJson
         ]

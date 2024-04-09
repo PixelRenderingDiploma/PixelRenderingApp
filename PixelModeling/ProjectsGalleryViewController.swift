@@ -193,7 +193,9 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
                         }
                     }
                 }
-            case .synced:
+            case .cloudContent:
+                try? await syncService.syncProject(with: id)
+            case .syncing, .synced:
                 break
             }
         }

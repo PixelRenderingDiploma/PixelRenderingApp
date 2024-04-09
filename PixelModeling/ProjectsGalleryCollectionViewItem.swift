@@ -77,8 +77,10 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     func update(with status: SyncStatus) {
         switch status {
-        case .local, .cloud:
+        case .local, .cloud, .cloudContent:
             syncStatusButton?.isEnabled = true
+        case .syncing:
+            fallthrough
         case .synced:
             syncStatusButton?.isEnabled = false
         }
