@@ -58,7 +58,7 @@ class WebApi {
         return data
     }
     
-    func getUserBlob(blobPath: String, session: URLSession, delegate: URLSessionDownloadDelegate, progressHandler: @escaping (Float) -> Void) async throws -> Data {
+    func getUserBlob(blobPath: String, session: URLSession, progressHandler: @escaping (Float) -> Void) async throws -> Data {
         let sasUrl = try await getUserBlobSasUrl(blobPath: blobPath)
         
         var request = URLRequest(url: sasUrl)
@@ -92,6 +92,16 @@ class WebApi {
         request.httpBody = data
         
         _ = try await session.data(for: request)
+    }
+    
+    func putUserBlob(blobPath: String, data: Data, delegate: URLSessionTaskDelegate, session: URLSession = .shared) async throws {
+        let sasUrl = try await getUserBlobSasUrl(blobPath: blobPath)
+        
+        var request = URLRequest(url: sasUrl)
+        request.httpMethod = "PUT"
+        request.setValue("BlockBlob", forHTTPHeaderField: "x-ms-blob-type")
+        
+        _ = try await session.upload(for: request, from: data, delegate: delegate)
     }
     
     func deleteUserBlob(blobPath: String, session: URLSession = .shared) async throws -> Bool {

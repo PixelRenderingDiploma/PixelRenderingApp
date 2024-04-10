@@ -166,51 +166,49 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
             switch status {
             case .local:
                 try? syncService.createProject(with: id)
+                await reload(item: id, afterSyncOf: [id])
             case .cloud:
                 try? syncService.downloadProject(with: id)
-                
-                guard let updates = syncService.dataTransfer.updates(for: id) else {
-                    return
-                }
-                
-                Task {
-                    for await output in updates {
-                        switch output {
-                        case .requestCompleted:
-                            guard let idx = items.firstIndex(of: id) else {
-                                return
-                            }
-                            
-                            self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
-                        default:
-                            break
-                        }
-                    }
-                }
+                await reload(item: id, afterSyncOf: [id])
             case .cloudContent:
                 guard let content = try? await syncService.syncProject(with: id) else {
                     break
                 }
                 
-                // Wait until all new content loaded
-                for (_, names) in content {
-                    for name in names {
-                        guard let idContentString = name.split(separator: ".").first,
-                              let idContent = UUID(uuidString: String(idContentString)),
-                              let updates = syncService.dataTransfer.updates(for: idContent) else {
-                            continue
-                        }
-                        
-                        for await _ in updates {}
-                    }
-                }
+                NotificationCenter.default.post(name: .didSyncProject, object: nil, userInfo: ["id": id, "content": content])
                 
-                if let idx = items.firstIndex(of: id) {
-                    self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+                Task {
+                    // Wait until all new content loaded
+                    let ids = content
+                        .values
+                        .flatMap { $0 }
+                        .compactMap { $0.split(separator: ".").first }
+                        .compactMap { UUID(uuidString: String($0)) }
+                    await reload(item: id, afterSyncOf: ids)
                 }
             case .syncing, .synced:
                 break
             }
         }
     }
+    
+    private func reload(item id: UUID, afterSyncOf ids: [UUID]) async {
+        for id in ids {
+            guard let updates = syncService.dataTransfer.updates(for: id) else {
+                continue
+            }
+            
+            for await _ in updates {}
+        }
+        
+        guard let idx = self.items.firstIndex(of: id) else {
+            return
+        }
+        
+        self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+    }
+}
+
+extension Notification.Name {
+     static let didSyncProject = Notification.Name("didSyncProject")
 }

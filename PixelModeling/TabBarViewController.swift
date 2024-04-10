@@ -66,6 +66,7 @@ class TabBarViewController: NSViewController {
         outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didDeleteProject), name: .didDeleteProjectFolder, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didSyncProject), name: .didSyncProject, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProjects), name: .didUserLogIn, object: nil)
     }
     
@@ -432,6 +433,48 @@ class TabBarViewController: NSViewController {
         }
         
         treeController.removeObject(atArrangedObjectIndexPath: indexPath)
+    }
+    
+    @objc
+    private func didSyncProject(_ notification: NSNotification) {
+        guard let id = notification.userInfo?["id"] as? UUID,
+              let syncingContent = notification.userInfo?["content"] as? [String: Set<String>] else {
+            return
+        }
+        
+        guard let projectNode = self.findNode(matching: { node in
+            node.identifier == id.uuidString.lowercased()
+        }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        for (paragraph, names) in syncingContent {
+            guard let paragraphNode = self.findNode(matching: { node in
+                node.type == .projectParagraph && node.title == paragraph
+            }, in: projectNode.children ?? []) else {
+                continue
+            }
+            
+            for name in names {
+                guard let itemIDSub = name.split(separator: ".").first,
+                      let itemID = UUID(uuidString: String(itemIDSub)),
+                      let itemNode = self.findNode(matching: { node in
+                    node.title == name
+                }, in: paragraphNode.children ?? []) else {
+                    continue
+                }
+                
+                Task { [weak self] in
+                    guard let updates = self?.syncService.dataTransfer.updates(for: itemID) else {
+                        return
+                    }
+                    
+                    for await _ in updates {}
+                    
+                    self?.outlineView?.reloadItem(itemNode, reloadChildren: false)
+                }
+            }
+        }
     }
     
     func findNode(matching criteria: (Node) -> Bool, in nodes: [NSTreeNode]) -> NSTreeNode? {

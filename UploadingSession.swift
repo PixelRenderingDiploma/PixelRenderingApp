@@ -1,13 +1,15 @@
 //
-//  DownloadingSession.swift
+//  UploadingSession.swift
 //  PixelModeling
 //
-//  Created by Hlib Sobolevskyi on 2024-04-06.
+//  Created by Hlib Sobolevskyi on 2024-04-09.
 //
 
 import Foundation
 
-class DownloadingSession: DataTransferSession {
+import Foundation
+
+class UploadingSession: DataTransferSession {
     private lazy var urlSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: id.uuidString + "\(Date.now.timeIntervalSince1970)")
         configuration.waitsForConnectivity = true
@@ -17,29 +19,35 @@ class DownloadingSession: DataTransferSession {
     }()
     
     let blobPath: String
-    let saveURL: URL
+    let data: Data
     
-    init(id: UUID, webApi: WebApi, blobPath: String, saveURL: URL) {
+    private var continuation: AsyncThrowingStream<Output, Swift.Error>.Continuation?
+    private var totalBytesSent: Int64
+    private var totalBytesExpectedToSend: Int64
+    
+    init(id: UUID, webApi: WebApi, blobPath: String, data: Data) {
         self.blobPath = blobPath
-        self.saveURL = saveURL
+        self.data = data
+        
+        self.totalBytesSent = 0
+        self.totalBytesExpectedToSend = Int64(data.count)
         
         super.init(id: id, webApi: webApi)
     }
     
     override func process() async throws -> AsyncThrowingStream<Output, Swift.Error> {
         let output = AsyncThrowingStream<Output, Swift.Error> { continuation in
+            self.continuation = continuation
             Task {
                 do {
                     continuation.yield(.startProcessing)
                     
                     try self.checkCancellation()
                     
-                    let data = try await webApi.getUserBlob(
+                    try await webApi.putUserBlob(
                         blobPath: blobPath,
-                        session: urlSession,
-                        progressHandler: { continuation.yield(.requestProgress($0)) })
-                    
-                    try data.write(to: saveURL)
+                        data: data,
+                        delegate: self)
                     
                     continuation.yield(.requestCompleted)
                     continuation.finish()
@@ -66,4 +74,13 @@ class DownloadingSession: DataTransferSession {
     }
 }
 
-extension DownloadingSession: URLSessionDelegate {}
+extension UploadingSession: URLSessionTaskDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        self.totalBytesSent += bytesSent
+        
+        let progress = Float(self.totalBytesSent)
+        let processProgress = progress / Float(self.totalBytesExpectedToSend)
+        
+        continuation?.yield(.requestProgress(processProgress))
+    }
+}

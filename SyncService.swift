@@ -50,14 +50,18 @@ class SyncService {
             throw SyncError.unauthorizedRequest
         }
         
-        guard let folderManager = ProjectFolderManager(with: id) else {
+        guard let folderManager = ProjectFolderManager(with: id),
+              let data = try? Data(contentsOf: folderManager.defaultModelURL) else {
             return
         }
         
-//        let session = UploadingSession(blobPath: "models/\(id.uuidString.lowercased()).glb",
-//                                       data: Data(contentsOf: folderManager.defaultModelURL))
-//        
-//        dataTransfer.add(session: session)
+        let session = UploadingSession(
+            id: id,
+            webApi: webApi,
+            blobPath: "models/\(id.uuidString.lowercased()).glb",
+            data: data)
+        
+        dataTransfer.add(session: session)
     }
     
     func downloadProject(with id: UUID) throws {
@@ -69,10 +73,11 @@ class SyncService {
             return
         }
         
-        let session = DownloadingSession(id: id,
-                                         webApi: webApi,
-                                         blobPath: "models/\(id.uuidString.lowercased()).glb",
-                                         saveURL: folderManager.defaultModelURL)
+        let session = DownloadingSession(
+            id: id,
+            webApi: webApi,
+            blobPath: "models/\(id.uuidString.lowercased()).glb",
+            saveURL: folderManager.defaultModelURL)
         
         dataTransfer.add(session: session)
     }

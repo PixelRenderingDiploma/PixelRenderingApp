@@ -148,6 +148,8 @@
 		BCD19AD72B4E7D22004DCC48 /* PMShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */; };
 		BCD19AD92B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
 		BCD19ADA2B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
+		BCE39F4F2BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
+		BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
 		BCEE73912BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCFF4A432B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
@@ -250,6 +252,7 @@
 		BCD19AD02B4E747A004DCC48 /* PixelModeling-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixelModeling-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PMShaders.metal; sourceTree = "<group>"; };
 		BCD19AD82B4E8680004DCC48 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingSession.swift; sourceTree = "<group>"; };
 		BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingButton.swift; sourceTree = "<group>"; };
 		BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingSettings.swift; sourceTree = "<group>"; };
 		BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingRequestViewController.swift; sourceTree = "<group>"; };
@@ -339,8 +342,9 @@
 				BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */,
 				BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */,
 				BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */,
-				BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */,
 				BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */,
+				BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */,
+				BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */,
 				BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */,
 				BC3D48732B88401C001A831D /* OBJHelper.swift */,
 				BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */,
@@ -635,6 +639,7 @@
 				BC7CB3972B5379C80086D31C /* SceneObject.swift in Sources */,
 				BC7CB3AF2B5399AF0086D31C /* SceneManager.swift in Sources */,
 				BC1F60142B85B575002050C7 /* RenderingView.swift in Sources */,
+				BCE39F4F2BC64B1A00055D0D /* UploadingSession.swift in Sources */,
 				BCFF4A432B6F77C100E8B608 /* RenderingSettings.swift in Sources */,
 				BC7CB3942B5370B90086D31C /* Math.swift in Sources */,
 				BC9AFC362B66079C009170B0 /* ProjectsGalleryCollectionViewItem.swift in Sources */,
@@ -655,6 +660,7 @@
 			files = (
 				BC87CB3F2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,
 				BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */,
+				BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */,
 				BC24CE862BBD0FC300E74480 /* SyncService.swift in Sources */,
 				BC473B762B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */,
 				BC1D5BF62BC2530F00CD66BA /* DataTransferOperation.swift in Sources */,
