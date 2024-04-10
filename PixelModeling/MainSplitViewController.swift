@@ -21,6 +21,16 @@ class MainSplitViewController: NSSplitViewController {
             selector: #selector(handleSelectionChange(_:)),
             name: Notification.Name(TabBarViewController.NotificationNames.selectionChanged),
             object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleProjectDeletion(_:)),
+            name: .didDeleteProjectFolder,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleProjectSync(_:)),
+            name: .didSyncProject,
+            object: nil)
     }
     
     override func viewDidAppear() {
@@ -102,5 +112,26 @@ class MainSplitViewController: NSSplitViewController {
                 }
             }
         }
+    }
+    
+    @objc
+    private func handleProjectDeletion(_ notification: NSNotification) {
+        guard let id = notification.userInfo?["id"] as? UUID,
+              let tabBarViewController = splitViewItems[0].viewController as? TabBarViewController else {
+            return
+        }
+        
+        tabBarViewController.removeItem(with: id)
+    }
+    
+    @objc
+    private func handleProjectSync(_ notification: NSNotification) {
+        guard let id = notification.userInfo?["id"] as? UUID,
+              let syncingContent = notification.userInfo?["content"] as? [String: Set<String>],
+              let tabBarViewController = splitViewItems[0].viewController as? TabBarViewController else {
+            return
+        }
+        
+        tabBarViewController.update(content: syncingContent, forProject: id)
     }
 }

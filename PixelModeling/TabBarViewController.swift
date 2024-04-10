@@ -65,8 +65,6 @@ class TabBarViewController: NSViewController {
         outlineView?.registerForDraggedTypes([.fileURL])
         outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(didDeleteProject), name: .didDeleteProjectFolder, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didSyncProject), name: .didSyncProject, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProjects), name: .didUserLogIn, object: nil)
     }
     
@@ -423,32 +421,24 @@ class TabBarViewController: NSViewController {
         return viewController
     }
     
-    @objc
-    private func didDeleteProject(_ notification: NSNotification) {
-        guard let id = notification.userInfo?["id"] as? UUID,
-              let indexPath = indexPathOfNode(matching: { node in
-                  node.identifier == id.uuidString.lowercased()
-              }, in: [treeController.arrangedObjects]) else {
+    func removeItem(with id: UUID) {
+        guard let indexPath = indexPathOfNode(matching: { node in
+            node.identifier == id.uuidString.lowercased()
+        }, in: [treeController.arrangedObjects]) else {
             return
         }
         
         treeController.removeObject(atArrangedObjectIndexPath: indexPath)
     }
     
-    @objc
-    private func didSyncProject(_ notification: NSNotification) {
-        guard let id = notification.userInfo?["id"] as? UUID,
-              let syncingContent = notification.userInfo?["content"] as? [String: Set<String>] else {
-            return
-        }
-        
+    func update(content: [String: Set<String>], forProject id: UUID) {
         guard let projectNode = self.findNode(matching: { node in
             node.identifier == id.uuidString.lowercased()
         }, in: [self.treeController.arrangedObjects]) else {
             return
         }
         
-        for (paragraph, names) in syncingContent {
+        for (paragraph, names) in content {
             guard let paragraphNode = self.findNode(matching: { node in
                 node.type == .projectParagraph && node.title == paragraph
             }, in: projectNode.children ?? []) else {
@@ -465,11 +455,9 @@ class TabBarViewController: NSViewController {
                 }
                 
                 Task { [weak self] in
-                    guard let updates = self?.syncService.dataTransfer.updates(for: itemID) else {
-                        return
+                    if let updates = self?.syncService.dataTransfer.updates(for: itemID) {
+                        for await _ in updates {}
                     }
-                    
-                    for await _ in updates {}
                     
                     self?.outlineView?.reloadItem(itemNode, reloadChildren: false)
                 }
