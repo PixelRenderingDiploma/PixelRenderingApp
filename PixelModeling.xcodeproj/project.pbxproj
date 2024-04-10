@@ -150,6 +150,7 @@
 		BCD19ADA2B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
 		BCE39F4F2BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
 		BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
+		BCE39F522BC677D200055D0D /* ImageAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F512BC677D200055D0D /* ImageAspectView.swift */; };
 		BCEE73912BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCFF4A432B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
@@ -253,6 +254,7 @@
 		BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PMShaders.metal; sourceTree = "<group>"; };
 		BCD19AD82B4E8680004DCC48 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingSession.swift; sourceTree = "<group>"; };
+		BCE39F512BC677D200055D0D /* ImageAspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAspectView.swift; sourceTree = "<group>"; };
 		BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingButton.swift; sourceTree = "<group>"; };
 		BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingSettings.swift; sourceTree = "<group>"; };
 		BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingRequestViewController.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				BC7CB3C72B53B37B0086D31C /* Shaders */,
 				BC7CB3BA2B53A6FF0086D31C /* Graphics */,
 				BC77CAA42BC55A1B00C2C0C4 /* NSImage+Thumbnail.swift */,
+				BCE39F512BC677D200055D0D /* ImageAspectView.swift */,
 				BC87CB432B5B76DF0002CCDC /* Services.swift */,
 				BC87CB472B5D04E70002CCDC /* WebApi.swift */,
 				BCBAE4D02B6A57D00095E92D /* MainSplitViewController.swift */,
@@ -613,6 +616,7 @@
 				BCBF6C7D2B6F215500ED97B1 /* UTType+Custom.swift in Sources */,
 				BC1F60002B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift in Sources */,
 				BC1F60032B84733C002050C7 /* FolderGalleryViewController.swift in Sources */,
+				BCE39F522BC677D200055D0D /* ImageAspectView.swift in Sources */,
 				BC1D5BEC2BC2422F00CD66BA /* AsyncOperation.swift in Sources */,
 				BC87CB442B5B76DF0002CCDC /* Services.swift in Sources */,
 				BC7CB3B82B53A3C60086D31C /* Engine.swift in Sources */,

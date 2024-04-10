@@ -8,21 +8,14 @@
 import QuartzCore
 
 class ImageDetailedViewController: PlatformViewController {
-    @IBOutlet weak var imageView: PlatformImageView?
+    @IBOutlet weak var imageView: ImageAspectView?
     
     private(set) var url: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView?.wantsLayer = true
-        imageView?.layer?.contentsGravity = .resizeAspect
-    }
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        reload()
+        imageView?.aspect = .resizeAspect
     }
     
     func update(with url: URL) {
@@ -30,10 +23,11 @@ class ImageDetailedViewController: PlatformViewController {
     }
     
     func reload() {
-        guard let url else {
+        guard let url,
+              let data = try? Data(contentsOf: url) else {
             return
         }
         
-        imageView?.layer?.contents = PlatformImage(contentsOf: url)
+        imageView?.image = PlatformImage(data: data)
     }
 }

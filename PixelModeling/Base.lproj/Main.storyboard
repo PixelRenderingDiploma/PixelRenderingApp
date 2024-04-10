@@ -1308,7 +1308,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o5l-Uh-seV">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o5l-Uh-seV" customClass="ImageAspectView" customModule="PixelModeling" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="DNU-3c-qtw"/>
                             </imageView>
@@ -1321,7 +1321,7 @@ Gw
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="o5l-Uh-seV" id="4WK-IQ-fpW"/>
+                        <outlet property="imageView" destination="o5l-Uh-seV" id="D1k-u4-ttK"/>
                     </connections>
                 </viewController>
                 <customObject id="vEf-LC-VYH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
