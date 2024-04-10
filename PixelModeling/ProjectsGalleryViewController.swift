@@ -15,6 +15,8 @@ class ProjectsGalleryViewController: NSViewController {
     @Service private var storageManager: StorageManagerProtocol
     @Service private var syncService: SyncService
     
+    private let contentPreviewLoader = ContentPreviewLoader()
+    
     private var items: [UUID] = []
     private lazy var operationQueue: OperationQueue = {
         let opQueue = OperationQueue()
@@ -81,47 +83,39 @@ extension ProjectsGalleryViewController: NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
         
-        if let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem, indexPath.item < items.count {
-            galleryViewItem.delegate = self
-            
-            let id = items[indexPath.item]
-            
-            guard let item = storageManager.get(with: id) else {
-                galleryViewItem.update(with: id)
-                return viewItem
-            }
-            
-            galleryViewItem.update(with: item)
-            
-            Task {
-                if let status = try? await syncService.syncStatus(for: item) {
-                    galleryViewItem.update(with: status)
+        guard let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem, indexPath.item < items.count else {
+            return viewItem
+        }
+        
+        galleryViewItem.delegate = self
+        
+        let id = items[indexPath.item]
+        
+        guard let item = storageManager.get(with: id) else {
+            galleryViewItem.update(with: id)
+            return viewItem
+        }
+        
+        galleryViewItem.update(with: item)
+        
+        Task {
+            let status = try? await syncService.syncStatus(for: item)
+            status.map { galleryViewItem.update(with: $0) }
+        }
+        
+        var isStale = false
+        guard let url = try? URL(resolvingBookmarkData: item.bookmark, bookmarkDataIsStale: &isStale) else {
+            return viewItem
+        }
+        
+        self.contentPreviewLoader.loadPreview(for: url) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    galleryViewItem.update(with: image)
                 }
-            }
-            
-            operationQueue.addOperation {
-                var isStale = false
-                guard let url = try? URL(resolvingBookmarkData: item.bookmark, bookmarkDataIsStale: &isStale) else {
-                    return
-                }
-                
-                guard let data = try? Data(contentsOf: url) else {
-                    return
-                }
-                
-                let scneneSource = GLTFSceneSource(data: data)
-                
-                do {
-                    let scene = try scneneSource.scene(options: nil)
-                    
-                    let image = SCNPreviewGenerator.thumbnail(for: scene, size: CGSize(width: 512, height: 512))
-                    
-                    DispatchQueue.main.async {
-                        galleryViewItem.update(with: image)
-                    }
-                } catch {
-                    print(error)
-                }
+            default:
+                break
             }
         }
         
@@ -194,7 +188,26 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
                     }
                 }
             case .cloudContent:
-                try? await syncService.syncProject(with: id)
+                guard let content = try? await syncService.syncProject(with: id) else {
+                    break
+                }
+                
+                // Wait until all new content loaded
+                for (_, names) in content {
+                    for name in names {
+                        guard let idContentString = name.split(separator: ".").first,
+                              let idContent = UUID(uuidString: String(idContentString)),
+                              let updates = syncService.dataTransfer.updates(for: idContent) else {
+                            continue
+                        }
+                        
+                        for await _ in updates {}
+                    }
+                }
+                
+                if let idx = items.firstIndex(of: id) {
+                    self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+                }
             case .syncing, .synced:
                 break
             }

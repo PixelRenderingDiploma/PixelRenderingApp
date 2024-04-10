@@ -78,7 +78,7 @@ class SyncService {
     }
     
     // Download missing/new images/videos
-    func syncProject(with id: UUID) async throws {
+    func syncProject(with id: UUID) async throws -> [String: Set<String>]{
         guard let webApi else {
             throw SyncError.unauthorizedRequest
         }
@@ -106,6 +106,8 @@ class SyncService {
                 dataTransfer.add(session: session)
             }
         }
+        
+        return content
     }
     
     /// Return missing content for project

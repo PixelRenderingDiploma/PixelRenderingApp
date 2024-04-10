@@ -392,7 +392,7 @@ class TabBarViewController: NSViewController {
                         viewController = galleryViewController
                     } else if let type = UTType(filenameExtension: url.pathExtension) {
                         // It is a file URL of appropriate type.
-                        if type == .glb, let id = UUID(uuidString: node.identifier) {
+                        if type.conforms(to: .threeDContent), let id = UUID(uuidString: node.identifier) {
                             threeDModelDetailedViewController?.update(with: storageManager.get(with: id))
                             threeDModelDetailedViewController?.reload()
                             viewController = threeDModelDetailedViewController

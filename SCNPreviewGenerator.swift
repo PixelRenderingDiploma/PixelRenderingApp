@@ -8,6 +8,10 @@
 import SceneKit
 
 enum SCNPreviewGenerator {
+    enum Error: Swift.Error {
+        case deviceIsNotCreated
+    }
+    
     private static let device = MTLCreateSystemDefaultDevice()
     
     static func thumbnail(for scene: SCNScene, size: CGSize, time: TimeInterval = 0) async -> PlatformImage? {
@@ -30,8 +34,8 @@ enum SCNPreviewGenerator {
         return renderer.snapshot(atTime: time, with: size, antialiasingMode: .multisampling4X)
     }
     
-    static func thumbnail(for scene: SCNScene, size: CGSize, time: TimeInterval = 0) -> PlatformImage? {
-        guard let device else { return nil }
+    static func thumbnail(for scene: SCNScene, size: CGSize, time: TimeInterval = 0) throws -> PlatformImage {
+        guard let device else { throw Error.deviceIsNotCreated }
         
         let renderer = SCNRenderer(device: device, options: [:])
         renderer.autoenablesDefaultLighting = true

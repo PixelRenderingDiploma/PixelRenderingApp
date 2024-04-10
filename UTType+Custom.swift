@@ -9,7 +9,7 @@ import UniformTypeIdentifiers
 
 extension UTType {
     static var glb: UTType {
-        UTType(filenameExtension: "glb") ?? UTType(mimeType: "model/gltf-binary", conformingTo: .threeDContent) ?? UTType(importedAs: "com.hlebushek.glb")
+        UTType(importedAs: "com.hlebushek.glb")
     }
     
     static var obj: UTType {

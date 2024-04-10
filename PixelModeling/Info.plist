@@ -2,6 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>0</integer>
+			<key>CFBundleTypeName</key>
+			<string></string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hlebushek.glb</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>NSDocument</string>
+		</dict>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -34,12 +53,20 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
+				<string>public.data</string>
 				<string>public.3d-content</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>GLTF model</string>
 			<key>UTTypeIcons</key>
-			<dict/>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string></string>
+				<key>UTTypeIconBadgeName</key>
+				<string>Icon</string>
+				<key>UTTypeIconText</key>
+				<string>GLB</string>
+			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.hlebushek.glb</string>
 			<key>UTTypeTagSpecification</key>
@@ -47,12 +74,9 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>glb</string>
-					<string>gltf</string>
 				</array>
 				<key>public.mime-type</key>
-				<array>
-					<string>model/gltf-binary</string>
-				</array>
+				<array/>
 			</dict>
 		</dict>
 	</array>
