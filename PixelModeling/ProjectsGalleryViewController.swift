@@ -81,42 +81,27 @@ extension ProjectsGalleryViewController: NSCollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        let id = items[indexPath.item]
         let viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
         
-        guard let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem, indexPath.item < items.count else {
+        guard let galleryViewItem = viewItem as? ProjectsGalleryCollectionViewItem,
+              let folderManager = ProjectFolderManager(with: id),
+              let item = storageManager.get(with: id),
+              indexPath.item < items.count else {
             return viewItem
         }
+        
+        let viewModel = ProjectsGalleryItemViewModel(
+            with: folderManager,
+            overridedModelURL: item.url,
+            contentLoader: contentPreviewLoader)
         
         galleryViewItem.delegate = self
-        
-        let id = items[indexPath.item]
-        
-        guard let item = storageManager.get(with: id) else {
-            galleryViewItem.update(with: id)
-            return viewItem
-        }
-        
-        galleryViewItem.update(with: item)
+        galleryViewItem.update(with: viewModel)
         
         Task {
             let status = try? await syncService.syncStatus(for: item)
             status.map { galleryViewItem.update(with: $0) }
-        }
-        
-        var isStale = false
-        guard let url = try? URL(resolvingBookmarkData: item.bookmark, bookmarkDataIsStale: &isStale) else {
-            return viewItem
-        }
-        
-        self.contentPreviewLoader.loadPreview(for: url) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    galleryViewItem.update(with: image)
-                }
-            default:
-                break
-            }
         }
         
         return viewItem

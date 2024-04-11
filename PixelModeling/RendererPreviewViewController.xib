@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="RendererPreviewViewController" customModule="PixelModeling" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="PO4-c4-9nf" id="aDR-jQ-OX6"/>
                 <outlet property="playerView" destination="GEF-0d-vax" id="ub0-SV-10U"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -21,12 +22,20 @@
                 <avPlayerView controlsStyle="none" videoGravity="resizeAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEF-0d-vax">
                     <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
                 </avPlayerView>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PO4-c4-9nf" customClass="ImageAspectView" customModule="PixelModeling" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="JuM-o5-6aN"/>
+                </imageView>
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="GEF-0d-vax" secondAttribute="trailing" id="89b-lc-6ra"/>
                 <constraint firstItem="GEF-0d-vax" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="GRg-2m-DHb"/>
                 <constraint firstItem="GEF-0d-vax" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="Gu9-ft-xPx"/>
                 <constraint firstAttribute="bottom" secondItem="GEF-0d-vax" secondAttribute="bottom" id="Ral-AQ-Nf7"/>
+                <constraint firstItem="PO4-c4-9nf" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ale-ss-E7t"/>
+                <constraint firstAttribute="trailing" secondItem="PO4-c4-9nf" secondAttribute="trailing" id="bw5-UH-zKN"/>
+                <constraint firstAttribute="bottom" secondItem="PO4-c4-9nf" secondAttribute="bottom" id="mD9-Zb-2Kt"/>
+                <constraint firstItem="PO4-c4-9nf" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="tS1-Tj-sFP"/>
             </constraints>
             <point key="canvasLocation" x="-82.5" y="96"/>
         </customView>

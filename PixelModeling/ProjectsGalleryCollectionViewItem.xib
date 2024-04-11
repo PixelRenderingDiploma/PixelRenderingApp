@@ -49,7 +49,7 @@
                                 <constraint firstItem="PjR-NP-JLV" firstAttribute="leading" secondItem="QCP-bz-ejC" secondAttribute="leading" id="vDe-0L-H13"/>
                             </constraints>
                         </customView>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="73L-jw-f5N">
+                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="73L-jw-f5N">
                             <rect key="frame" x="-2" y="0.0" width="37" height="16"/>
                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="tbB-NL-bGu">
                                 <font key="font" usesAppearanceFont="YES"/>

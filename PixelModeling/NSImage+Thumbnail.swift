@@ -10,16 +10,18 @@ import AppKit
 extension NSImage {
     func preparingThumbnail(maxWidth: CGFloat) -> NSImage? {
         let aspectRatio = size.width / size.height
-
-        let thumbSize = NSSize(width: maxWidth, height: maxWidth * aspectRatio)
+        let thumbSize = NSSize(width: maxWidth, height: maxWidth / aspectRatio)
 
         let outputImage = NSImage(size: thumbSize)
 
-        lockFocus()
+        outputImage.lockFocus()
+        
+        draw(in: NSRect(x: 0, y: 0, width: thumbSize.width, height: thumbSize.height),
+             from: NSRect(x: 0, y: 0, width: size.width, height: size.height),
+             operation: .copy,
+             fraction: 1.0)
 
-        draw(in: NSRect(x: 0, y: 0, width: thumbSize.width, height: thumbSize.height), from: .zero, operation: .sourceOver, fraction: 1)
-
-        unlockFocus()
+        outputImage.unlockFocus()
 
         return outputImage
     }

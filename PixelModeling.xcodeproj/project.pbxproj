@@ -55,7 +55,7 @@
 		BC473B732B68F01000C413A1 /* FileManager+Intermediate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B712B68F01000C413A1 /* FileManager+Intermediate.swift */; };
 		BC473B752B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B742B68FCE200C413A1 /* ProjectFolderManager.swift */; };
 		BC473B762B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B742B68FCE200C413A1 /* ProjectFolderManager.swift */; };
-		BC473B842B69050000C413A1 /* RendererPreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B832B69050000C413A1 /* RendererPreviewViewModel.swift */; };
+		BC473B842B69050000C413A1 /* ProjectsGalleryItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */; };
 		BC6AC1222B6A31E200AA8328 /* VideoDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6AC1212B6A31E200AA8328 /* VideoDetailedViewController.swift */; };
 		BC77CA9C2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */; };
 		BC77CA9D2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */; };
@@ -190,7 +190,7 @@
 		BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		BC473B712B68F01000C413A1 /* FileManager+Intermediate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Intermediate.swift"; sourceTree = "<group>"; };
 		BC473B742B68FCE200C413A1 /* ProjectFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectFolderManager.swift; sourceTree = "<group>"; };
-		BC473B832B69050000C413A1 /* RendererPreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererPreviewViewModel.swift; sourceTree = "<group>"; };
+		BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryItemViewModel.swift; sourceTree = "<group>"; };
 		BC6AC1212B6A31E200AA8328 /* VideoDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailedViewController.swift; sourceTree = "<group>"; };
 		BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Placeholder.swift"; sourceTree = "<group>"; };
 		BC77CA9E2BC54F2C00C2C0C4 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -411,6 +411,7 @@
 				BCBF6C7F2B6F32DC00ED97B1 /* DetailedViewController.swift */,
 				BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */,
 				BC9AFC322B66052E009170B0 /* ProjectsGalleryViewController.swift */,
+				BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */,
 				BC9AFC342B66079C009170B0 /* ProjectsGalleryCollectionViewItem.swift */,
 				BC9AFC352B66079C009170B0 /* ProjectsGalleryCollectionViewItem.xib */,
 				BC1F60022B84733C002050C7 /* FolderGalleryViewController.swift */,
@@ -420,7 +421,6 @@
 				BC1F5FFF2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib */,
 				BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */,
 				BC0F44F12B67395800C41584 /* ThreeDModelView.swift */,
-				BC473B832B69050000C413A1 /* RendererPreviewViewModel.swift */,
 				BC473B6A2B68C79500C413A1 /* RendererPreviewViewController.swift */,
 				BC473B6B2B68C79500C413A1 /* RendererPreviewViewController.xib */,
 				BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */,
@@ -579,7 +579,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCBAE4D12B6A57D00095E92D /* MainSplitViewController.swift in Sources */,
-				BC473B842B69050000C413A1 /* RendererPreviewViewModel.swift in Sources */,
+				BC473B842B69050000C413A1 /* ProjectsGalleryItemViewModel.swift in Sources */,
 				BC3C96A32BBFE0010009A83C /* RenderingSettingsInfoPopoverViewController.swift in Sources */,
 				BC1D5BF22BC24FDA00CD66BA /* DownloadingSession.swift in Sources */,
 				BC87CB3E2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,

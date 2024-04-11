@@ -20,10 +20,6 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
         static let reuseIdentifier = NSUserInterfaceItemIdentifier("ProjectsGalleryCollectionViewItem")
     }
     
-    weak var delegate: ProjectsGalleryCollectionViewItemDelegate?
-    
-    private var renderedPreviewViewController: RendererPreviewViewController?
-    
     @IBOutlet weak var renderedContentView: NSView?
     
     @IBOutlet weak var previewImageView: NSImageView?
@@ -32,7 +28,10 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     @IBOutlet weak var syncStatusButton: NSButton?
     @IBOutlet weak var optionsButton: NSButton?
     
-    private var folderManager: ProjectFolderManager?
+    weak var delegate: ProjectsGalleryCollectionViewItemDelegate?
+    var viewModel: ProjectsGalleryItemViewModel?
+    
+    private var renderedPreviewViewController: RendererPreviewViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +42,23 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     func reloadRenderedContentPreview() {
         renderedPreviewViewController?.view.removeFromSuperview()
         
-        guard let folderManager else {
+        guard let viewModel else {
             return
         }
         
-        let viewModel = RendererPreviewViewModel(with: folderManager)
+        nameLabel?.stringValue = viewModel.title
+        viewModel.loadModelPreview { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success(let image):
+                    self?.previewImageView?.image = image
+                case .failure:
+                    let warning = NSImage(systemSymbolName: "exclamationmark.triangle", accessibilityDescription: nil)
+                    self?.previewImageView?.image = warning
+                }
+            }
+        }
+        
         let viewController = RendererPreviewViewController(with: viewModel)
         renderedPreviewViewController = viewController
         renderedContentView?.addSubview(viewController.view)
@@ -59,20 +70,9 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
         viewController.view.addGestureRecognizer(videoTapGesutre)
     }
     
-    func update(with item: StorageItem) {
-        self.nameLabel?.stringValue = item.name
-        
-        update(with: item.id)
-    }
-    
-    func update(with id: UUID) {
-        self.folderManager = ProjectFolderManager(with: id)
-        
-        reloadRenderedContentPreview()
-    }
-    
-    func update(with image: PlatformImage?) {
-        self.previewImageView?.image = image
+    func update(with viewModel: ProjectsGalleryItemViewModel) {
+        self.viewModel = viewModel
+        self.reloadRenderedContentPreview()
     }
     
     func update(with status: SyncStatus) {
@@ -89,8 +89,7 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     }
     
     @IBAction func syncButtonAction(_ sender: Any) {
-        guard let id = folderManager?.id else { return }
-        delegate?.didUserSyncProject(with: id)
+        viewModel.map { delegate?.didUserSyncProject(with: $0.id) }
     }
     
     @IBAction func onOptionsButtonAction(_ sender: Any) {
@@ -107,13 +106,12 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     @objc
     private func didSelectRequestRenderItem(_ sender: Any) {
-        guard let id = folderManager?.id else { return }
-        delegate?.didUserRequestRenderItem(with: id)
+        viewModel.map { delegate?.didUserRequestRenderItem(with: $0.id) }
     }
     
     @objc
     private func didSelectDeleteItem(_ sender: Any) {
-        guard let id = folderManager?.id else { return }
+        guard let id = viewModel?.id else { return }
         
         let alert = NSAlert()
         alert.messageText = "Delete Project"
@@ -149,7 +147,6 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     @objc
     private func didSelectVideoItem(_ sender: Any) {
-        guard let id = folderManager?.id else { return }
-        delegate?.didUserSelectVideo(with: id)
+        viewModel.map { delegate?.didUserSelectVideo(with: $0.id) }
     }
 }
