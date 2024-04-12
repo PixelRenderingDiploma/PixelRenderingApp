@@ -11,10 +11,7 @@ import Combine
 
 class RendererPreviewViewController: NSViewController, NibLoadable {
     @IBOutlet weak var imageView: ImageAspectView?
-    @IBOutlet weak var playerView: AVPlayerView?
-    
-    var queuePlayer: AVQueuePlayer?
-    var playerLooper: AVPlayerLooper?
+    @IBOutlet weak var playerView: PreviewPlayerView?
     
     weak var viewModel: ProjectsGalleryItemViewModel?
     
@@ -32,15 +29,12 @@ class RendererPreviewViewController: NSViewController, NibLoadable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let trackingArea = NSTrackingArea(rect: playerView?.bounds ?? .zero, options: [.mouseEnteredAndExited, .activeInActiveApp], owner: self, userInfo: nil)
-        playerView?.addTrackingArea(trackingArea)
-        
         imageView?.aspect = .resizeAspectFill
-        imageView?.clipsToBounds = true
         reload()
     }
     
     func reload() {
+        subscriptions.removeAll()
         showView(for: .image)
         
         viewModel?.loadContentPreview { [weak self] result in
@@ -58,29 +52,18 @@ class RendererPreviewViewController: NSViewController, NibLoadable {
                 }
             }
         }
-    }
-    
-    func startVideo() {
-        guard let url = viewModel?.getVideoURL() else {
-            return
-        }
         
-        let playerItem = AVPlayerItem(url: url)
-        let queuePlayer = AVQueuePlayer(playerItem: playerItem)
-        self.queuePlayer = queuePlayer
-        self.playerLooper = AVPlayerLooper(player: queuePlayer, templateItem: playerItem)
-        
-        self.playerView?.player = queuePlayer
-        
-        playerItem.publisher(for: \.status)
+        viewModel?.getVideoURL().map { playerView?.update(with: $0) }
+        playerView?.player?.publisher(for: \.timeControlStatus)
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
                 guard let self else { return }
                 switch status {
-                case .readyToPlay:
-                    self.queuePlayer?.play()
-                    self.showView(for: .video)
+                case .playing:
+                    showView(for: .video)
+                case .paused:
+                    showView(for: .image)
                 default:
                     break
                 }
@@ -88,30 +71,10 @@ class RendererPreviewViewController: NSViewController, NibLoadable {
             .store(in: &subscriptions)
     }
     
-    func stopVideo() {
-        showView(for: .image)
-        
-        self.subscriptions.removeAll()
-        self.queuePlayer?.removeAllItems()
-        self.playerLooper = nil
-        self.playerView?.player = nil
-        self.queuePlayer = nil
-    }
-    
     private func showView(for type: UTType) {
         let isVideo = type.conforms(to: .mpeg4Movie) || type.conforms(to: .video)
         
         imageView?.isHidden = isVideo
         playerView?.alphaValue = isVideo ? 1 : 0
-    }
-    
-    override func mouseEntered(with event: NSEvent) {
-        super.mouseEntered(with: event)
-        startVideo()
-    }
-    
-    override func mouseExited(with event: NSEvent) {
-        super.mouseExited(with: event)
-        stopVideo()
     }
 }

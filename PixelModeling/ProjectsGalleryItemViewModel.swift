@@ -8,9 +8,9 @@
 import Foundation
 
 class ProjectsGalleryItemViewModel {
-    private var contentLoader: ContentPreviewLoader
-    private var folderManager: ProjectFolderManager
-    private var overridedModelURL: URL?
+    private let contentLoader: ContentPreviewLoader
+    private let folderManager: ProjectFolderManager
+    private let overridedModelURL: URL?
     
     init(with folderManager: ProjectFolderManager, overridedModelURL: URL?, contentLoader: ContentPreviewLoader) {
         self.folderManager = folderManager

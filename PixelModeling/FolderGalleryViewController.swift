@@ -11,6 +11,8 @@ import UniformTypeIdentifiers
 class FolderGalleryViewController: NSViewController {
     @IBOutlet weak var collectionView: NSCollectionView?
     
+    private let contentPreviewLoader = ContentPreviewLoader()
+    
     var url: URL? {
         didSet {
             guard let url,
@@ -48,12 +50,13 @@ extension FolderGalleryViewController: NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let url = items[indexPath.item]
         let type = UTType(filenameExtension: url.pathExtension)
+        let viewModel = FolderGalleryItemViewModel(with: url, contentLoader: contentPreviewLoader)
         
         let viewItem: NSCollectionViewItem?
         
         if let type, type.conforms(to: .mpeg4Movie) {
             viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryVideoCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
-            (viewItem as? ProjectsGalleryVideoCollectionViewItem)?.update(with: url)
+            (viewItem as? ProjectsGalleryVideoCollectionViewItem)?.update(with: viewModel)
         } else if let type, type.conforms(to: .image) {
             viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryImageCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
             (viewItem as? ProjectsGalleryImageCollectionViewItem)?.update(with: url)

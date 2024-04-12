@@ -16,6 +16,8 @@ class ProjectsGalleryImageCollectionViewItem: NSCollectionViewItem {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        (self.imageView as? ImageAspectView)?.aspect = .resizeAspectFill
         reload()
     }
     
@@ -30,6 +32,7 @@ class ProjectsGalleryImageCollectionViewItem: NSCollectionViewItem {
         }
         
         self.imageView?.image = PlatformImage(contentsOfFile: url.path())
+        self.textField?.stringValue = url.lastPathComponent
+        self.textField?.toolTip = url.lastPathComponent
     }
-    
 }

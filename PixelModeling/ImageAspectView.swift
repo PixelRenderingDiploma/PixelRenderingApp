@@ -10,7 +10,7 @@ import AppKit
 class ImageAspectView: NSImageView {
     var aspect: CALayerContentsGravity = .resize {
         didSet {
-            self.layer?.contentsGravity = aspect
+            imageLayer.contentsGravity = aspect
         }
     }
     
@@ -20,6 +20,8 @@ class ImageAspectView: NSImageView {
         self.wantsLayer = true
         self.layer = imageLayer
         self.layer?.contentsGravity = aspect
+        self.wantsLayer = true
+        self.clipsToBounds = true
     }
     
     override init(frame frameRect: NSRect) {

@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <avPlayerView controlsStyle="none" videoGravity="resizeAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEF-0d-vax">
+                <avPlayerView controlsStyle="none" videoGravity="resizeAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEF-0d-vax" customClass="PreviewPlayerView" customModule="PixelModeling" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="127" height="94"/>
                 </avPlayerView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PO4-c4-9nf" customClass="ImageAspectView" customModule="PixelModeling" customModuleProvider="target">
