@@ -1,5 +1,5 @@
 //
-//  ProjectsGalleryImageCollectionViewItem.swift
+//  FolderGalleryImageCollectionViewItem.swift
 //  PixelModeling
 //
 //  Created by Hlib Sobolevskyi on 2024-02-19.
@@ -7,9 +7,9 @@
 
 import Cocoa
 
-class ProjectsGalleryImageCollectionViewItem: NSCollectionViewItem {
+class FolderGalleryImageCollectionViewItem: NSCollectionViewItem {
     enum Constants {
-        static let reuseIdentifier = NSUserInterfaceItemIdentifier("ProjectsGalleryImageCollectionViewItem")
+        static let reuseIdentifier = NSUserInterfaceItemIdentifier("FolderGalleryImageCollectionViewItem")
     }
     
     private var url: URL?

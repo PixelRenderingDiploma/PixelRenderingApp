@@ -5,7 +5,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ProjectsGalleryImageCollectionViewItem" customModule="PixelModeling" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="FolderGalleryImageCollectionViewItem" customModule="PixelModeling" customModuleProvider="target">
             <connections>
                 <outlet property="imageView" destination="zzp-KX-dww" id="wZy-0i-xXG"/>
                 <outlet property="textField" destination="t1Y-zC-sAl" id="GPe-4F-j69"/>

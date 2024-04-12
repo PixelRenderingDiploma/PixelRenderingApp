@@ -25,10 +25,10 @@
 		BC1D5BF92BC2534200CD66BA /* UntilProcessingCompleteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */; };
 		BC1D5BFB2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */; };
 		BC1D5BFC2BC253C100CD66BA /* CombineAsyncPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */; };
-		BC1F5FFC2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFA2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift */; };
-		BC1F5FFD2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC1F5FFB2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib */; };
-		BC1F60002B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFE2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift */; };
-		BC1F60012B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC1F5FFF2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib */; };
+		BC1F5FFC2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFA2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.swift */; };
+		BC1F5FFD2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC1F5FFB2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.xib */; };
+		BC1F60002B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F5FFE2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.swift */; };
+		BC1F60012B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC1F5FFF2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.xib */; };
 		BC1F60032B84733C002050C7 /* FolderGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F60022B84733C002050C7 /* FolderGalleryViewController.swift */; };
 		BC1F60052B849B39002050C7 /* ThreeDModelCreatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F60042B849B39002050C7 /* ThreeDModelCreatingViewController.swift */; };
 		BC1F60072B849D68002050C7 /* ThreeDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F60062B849D68002050C7 /* ThreeDModel.swift */; };
@@ -171,10 +171,10 @@
 		BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferOperation.swift; sourceTree = "<group>"; };
 		BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UntilProcessingCompleteFilter.swift; sourceTree = "<group>"; };
 		BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineAsyncPublisher.swift; sourceTree = "<group>"; };
-		BC1F5FFA2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryVideoCollectionViewItem.swift; sourceTree = "<group>"; };
-		BC1F5FFB2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectsGalleryVideoCollectionViewItem.xib; sourceTree = "<group>"; };
-		BC1F5FFE2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryImageCollectionViewItem.swift; sourceTree = "<group>"; };
-		BC1F5FFF2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectsGalleryImageCollectionViewItem.xib; sourceTree = "<group>"; };
+		BC1F5FFA2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGalleryVideoCollectionViewItem.swift; sourceTree = "<group>"; };
+		BC1F5FFB2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolderGalleryVideoCollectionViewItem.xib; sourceTree = "<group>"; };
+		BC1F5FFE2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGalleryImageCollectionViewItem.swift; sourceTree = "<group>"; };
+		BC1F5FFF2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolderGalleryImageCollectionViewItem.xib; sourceTree = "<group>"; };
 		BC1F60022B84733C002050C7 /* FolderGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGalleryViewController.swift; sourceTree = "<group>"; };
 		BC1F60042B849B39002050C7 /* ThreeDModelCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModelCreatingViewController.swift; sourceTree = "<group>"; };
 		BC1F60062B849D68002050C7 /* ThreeDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModel.swift; sourceTree = "<group>"; };
@@ -420,10 +420,10 @@
 				BC9AFC352B66079C009170B0 /* ProjectsGalleryCollectionViewItem.xib */,
 				BC1F60022B84733C002050C7 /* FolderGalleryViewController.swift */,
 				BC521A922BC8F63700578E99 /* FolderGalleryItemViewModel.swift */,
-				BC1F5FFA2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift */,
-				BC1F5FFB2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib */,
-				BC1F5FFE2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift */,
-				BC1F5FFF2B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib */,
+				BC1F5FFA2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.swift */,
+				BC1F5FFB2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.xib */,
+				BC1F5FFE2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.swift */,
+				BC1F5FFF2B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.xib */,
 				BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */,
 				BC0F44F12B67395800C41584 /* ThreeDModelView.swift */,
 				BC473B6A2B68C79500C413A1 /* RendererPreviewViewController.swift */,
@@ -553,9 +553,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F5FFD2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.xib in Resources */,
+				BC1F5FFD2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.xib in Resources */,
 				BC1F600E2B84AC59002050C7 /* Cube.csv in Resources */,
-				BC1F60012B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.xib in Resources */,
+				BC1F60012B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.xib in Resources */,
 				BC3C96A42BBFE0010009A83C /* RenderingSettingsInfoPopoverViewController.xib in Resources */,
 				BCD19AA92B4E70F1004DCC48 /* Assets.xcassets in Resources */,
 				BCBAE4DF2B6CBB4B0095E92D /* Localizable.xcstrings in Resources */,
@@ -606,7 +606,7 @@
 				BC0F44E32B6718C400C41584 /* ThreeDModelDetailedViewController.swift in Sources */,
 				BC7CB3A32B5390D50086D31C /* Primitive.swift in Sources */,
 				BC1D5BF52BC2530F00CD66BA /* DataTransferOperation.swift in Sources */,
-				BC1F5FFC2B846CE4002050C7 /* ProjectsGalleryVideoCollectionViewItem.swift in Sources */,
+				BC1F5FFC2B846CE4002050C7 /* FolderGalleryVideoCollectionViewItem.swift in Sources */,
 				BC1D5BE62BC224B800CD66BA /* DataTransferService.swift in Sources */,
 				BC0F44F22B67395800C41584 /* ThreeDModelView.swift in Sources */,
 				BC1F60052B849B39002050C7 /* ThreeDModelCreatingViewController.swift in Sources */,
@@ -621,7 +621,7 @@
 				BC7CB39A2B537AC30086D31C /* SceneNode.swift in Sources */,
 				BC7CB3B22B539BBE0086D31C /* Graphics.swift in Sources */,
 				BCBF6C7D2B6F215500ED97B1 /* UTType+Custom.swift in Sources */,
-				BC1F60002B846CFE002050C7 /* ProjectsGalleryImageCollectionViewItem.swift in Sources */,
+				BC1F60002B846CFE002050C7 /* FolderGalleryImageCollectionViewItem.swift in Sources */,
 				BC1F60032B84733C002050C7 /* FolderGalleryViewController.swift in Sources */,
 				BCE39F522BC677D200055D0D /* ImageAspectView.swift in Sources */,
 				BC1D5BEC2BC2422F00CD66BA /* AsyncOperation.swift in Sources */,

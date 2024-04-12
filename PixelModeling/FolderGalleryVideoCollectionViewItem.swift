@@ -1,5 +1,5 @@
 //
-//  ProjectsGalleryVideoCollectionViewItem.swift
+//  FolderGalleryVideoCollectionViewItem.swift
 //  PixelModeling
 //
 //  Created by Hlib Sobolevskyi on 2024-02-19.
@@ -9,9 +9,9 @@ import Cocoa
 import AVKit
 import Combine
 
-class ProjectsGalleryVideoCollectionViewItem: NSCollectionViewItem {
+class FolderGalleryVideoCollectionViewItem: NSCollectionViewItem {
     enum Constants {
-        static let reuseIdentifier = NSUserInterfaceItemIdentifier("ProjectsGalleryVideoCollectionViewItem")
+        static let reuseIdentifier = NSUserInterfaceItemIdentifier("FolderGalleryVideoCollectionViewItem")
     }
     
     @IBOutlet weak var playerView: PreviewPlayerView?

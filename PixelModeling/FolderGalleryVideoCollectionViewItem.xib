@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ProjectsGalleryVideoCollectionViewItem" customModule="PixelModeling" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="FolderGalleryVideoCollectionViewItem" customModule="PixelModeling" customModuleProvider="target">
             <connections>
                 <outlet property="imageView" destination="nOR-jZ-ldy" id="q25-2Q-LeW"/>
                 <outlet property="playerView" destination="pay-hz-bdo" id="9jK-kB-6Se"/>

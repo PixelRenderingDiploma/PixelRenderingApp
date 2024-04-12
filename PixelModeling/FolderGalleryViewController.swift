@@ -33,8 +33,8 @@ class FolderGalleryViewController: NSViewController {
         collectionView?.isSelectable = true
         collectionView?.allowsMultipleSelection = false
         
-        collectionView?.register(ProjectsGalleryImageCollectionViewItem.self, forItemWithIdentifier: ProjectsGalleryImageCollectionViewItem.Constants.reuseIdentifier)
-        collectionView?.register(ProjectsGalleryVideoCollectionViewItem.self, forItemWithIdentifier: ProjectsGalleryVideoCollectionViewItem.Constants.reuseIdentifier)
+        collectionView?.register(FolderGalleryImageCollectionViewItem.self, forItemWithIdentifier: FolderGalleryImageCollectionViewItem.Constants.reuseIdentifier)
+        collectionView?.register(FolderGalleryVideoCollectionViewItem.self, forItemWithIdentifier: FolderGalleryVideoCollectionViewItem.Constants.reuseIdentifier)
     }
 }
 
@@ -55,11 +55,11 @@ extension FolderGalleryViewController: NSCollectionViewDataSource {
         let viewItem: NSCollectionViewItem?
         
         if let type, type.conforms(to: .mpeg4Movie) {
-            viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryVideoCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
-            (viewItem as? ProjectsGalleryVideoCollectionViewItem)?.update(with: viewModel)
+            viewItem = collectionView.makeItem(withIdentifier: FolderGalleryVideoCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
+            (viewItem as? FolderGalleryVideoCollectionViewItem)?.update(with: viewModel)
         } else if let type, type.conforms(to: .image) {
-            viewItem = collectionView.makeItem(withIdentifier: ProjectsGalleryImageCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
-            (viewItem as? ProjectsGalleryImageCollectionViewItem)?.update(with: url)
+            viewItem = collectionView.makeItem(withIdentifier: FolderGalleryImageCollectionViewItem.Constants.reuseIdentifier, for: indexPath)
+            (viewItem as? FolderGalleryImageCollectionViewItem)?.update(with: url)
         } else {
             viewItem = nil
         }
