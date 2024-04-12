@@ -1129,19 +1129,6 @@ Gw
             </objects>
             <point key="canvasLocation" x="-158" y="1120"/>
         </scene>
-        <!--ThreeD Model Creating View Controller-->
-        <scene sceneID="aQ6-Td-7HO">
-            <objects>
-                <viewController id="pFT-Hz-LRV" customClass="ThreeDModelCreatingViewController" customModule="PixelModeling" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="xNN-jv-daY">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="llM-I7-RA1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-731" y="1550"/>
-        </scene>
         <!--Rendering View Controller-->
         <scene sceneID="uhe-pB-usR">
             <objects>
@@ -1153,7 +1140,7 @@ Gw
                 </viewController>
                 <customObject id="HNo-fU-DuH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-731" y="1923"/>
+            <point key="canvasLocation" x="-736" y="1550"/>
         </scene>
         <!--Folder Gallery View Controller-->
         <scene sceneID="aMw-Sp-o9v">
