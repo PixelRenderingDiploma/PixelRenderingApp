@@ -21,7 +21,7 @@ class DataTransferService {
         operationUpdates[session.id] = session.outputUpdates
         operationQueue.addOperation(op)
         
-        let outputs = UntilProcessingCompleteFilter(input: session.outputUpdates)
+        let outputs = updates(for: session.id)!
         
         Task { [weak self] in
             for await output in outputs {
@@ -44,6 +44,13 @@ class DataTransferService {
             return nil
         }
         
-        return UntilProcessingCompleteFilter(input: operationUpdates)
+        return UntilProcessingCompleteFilter(input: operationUpdates) {
+            switch $0 {
+            case .requestCompleted, .requestError, .requestCancelled:
+                true
+            default:
+                false
+            }
+        }
     }
 }

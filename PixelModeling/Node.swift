@@ -14,6 +14,7 @@ enum NodeType: Int, Codable {
     case projectParagraph
     case document
     case separator
+    case process
     case unknown
 }
 
@@ -42,7 +43,7 @@ extension Node {
      use it to determine if the node needs a disclosure triangle.
      */
     @objc dynamic var isLeaf: Bool {
-        return type == .document || type == .separator
+        return type == .document || type == .separator || type == .process
     }
     
     var isURLNode: Bool {
@@ -66,9 +67,13 @@ extension Node {
     var nodeIcon: NSImage {
         var icon = NSImage()
         if let nodeURL = url {
-            if isRemote,
-               let cloudIcon = NSImage(systemSymbolName: "cloud", accessibilityDescription: nil) {
-                icon = cloudIcon
+            if isRemote {
+                if type == .process,
+                   let boltIcon = NSImage(systemSymbolName: "bolt.horizontal.icloud", accessibilityDescription: nil) {
+                    icon = boltIcon
+                } else if let cloudIcon = NSImage(systemSymbolName: "cloud", accessibilityDescription: nil) {
+                    icon = cloudIcon
+                }
             } else {
                 // If the node has a URL, use it to obtain its icon.
                 icon = nodeURL.icon

@@ -163,7 +163,7 @@ class WebApi {
     }
     
     @discardableResult
-    func notifyRendererQueue(json: Any, session: URLSession = .shared) async throws -> Bool {
+    func notifyRendererQueue(jsonData: Data, session: URLSession = .shared) async throws -> Bool {
         let apiEndpoint = "\(apiUrl)/RendererQueue?queue=debug"
         guard let url = URL(string: apiEndpoint) else {
             throw Error.invalidURL(stringURL: apiEndpoint)
@@ -173,7 +173,6 @@ class WebApi {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
         request.httpBody = jsonData
         
         let (_, response) = try await session.data(for: request)
@@ -198,18 +197,28 @@ class WebApi {
             "id": idString,
             "id_token": idToken,
             "id_model": idModelString,
-            "status": "queue",
+            "status": RenderingStatus.queue.rawValue,
             "settings": settingsJson
         ]
         
         return json
     }
     
-    func submitRendering(id: UUID, id_model: UUID, settings: RenderingSettings, session: URLSession = .shared) async throws {
-        let json = try getRendererPostJson(id: id, id_model: id_model, settings: settings)
-        let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+    func submitRequest(id: UUID, id_model: UUID, settings: RenderingSettings, session: URLSession = .shared) async throws {
+        guard let idToken = auth.idToken else {
+            throw Error.unauthorizedRequest
+        }
+        
+        let request = RenderingRequest(
+            id: id.uuidString.lowercased(),
+            id_token: idToken,
+            id_model: id_model.uuidString.lowercased(),
+            status: .queue,
+            settings: settings)
+        
+        let jsonData = try JSONEncoder().encode(request)
         
         try await putUserBlob(blobPath: "configs/requests/\(id.uuidString.lowercased()).json", data: jsonData, session: session)
-        try await notifyRendererQueue(json: json, session: session)
+        try await notifyRendererQueue(jsonData: jsonData, session: session)
     }
 }

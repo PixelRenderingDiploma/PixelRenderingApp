@@ -35,6 +35,7 @@ class SyncService {
     }
     
     let dataTransfer = DataTransferService()
+    let requestAggregator = DynamicUpdateAggregator<RemoteContentStatusLoader>(.empty)
     private(set) var webApi: WebApi?
     
     func authorize(_ auth: MSAuthState) {
@@ -147,6 +148,55 @@ class SyncService {
         ]
     }
     
+    //                                        Model  Subfolder   Request
+    func processingContent() async throws -> [UUID: [String: Set<String>]] {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        async let configPathsRequest = webApi.getUserFilesListInResources(blobPrefix: "configs/requests/")
+        async let imagePathsRequest = webApi.getUserFilesListInResources(blobPrefix: "renders/images/")
+        async let videoPathsRequest = webApi.getUserFilesListInResources(blobPrefix: "renders/videos/")
+        let (configPaths, imagePaths, videoPaths) = try await (configPathsRequest, imagePathsRequest, videoPathsRequest)
+        
+        let configIDs = Set(configPaths.compactMap { $0.deletingPathExtension().lastPathComponent })
+        let imageIDs = Set(imagePaths.compactMap { $0.deletingPathExtension().lastPathComponent })
+        let videoIDs = Set(videoPaths.compactMap { $0.deletingPathExtension().lastPathComponent })
+        
+        let processingIDs = configIDs.subtracting(imageIDs).subtracting(videoIDs)
+        
+        var result = [UUID: [String: Set<String>]]()
+        
+        try await withThrowingTaskGroup(of: RenderingRequest.self) { group in
+            for id in processingIDs {
+                group.addTask {
+                    let data = try await webApi.getUserBlob(blobPath: "configs/requests/\(id).json")
+                    let request = try JSONDecoder().decode(RenderingRequest.self, from: data)
+                    
+                    return request
+                }
+            }
+            
+            // TODO: add format based on request
+            for try await request in group {
+                guard let id = UUID(uuidString: request.id_model) else {
+                    continue
+                }
+                
+                if result[id] == nil { result[id] = ["images": [], "videos": []] }
+                
+                switch request.settings.type {
+                case .image:
+                    result[id]?["images"]?.insert(request.id + ".png")
+                case .video:
+                    result[id]?["videos"]?.insert(request.id + ".mp4")
+                }
+            }
+        }
+        
+        return result
+    }
+    
     func delete(project id: UUID) async throws {
         guard let webApi else {
             throw SyncError.unauthorizedRequest
@@ -214,5 +264,26 @@ class SyncService {
         
         let paths = try await webApi.getUserFilesListInResources(blobPrefix: "models/")
         return paths.compactMap { UUID(uuidString: $0.deletingPathExtension().lastPathComponent) }
+    }
+    
+    func startObservingRequest(with id: UUID) throws {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        let loader = RemoteContentStatusLoader(id: id, webApi: webApi)
+        loader.start()
+        requestAggregator.add(id, loader)
+    }
+    
+    func submit(model: UUID, settings: RenderingSettings) async throws {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        let id = UUID()
+        try await webApi.submitRequest(id: id, id_model: model, settings: settings)
+        
+        try startObservingRequest(with: id)
     }
 }

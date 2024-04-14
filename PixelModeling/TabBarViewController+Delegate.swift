@@ -56,6 +56,10 @@ extension TabBarViewController: MenuOutlineViewDelegate {
             view?.textField?.isEditable = node.canChange
             
             view?.textField?.textColor = node.isRemote ? .secondaryLabelColor : .labelColor
+            
+            if node.type == .process {
+                view?.imageView?.addSymbolEffect(.bounce, options: .repeating)
+            }
         }
 
         return view

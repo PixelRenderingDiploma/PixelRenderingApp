@@ -44,6 +44,19 @@ class TabBarViewController: NSViewController {
         
         storageManager.validate()
         
+        initializeViewControllers()
+        
+        outlineView?.registerForDraggedTypes([.fileURL])
+        outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProjects), name: .didUserLogIn, object: nil)
+        
+        Task {
+            try await observeProcessingContent()
+        }
+    }
+    
+    private func initializeViewControllers() {
         imageDetailedViewController = storyboard?.instantiateController(withIdentifier: "ImageDetailedViewController") as? ImageDetailedViewController
         imageDetailedViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -53,6 +66,7 @@ class TabBarViewController: NSViewController {
         threeDModelDetailedViewController = storyboard?.instantiateController(withIdentifier: "ThreeDModelDetailedViewController") as? ThreeDModelDetailedViewController
         threeDModelDetailedViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
+        // TODO: split galleries vc to separate xib, to load them with init parameters such as contentLoader
         folderViewController = storyboard?.instantiateController(withIdentifier: "FolderGalleryViewController") as? FolderGalleryViewController
         folderViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -61,74 +75,9 @@ class TabBarViewController: NSViewController {
         
         renderingViewController = storyboard?.instantiateController(withIdentifier: "RenderingViewController") as? RenderingViewController
         renderingViewController?.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        outlineView?.registerForDraggedTypes([.fileURL])
-        outlineView?.setDraggingSourceOperationMask([.copy], forLocal: false)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshProjects), name: .didUserLogIn, object: nil)
     }
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        refreshProjects()
-    }
-    
-    @objc
-    private func refreshProjects() {
-        Task {
-            guard let cloudIDs = try? await syncService.fetchCloudProjects() else {
-                return
-            }
-            
-            let local = storageManager.getAll()
-            let localIDs = Set(local.map { $0.id })
-            
-            let missingProjectIDs = Set(cloudIDs).subtracting(localIDs)
-            
-            // Create placeholders for missing projects
-            for id in missingProjectIDs {
-                guard let folderManager = ProjectFolderManager(with: id) else {
-                    continue
-                }
-                
-                FileManager.default.createFile(atPath: folderManager.defaultModelURL.path(), contents: nil)
-                guard let bookmark = try? folderManager.defaultModelURL.bookmarkData() else {
-                    continue
-                }
-                
-                let item = StorageItem(id: id, name: id.uuidString, bookmark: bookmark)
-                storageManager.insert(item)
-            }
-            
-            // Refresh content of all projects
-            for id in Set(cloudIDs).union(localIDs) {
-                guard let content = try? await syncService.missingContent(for: id, includePlaceholders: false),
-                      let folderManager = ProjectFolderManager(with: id) else {
-                    continue
-                }
-                
-                guard content.values.reduce(0, { $0 + $1.count }) > 0 else {
-                    continue
-                }
-                
-                for (paragraph, names) in content {
-                    for name in names {
-                        let url = folderManager.rootProjectFolder.appending(path: paragraph).appending(path: name)
-                        FileManager.default.createFile(atPath: url.path(), contents: nil)
-                    }
-                }
-                
-                if missingProjectIDs.contains(id) {
-                    addProjectNode(with: id)
-                } else {
-                    addMissingContent(for: id, with: content)
-                }
-            }
-            
-            self.galleryViewController?.reload()
-        }
-    }
+    // MARK: Import
     
     @IBAction func importModelAction(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -160,6 +109,116 @@ class TabBarViewController: NSViewController {
         
         addProjectNode(with: id)
     }
+    
+    // MARK: Projects building
+    
+    private func addProjectsGroup() {
+        // Add the Projects outline group section.
+        // Note that the system shares the nodeID and the expansion restoration ID.
+        
+        addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
+        
+        for project in ProjectFolderManager.getProjects() {
+            addProjectNode(with: project)
+        }
+        
+        treeController?.setSelectionIndexPath(nil) // Start back at the root level.
+    }
+    
+    func addProjectNode(with id: UUID) {
+        guard let project = ProjectFolderManager(with: id),
+              let indexPath = self.indexPathOfNode(matching: { node in
+                  node.identifier == Node.projectsID
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        self.treeController.setSelectionIndexPath(indexPath)
+        
+        let node = Node()
+        node.identifier = project.rootProjectFolder.lastPathComponent
+        node.url = project.rootProjectFolder
+        node.type = .project
+        
+        addNode(node)
+        
+        if let storageItem = storageManager.get(with: id),
+           let url = storageItem.url {
+            let modelNode = buildFileSystemNode(url)
+            addNode(modelNode)
+        }
+        
+        for paragraph in project.paragraphs {
+            let paragraphNode = buildFileSystemNode(paragraph)
+            paragraphNode.type = .projectParagraph
+            
+            addNode(paragraphNode)
+            selectParentFromSelection()
+        }
+        
+        selectParentFromSelection()
+    }
+    
+    func addMissing(content: [String: Set<String>], forProject id: UUID) {
+        guard let project = ProjectFolderManager(with: id),
+              let projectNode = self.findNode(matching: { node in
+                  node.identifier == id.uuidString.lowercased()
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        for (paragraph, names) in content {
+            if let node = self.findNode(matching: { node in
+                node.type == .projectParagraph && node.title == paragraph
+            }, in: projectNode.children ?? []) {
+                treeController.setSelectionIndexPath(node.indexPath)
+                
+                for name in names {
+                    let url = project.rootProjectFolder.appending(path: paragraph).appending(path: name)
+                    FileManager.default.createFile(atPath: url.path(), contents: nil)
+                    
+                    let childNode = buildFileSystemNode(url)
+                    addNode(childNode)
+                }
+            }
+        }
+    }
+    
+    func update(content: [String: Set<String>], forProject id: UUID) {
+        guard let projectNode = self.findNode(matching: { node in
+            node.identifier == id.uuidString.lowercased()
+        }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        for (paragraph, names) in content {
+            guard let paragraphNode = self.findNode(matching: { node in
+                node.type == .projectParagraph && node.title == paragraph
+            }, in: projectNode.children ?? []) else {
+                continue
+            }
+            
+            for name in names {
+                guard let itemIDSub = name.split(separator: ".").first,
+                      let itemID = UUID(uuidString: String(itemIDSub)),
+                      let itemNode = self.findNode(matching: { node in
+                    node.title == name
+                }, in: paragraphNode.children ?? []) else {
+                    continue
+                }
+                
+                Task { [weak self] in
+                    if let updates = self?.syncService.dataTransfer.updates(for: itemID) {
+                        for await _ in updates {}
+                    }
+                    
+                    self?.outlineView?.reloadItem(itemNode, reloadChildren: false)
+                }
+            }
+        }
+    }
+    
+    // MARK: Node building
     
     private func addGroupNode(_ folderName: String, identifier: String) {
         let node = Node()
@@ -234,56 +293,9 @@ class TabBarViewController: NSViewController {
         }
     }
     
-    private func addProjectsGroup() {
-        // Add the Projects outline group section.
-        // Note that the system shares the nodeID and the expansion restoration ID.
-        
-        addGroupNode(Node.NameConstants.projects, identifier: Node.projectsID)
-        
-        for project in ProjectFolderManager.getProjects() {
-            addProjectNode(with: project)
-        }
-        
-//        let separator = Node()
-//        separator.type = .separator
-//        addNode(separator)
-        
-        treeController?.setSelectionIndexPath(nil) // Start back at the root level.
-    }
+    // MARK: Process node
     
-    func addProjectNode(with id: UUID) {
-        guard let project = ProjectFolderManager(with: id),
-              let indexPath = self.indexPathOfNode(matching: { node in
-                  node.identifier == Node.projectsID
-              }, in: [self.treeController.arrangedObjects]) else {
-            return
-        }
-        
-        self.treeController.setSelectionIndexPath(indexPath)
-        
-        let node = Node()
-        node.identifier = project.rootProjectFolder.lastPathComponent
-        node.url = project.rootProjectFolder
-        node.type = .project
-        
-        if let storageItem = storageManager.get(with: id),
-           let url = storageItem.url {
-            let modelNode = Node()
-            modelNode.identifier = id.uuidString.lowercased()
-            modelNode.title = url.lastPathComponent
-            modelNode.url = url
-            modelNode.type = .document
-            
-            node.children.append(modelNode)
-        }
-        
-        addParagraphs(of: project, to: node)
-        
-        addNode(node)
-        selectParentFromSelection()
-    }
-    
-    func addMissingContent(for id: UUID, with content: [String: Set<String>]) {
+    func addProcessing(content: [String: Set<String>], forProject id: UUID) {
         guard let project = ProjectFolderManager(with: id),
               let projectNode = self.findNode(matching: { node in
                   node.identifier == id.uuidString.lowercased()
@@ -297,129 +309,129 @@ class TabBarViewController: NSViewController {
             }, in: projectNode.children ?? []) {
                 treeController.setSelectionIndexPath(node.indexPath)
                 for name in names {
-                    let childNode = buildFileSystemNode(project.rootProjectFolder.appending(path: paragraph).appending(path: name))
+                    let url = project.rootProjectFolder.appending(path: paragraph).appending(path: name)
+                    
+                    let childNode = Node()
+                    childNode.url = url
+                    childNode.identifier = url.lastPathComponent
+                    childNode.title = url.lastPathComponent
+                    childNode.type = .process
+                    
                     addNode(childNode)
-                }
-            }
-        }
-    }
-    
-    private func addParagraphs(of project: ProjectFolderManager, to parent: Node) {
-        for paragraph in project.paragraphs {
-            let node = buildFileSystemNode(paragraph)
-            node.identifier = project.rootProjectFolder.lastPathComponent + paragraph.lastPathComponent
-            node.type = .projectParagraph
-            
-            parent.children.append(node)
-        }
-    }
-    
-    private func buildFileSystemNode(_ url: URL) -> Node {
-        let node = Node()
-        node.url = url
-        node.identifier = url.lastPathComponent
-        node.title = url.lastPathComponent
-        
-        if url.isFolder {
-            node.type = .container
-            
-            let items = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [], options: .skipsHiddenFiles)) ?? []
-            for item in items {
-                let contentNode = buildFileSystemNode(item)
-                
-                if item.isFolder {
-                    contentNode.identifier = url.lastPathComponent + item.lastPathComponent
-                }
-                
-                node.children.append(contentNode)
-            }
-        } else {
-            node.type = .document
-        }
-        
-        return node
-    }
-    
-    private func addOtherGroup() {
-        // Add the Other outline group section.
-        // Note that the system shares the nodeID and the expansion restoration ID.
-        
-//        addGroupNode(OutlineViewController.NameConstants.places, identifier: OutlineViewController.placesID)
-//        
-//        // Add the Applications folder inside Places.
-//        let appsURLs = FileManager.default.urls(for: .applicationDirectory, in: .localDomainMask)
-//        addFileSystemObject(appsURLs[0], indexPath: IndexPath(indexes: [0, 0]))
-//        
-//        treeController.setSelectionIndexPath(nil) // Start back at the root level.
-    }
-    
-    private func populateOutlineContents() {
-        // Add the Places grouping and its content.
-        addProjectsGroup()
-        
-        // Add the Pictures grouping and its outline content.
-        addOtherGroup()
-    }
-    
-    // MARK: Detail View Management
-    
-    // Use this to decide which view controller to use as the detail.
-    func viewControllerForSelection(_ selection: [NSTreeNode]?) -> NSViewController? {
-        guard let outlineViewSelection = selection else { return nil }
-        
-        var viewController: NSViewController?
-        
-        switch outlineViewSelection.count {
-        case 0:
-            // No selection.
-            viewController = nil
-        case 1:
-            // A single selection.
-            if let node = TabBarViewController.node(from: selection?[0] as Any) {
-                if let url = node.url {
-                    // The node has a URL.
-                    if node.type == .project {
-                        // It is project folder.
-                        // TODO: think about presenting here item view on full size
-                        viewController = galleryViewController
-                    } else if node.type == .projectParagraph {
-                        // It is project images or videos folder.
-                        folderViewController?.url = node.url
-                        viewController = folderViewController
-                    } else if node.isDirectory {
-                        // It is a folder URL.
-                        viewController = galleryViewController
-                    } else if let type = UTType(filenameExtension: url.pathExtension) {
-                        // It is a file URL of appropriate type.
-                        if type.conforms(to: .threeDContent), let id = UUID(uuidString: node.identifier) {
-                            threeDModelDetailedViewController?.update(with: storageManager.get(with: id))
-                            threeDModelDetailedViewController?.reload()
-                            viewController = threeDModelDetailedViewController
-                        } else if type.conforms(to: .mpeg4Movie) {
-                            videoDetailedViewController?.update(with: url)
-                            videoDetailedViewController?.reload()
-                            viewController = videoDetailedViewController
-                        } else if type.conforms(to: .image) {
-                            imageDetailedViewController?.update(with: url)
-                            imageDetailedViewController?.reload()
-                            viewController = imageDetailedViewController
-                        }
+                    
+                    if let id = UUID(uuidString: url.deletingPathExtension().lastPathComponent) {
+                        try? syncService.startObservingRequest(with: id)
                     }
-                } else if node.type == .container {
-                    viewController = galleryViewController
-                } else {
-                    // The node doesn't have a URL.
-                    // TODO: currently handling testing rendering
-                    viewController = renderingViewController
                 }
             }
-        default:
-            // The selection is multiple or more than one.
-            viewController = nil
         }
-
-        return viewController
     }
+    
+    func didProcessed(content id: UUID, inProject projectID: UUID) {
+        guard let projectNode = self.findNode(matching: { node in
+                  node.identifier == projectID.uuidString.lowercased()
+              }, in: [self.treeController.arrangedObjects]) else {
+            return
+        }
+        
+        guard let contentNode = self.findNode(matching: { node in
+            node.identifier == id.uuidString.lowercased()
+        }, in: projectNode.children ?? []) else {
+            return
+        }
+        
+        didProcessed(contentNode)
+    }
+    
+    func didProcessed(_ treeNode: NSTreeNode) {
+        guard let node = treeNode.representedObject as? Node else {
+            return
+        }
+        
+        didProcessed(node)
+    }
+    
+    func didProcessed(_ node: Node) {
+        guard let url = node.url else {
+            return
+        }
+        
+        FileManager.default.createFile(atPath: url.path(), contents: nil)
+        node.type = .document
+    }
+    
+    // MARK: Sync related
+    
+    @objc
+    private func refreshProjects() {
+        Task {
+            guard let cloudIDs = try? await syncService.fetchCloudProjects() else {
+                return
+            }
+            
+            let local = storageManager.getAll()
+            let localIDs = Set(local.map { $0.id })
+            
+            let missingProjectIDs = Set(cloudIDs).subtracting(localIDs)
+            
+            // Create placeholders for missing projects
+            for id in missingProjectIDs {
+                guard let folderManager = ProjectFolderManager(with: id) else {
+                    continue
+                }
+                
+                FileManager.default.createFile(atPath: folderManager.defaultModelURL.path(), contents: nil)
+                guard let bookmark = try? folderManager.defaultModelURL.bookmarkData() else {
+                    continue
+                }
+                
+                let item = StorageItem(id: id, name: id.uuidString, bookmark: bookmark)
+                storageManager.insert(item)
+            }
+            
+            // Refresh content of all projects
+            // TODO: Add parallel loading
+            for id in Set(cloudIDs).union(localIDs) {
+                guard let missing = try? await syncService.missingContent(for: id, includePlaceholders: false) else {
+                    continue
+                }
+                
+                guard missing.values.reduce(0, { $0 + $1.count }) > 0 else {
+                    continue
+                }
+                
+                if missingProjectIDs.contains(id) {
+                    self.addProjectNode(with: id)
+                } else {
+                    self.addMissing(content: missing, forProject: id)
+                }
+            }
+            
+            self.galleryViewController?.reload()
+            
+            if let processing = try? await syncService.processingContent() {
+                for (project, paragraphs) in processing {
+                    addProcessing(content: paragraphs, forProject: project)
+                }
+            }
+        }
+    }
+    
+    private func observeProcessingContent() async throws {
+        for await output in syncService.requestAggregator.updates {
+            switch output.status {
+            case .done, .error:
+                if let id = UUID(uuidString: output.id),
+                   let id_model = UUID(uuidString: output.id_model) {
+                    didProcessed(content: id, inProject: id_model)
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    // MARK: Building
     
     func removeItem(with id: UUID) {
         guard let indexPath = indexPathOfNode(matching: { node in
@@ -431,39 +443,94 @@ class TabBarViewController: NSViewController {
         treeController.removeObject(atArrangedObjectIndexPath: indexPath)
     }
     
-    func update(content: [String: Set<String>], forProject id: UUID) {
-        guard let projectNode = self.findNode(matching: { node in
-            node.identifier == id.uuidString.lowercased()
-        }, in: [self.treeController.arrangedObjects]) else {
-            return
+    private func buildFileSystemNode(_ url: URL) -> Node {
+        let node = Node()
+        node.url = url
+        node.identifier = url.deletingPathExtension().lastPathComponent
+        node.title = url.lastPathComponent
+        
+        if url.isFolder {
+            node.type = .container
+            node.identifier = url.deletingLastPathComponent().lastPathComponent + url.lastPathComponent
+            
+            let items = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [], options: .skipsHiddenFiles)) ?? []
+            for item in items {
+                let contentNode = buildFileSystemNode(item)
+                
+                node.children.append(contentNode)
+            }
+        } else {
+            node.type = .document
         }
         
-        for (paragraph, names) in content {
-            guard let paragraphNode = self.findNode(matching: { node in
-                node.type == .projectParagraph && node.title == paragraph
-            }, in: projectNode.children ?? []) else {
-                continue
+        return node
+    }
+    
+    private func populateOutlineContents() {
+        // Add the Projects grouping and its content.
+        addProjectsGroup()
+    }
+    
+    // MARK: Detail View Management
+    
+    // Use this to decide which view controller to use as the detail.
+    func viewControllerForSelection(_ selection: [NSTreeNode]?) -> NSViewController? {
+        guard let outlineViewSelection = selection else { return nil }
+        
+        var viewController: NSViewController?
+        
+        switch outlineViewSelection.count {
+        case 1:
+            // A single selection.
+            guard let node = TabBarViewController.node(from: selection?[0] as Any) else {
+                return viewController
             }
             
-            for name in names {
-                guard let itemIDSub = name.split(separator: ".").first,
-                      let itemID = UUID(uuidString: String(itemIDSub)),
-                      let itemNode = self.findNode(matching: { node in
-                    node.title == name
-                }, in: paragraphNode.children ?? []) else {
-                    continue
-                }
-                
-                Task { [weak self] in
-                    if let updates = self?.syncService.dataTransfer.updates(for: itemID) {
-                        for await _ in updates {}
+            if let url = node.url {
+                // The node has a URL.
+                if node.type == .project {
+                    // It is project folder.
+                    // TODO: think about presenting here item view on full size
+                    viewController = galleryViewController
+                } else if node.type == .projectParagraph {
+                    // It is project images or videos folder.
+                    folderViewController?.url = node.url
+                    viewController = folderViewController
+                } else if node.isDirectory {
+                    // It is a folder URL.
+                    viewController = galleryViewController
+                } else if let type = UTType(filenameExtension: url.pathExtension) {
+                    // It is a file URL of appropriate type.
+                    if type.conforms(to: .threeDContent), let id = UUID(uuidString: node.identifier) {
+                        threeDModelDetailedViewController?.update(with: storageManager.get(with: id))
+                        threeDModelDetailedViewController?.reload()
+                        viewController = threeDModelDetailedViewController
+                    } else if type.conforms(to: .mpeg4Movie) {
+                        videoDetailedViewController?.update(with: url)
+                        videoDetailedViewController?.reload()
+                        viewController = videoDetailedViewController
+                    } else if type.conforms(to: .image) {
+                        imageDetailedViewController?.update(with: url)
+                        imageDetailedViewController?.reload()
+                        viewController = imageDetailedViewController
                     }
-                    
-                    self?.outlineView?.reloadItem(itemNode, reloadChildren: false)
                 }
+            } else if node.type == .container {
+                viewController = galleryViewController
+            } else {
+                // The node doesn't have a URL.
+                // TODO: currently handling testing rendering
+                viewController = renderingViewController
             }
+        default:
+            // The selection is empty or more than one.
+            viewController = nil
         }
+
+        return viewController
     }
+
+    // MARK: Tree utils
     
     func findNode(matching criteria: (Node) -> Bool, in nodes: [NSTreeNode]) -> NSTreeNode? {
         for node in nodes {

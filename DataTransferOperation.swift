@@ -17,7 +17,14 @@ class DataTransferOperation: AsyncOperation {
     override func main() {
         session.startUploading()
         
-        let outputs = UntilProcessingCompleteFilter(input: session.outputUpdates)
+        let outputs = UntilProcessingCompleteFilter(input: session.outputUpdates) {
+            switch $0 {
+            case .requestCompleted, .requestError, .requestCancelled:
+                true
+            default:
+                false
+            }
+        }
         
         Task { [weak self] in
             for await _ in outputs {}

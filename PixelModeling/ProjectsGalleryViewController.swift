@@ -33,6 +33,10 @@ class ProjectsGalleryViewController: NSViewController {
         
         collectionView?.register(ProjectsGalleryCollectionViewItem.self, forItemWithIdentifier: ProjectsGalleryCollectionViewItem.Constants.reuseIdentifier)
         
+        Task {
+            try await observeProcessingContent()
+        }
+        
         DispatchQueue.main.async { [weak self] in
             self?.reload()
         }
@@ -41,6 +45,22 @@ class ProjectsGalleryViewController: NSViewController {
     func reload() {
         items = ProjectFolderManager.getProjects()
         collectionView?.reloadData()
+    }
+    
+    private func observeProcessingContent() async throws {
+        for await output in syncService.requestAggregator.updates {
+            switch output.status {
+            case .done, .error:
+                guard let id = UUID(uuidString: output.id),
+                      let idx = self.items.firstIndex(of: id) else {
+                    return
+                }
+                
+                self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+            default:
+                break
+            }
+        }
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {

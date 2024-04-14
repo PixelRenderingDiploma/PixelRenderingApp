@@ -7,25 +7,45 @@
 
 import Foundation
 
+protocol SequenceFilter {
+    associatedtype CaseType
+    
+    var isCompletionCase: Bool { get }
+}
+
+struct AnySequenceFilter {
+    private let _isCompletionCase: () -> Bool
+
+    init<Filter: SequenceFilter>(_ filter: Filter) {
+        _isCompletionCase = { filter.isCompletionCase }
+    }
+
+    var isCompletionCase: Bool {
+        _isCompletionCase()
+    }
+}
+
 struct UntilProcessingCompleteFilter<Base>: AsyncSequence,
-                                            AsyncIteratorProtocol where Base: AsyncSequence, Base.Element == DataTransferSession.Output {
+                                            AsyncIteratorProtocol where Base: AsyncSequence {
     func makeAsyncIterator() -> UntilProcessingCompleteFilter {
         return self
     }
 
     typealias AsyncIterator = Self
-    typealias Element = DataTransferSession.Output
+    typealias Element = Base.Element
 
     private let inputSequence: Base
     private var completed = false
     private var iterator: Base.AsyncIterator
+    private let predicate: (Base.Element) -> Bool
 
-    init(input: Base) where Base.Element == Element {
+    init(input: Base, completionPredicate: @escaping (Base.Element) -> Bool) {
         inputSequence = input
+        predicate = completionPredicate
         iterator = inputSequence.makeAsyncIterator()
     }
 
-    mutating func next() async -> Element? {
+    mutating func next() async -> Base.Element? {
         if completed {
             return nil
         }
@@ -35,13 +55,7 @@ struct UntilProcessingCompleteFilter<Base>: AsyncSequence,
             return nil
         }
 
-        if case .requestCompleted = nextElement {
-            completed = true
-        }
-        if case .requestCancelled = nextElement {
-            completed = true
-        }
-        if case .requestError = nextElement {
+        if predicate(nextElement) {
             completed = true
         }
 

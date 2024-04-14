@@ -57,6 +57,8 @@
 		BC473B842B69050000C413A1 /* ProjectsGalleryItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */; };
 		BC521A912BC8E58400578E99 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC521A902BC8E58400578E99 /* VideoPreviewViewController.swift */; };
 		BC521A932BC8F63700578E99 /* FolderGalleryItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC521A922BC8F63700578E99 /* FolderGalleryItemViewModel.swift */; };
+		BC521A9B2BCA81F800578E99 /* RemoteContentStatusLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC521A9A2BCA81F800578E99 /* RemoteContentStatusLoader.swift */; };
+		BC521A9D2BCA971600578E99 /* RenderingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC521A9C2BCA971600578E99 /* RenderingRequest.swift */; };
 		BC6AC1222B6A31E200AA8328 /* VideoDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6AC1212B6A31E200AA8328 /* VideoDetailedViewController.swift */; };
 		BC77CA9C2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */; };
 		BC77CA9D2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */; };
@@ -193,6 +195,8 @@
 		BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryItemViewModel.swift; sourceTree = "<group>"; };
 		BC521A902BC8E58400578E99 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		BC521A922BC8F63700578E99 /* FolderGalleryItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGalleryItemViewModel.swift; sourceTree = "<group>"; };
+		BC521A9A2BCA81F800578E99 /* RemoteContentStatusLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteContentStatusLoader.swift; sourceTree = "<group>"; };
+		BC521A9C2BCA971600578E99 /* RenderingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingRequest.swift; sourceTree = "<group>"; };
 		BC6AC1212B6A31E200AA8328 /* VideoDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailedViewController.swift; sourceTree = "<group>"; };
 		BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Placeholder.swift"; sourceTree = "<group>"; };
 		BC77CA9E2BC54F2C00C2C0C4 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -358,6 +362,8 @@
 				BC9AFC4C2B661C2A009170B0 /* SCNPreviewGenerator.swift */,
 				BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */,
 				BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */,
+				BC521A9C2BCA971600578E99 /* RenderingRequest.swift */,
+				BC521A9A2BCA81F800578E99 /* RemoteContentStatusLoader.swift */,
 				BCD19AA32B4E70EE004DCC48 /* PixelModeling */,
 				BCD19AB82B4E7127004DCC48 /* PixelModeling-iOS */,
 				BC1F600C2B84ABF3002050C7 /* Resources */,
@@ -585,6 +591,7 @@
 				BC473B842B69050000C413A1 /* ProjectsGalleryItemViewModel.swift in Sources */,
 				BC3C96A32BBFE0010009A83C /* RenderingSettingsInfoPopoverViewController.swift in Sources */,
 				BC1D5BF22BC24FDA00CD66BA /* DownloadingSession.swift in Sources */,
+				BC521A9D2BCA971600578E99 /* RenderingRequest.swift in Sources */,
 				BC87CB3E2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,
 				BCBAE4D52B6B2D030095E92D /* TabBarViewController+Delegate.swift in Sources */,
 				BC9AFC4D2B661C2A009170B0 /* SCNPreviewGenerator.swift in Sources */,
@@ -608,6 +615,7 @@
 				BC0F44F22B67395800C41584 /* ThreeDModelView.swift in Sources */,
 				BCC78EDF2B75B213004CE24D /* ImageDetailedViewController.swift in Sources */,
 				BC9AFC302B65FE7B009170B0 /* StorageManagerProtocol.swift in Sources */,
+				BC521A9B2BCA81F800578E99 /* RemoteContentStatusLoader.swift in Sources */,
 				BC473B722B68F01000C413A1 /* FileManager+Intermediate.swift in Sources */,
 				BC7CB3C52B53AC740086D31C /* SamplerStateLibrary.swift in Sources */,
 				BC521A912BC8E58400578E99 /* VideoPreviewViewController.swift in Sources */,

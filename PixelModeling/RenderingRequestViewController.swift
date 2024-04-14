@@ -18,14 +18,14 @@ class RenderingRequestViewController: NSViewController {
     
     @IBOutlet weak var submitButton: ProcessingButton?
     
+    @Service private var syncService: SyncService
+    
     private let infoPopover = {
         let popover = NSPopover()
         popover.contentViewController = RenderingSettingsInfoPopoverViewController()
         popover.behavior = .semitransient
         return popover
     }()
-    
-    @Service var authAdapter: MSAuthAdapter
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,9 +85,7 @@ class RenderingRequestViewController: NSViewController {
         
         let settings = RenderingSettings(type: type, flyby: .circleHorizontal, scene_effect: sceneEffect, post_effect: postEffect, duration: 0, start_frame: startFrame)
         
-        let id = UUID()
-        
-        try? await WebApi(authAdapter.authState).submitRendering(id: id, id_model: id_model, settings: settings)
+        try? await syncService.submit(model: id_model, settings: settings)
         
         self.cancelButtonAction(sender)
     }
