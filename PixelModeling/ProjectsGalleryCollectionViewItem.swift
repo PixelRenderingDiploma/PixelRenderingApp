@@ -25,7 +25,7 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     @IBOutlet weak var previewImageView: NSImageView?
     @IBOutlet weak var nameLabel: NSTextField?
     
-    @IBOutlet weak var syncStatusButton: NSButton?
+    @IBOutlet weak var syncStatusButton: SymbolButton?
     @IBOutlet weak var optionsButton: NSButton?
     
     weak var delegate: ProjectsGalleryCollectionViewItemDelegate?
@@ -77,18 +77,22 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
     
     func update(with status: SyncStatus) {
         switch status {
-        case .local, .cloud, .cloudContent:
-            syncStatusButton?.isEnabled = true
         case .syncing:
-            fallthrough
-        case .synced:
+            syncStatusButton?.symbolImageView?.addSymbolEffect(.bounce, options: .repeating)
             syncStatusButton?.isEnabled = false
+        case .synced:
+            syncStatusButton?.symbolImageView?.removeAllSymbolEffects()
+            syncStatusButton?.isEnabled = false
+        case .local, .cloud, .cloudContent:
+            syncStatusButton?.symbolImageView?.removeAllSymbolEffects()
+            syncStatusButton?.isEnabled = true
         }
         
         syncStatusButton?.image = NSImage(systemSymbolName: status.systemSymbolName, accessibilityDescription: nil)
     }
     
     @IBAction func syncButtonAction(_ sender: Any) {
+        update(with: .syncing)
         viewModel.map { delegate?.didUserSyncProject(with: $0.id) }
     }
     

@@ -191,8 +191,8 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
                         .compactMap { UUID(uuidString: String($0)) }
                     await reload(item: id, afterSyncOf: ids)
                 }
-            case .syncing, .synced:
-                break
+            default:
+                await reload(item: id, afterSyncOf: [])
             }
         }
     }

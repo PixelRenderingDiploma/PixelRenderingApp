@@ -70,7 +70,7 @@
                 <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CFr-Rf-iPL">
                     <rect key="frame" x="16" y="112" width="96" height="20"/>
                     <subviews>
-                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PsF-Wj-ITm">
+                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PsF-Wj-ITm" customClass="SymbolButton" customModule="PixelModeling" customModuleProvider="target">
                             <rect key="frame" x="-3" y="-3" width="26" height="26"/>
                             <buttonCell key="cell" type="round" bezelStyle="circular" imagePosition="only" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5et-kL-mFb">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
