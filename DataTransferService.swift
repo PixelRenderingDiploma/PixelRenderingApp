@@ -14,11 +14,11 @@ class DataTransferService {
         return queue
     }()
     
-    private var operationUpdates = [UUID: CombineAsyncPublsiher<Published<DataTransferSession.Output>.Publisher>]()
+    private var outputPublishers = [UUID: Published<DataTransferSession.Output>.Publisher]()
     
     func add(session: DataTransferSession) {
         let op = DataTransferOperation(session: session)
-        operationUpdates[session.id] = session.outputUpdates
+        outputPublishers[session.id] = session.$output
         operationQueue.addOperation(op)
         
         let outputs = updates(for: session.id)!
@@ -31,7 +31,7 @@ class DataTransferService {
                 
                 switch output {
                 case .requestCompleted, .requestCancelled, .requestError:
-                    self.operationUpdates.removeValue(forKey: session.id)
+                    self.outputPublishers.removeValue(forKey: session.id)
                 default:
                     break
                 }
@@ -40,11 +40,11 @@ class DataTransferService {
     }
     
     func updates(for id: UUID) -> UntilProcessingCompleteFilter<DataTransferSession.Updates>? {
-        guard let operationUpdates = operationUpdates[id] else {
+        guard let outputPublisher = outputPublishers[id] else {
             return nil
         }
         
-        return UntilProcessingCompleteFilter(input: operationUpdates) {
+        return UntilProcessingCompleteFilter(input: outputPublisher.sequence) {
             switch $0 {
             case .requestCompleted, .requestError, .requestCancelled:
                 true

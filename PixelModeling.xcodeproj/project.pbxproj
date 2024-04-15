@@ -11,6 +11,7 @@
 		BC0F44E42B6718C400C41584 /* ThreeDModelDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */; };
 		BC0F44F22B67395800C41584 /* ThreeDModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44F12B67395800C41584 /* ThreeDModelView.swift */; };
 		BC0F44F32B67395800C41584 /* ThreeDModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0F44F12B67395800C41584 /* ThreeDModelView.swift */; };
+		BC1614132BCCA46F005D5602 /* SymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1614122BCCA46F005D5602 /* SymbolButton.swift */; };
 		BC1D5BE62BC224B800CD66BA /* DataTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */; };
 		BC1D5BE72BC224B800CD66BA /* DataTransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */; };
 		BC1D5BEC2BC2422F00CD66BA /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */; };
@@ -165,6 +166,7 @@
 /* Begin PBXFileReference section */
 		BC0F44E22B6718C400C41584 /* ThreeDModelDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModelDetailedViewController.swift; sourceTree = "<group>"; };
 		BC0F44F12B67395800C41584 /* ThreeDModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDModelView.swift; sourceTree = "<group>"; };
+		BC1614122BCCA46F005D5602 /* SymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolButton.swift; sourceTree = "<group>"; };
 		BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferService.swift; sourceTree = "<group>"; };
 		BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferSession.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				BC7CB3BA2B53A6FF0086D31C /* Graphics */,
 				BC77CAA42BC55A1B00C2C0C4 /* NSImage+Thumbnail.swift */,
 				BCE39F512BC677D200055D0D /* ImageAspectView.swift */,
+				BC1614122BCCA46F005D5602 /* SymbolButton.swift */,
 				BCBAE4D02B6A57D00095E92D /* MainSplitViewController.swift */,
 				BCBAE4D22B6A5A6D0095E92D /* TabBarViewController.swift */,
 				BCBAE4D42B6B2D030095E92D /* TabBarViewController+Delegate.swift */,
@@ -661,6 +664,7 @@
 				BC9AFC362B66079C009170B0 /* ProjectsGalleryCollectionViewItem.swift in Sources */,
 				BC24CE852BBD0FC300E74480 /* SyncService.swift in Sources */,
 				BC77CA9F2BC54F2C00C2C0C4 /* Cache.swift in Sources */,
+				BC1614132BCCA46F005D5602 /* SymbolButton.swift in Sources */,
 				BC7CB3A02B5390A60086D31C /* SampleScene.swift in Sources */,
 				BC1F60112B84CBD8002050C7 /* PlatformTypes.swift in Sources */,
 				BC7CB3B52B539CCD0086D31C /* ShadersLibrary.swift in Sources */,
