@@ -40,7 +40,7 @@ class ProjectsGalleryItemViewModel {
     }
     
     func getContentPreviewUrl() -> URL? {
-        folderManager.videos.first ?? folderManager.images.first
+        folderManager.videos.filter { !$0.isPlaceholder }.first ?? folderManager.images.filter { !$0.isPlaceholder }.first
     }
     
     func getVideoURL() -> URL? {
