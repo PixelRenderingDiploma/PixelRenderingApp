@@ -135,7 +135,6 @@ class ThreeDModelDetailedViewController: NSViewController {
     
     private var initialScale: simd_float3?
     
-    // Todo: fix for macOS
     @objc
     func handlePinch(_ gesture: PlatformPinchGestureRecognizer) {
         guard let contentNode = sceneView?.contentNode else {

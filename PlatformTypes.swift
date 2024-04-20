@@ -30,7 +30,7 @@
 
     extension NSMagnificationGestureRecognizer {
         var scale: CGFloat {
-            self.magnification
+            self.magnification + 1.0
         }
     }
 #endif
