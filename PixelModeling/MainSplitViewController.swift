@@ -23,6 +23,11 @@ class MainSplitViewController: NSSplitViewController {
             object: nil)
         NotificationCenter.default.addObserver(
             self,
+            selector: #selector(handleURLSelectionChange(_:)),
+            name: .collectionViewSelectionDidChange,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
             selector: #selector(handleProjectDeletion(_:)),
             name: .didDeleteProjectFolder,
             object: nil)
@@ -112,6 +117,29 @@ class MainSplitViewController: NSSplitViewController {
                 }
             }
         }
+    }
+    
+    @objc
+    private func handleURLSelectionChange(_ notification: Notification) {
+        guard let collectionView = notification.object as? NSCollectionView,
+              let tabBarViewController = splitViewItems[0].viewController as? TabBarViewController else {
+            return
+        }
+        
+        let url: URL?
+        if collectionView == tabBarViewController.galleryViewController?.collectionView {
+            url = tabBarViewController.galleryViewController?.urlForSelection()
+        } else if collectionView == tabBarViewController.folderViewController?.collectionView {
+            url = tabBarViewController.folderViewController?.urlForSelection()
+        } else {
+            url = nil
+        }
+        
+        guard let url else {
+            return
+        }
+        
+        tabBarViewController.selectNode(with: url)
     }
     
     @objc

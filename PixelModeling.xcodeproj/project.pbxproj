@@ -113,6 +113,8 @@
 		BC87CB452B5B76DF0002CCDC /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87CB432B5B76DF0002CCDC /* Services.swift */; };
 		BC87CB482B5D04E70002CCDC /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87CB472B5D04E70002CCDC /* WebApi.swift */; };
 		BC87CB492B5D04E70002CCDC /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87CB472B5D04E70002CCDC /* WebApi.swift */; };
+		BC95F9B52BD394D90096F077 /* URLSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95F9B42BD394D90096F077 /* URLSelectable.swift */; };
+		BC95F9B62BD394D90096F077 /* URLSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95F9B42BD394D90096F077 /* URLSelectable.swift */; };
 		BC9AFC302B65FE7B009170B0 /* StorageManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */; };
 		BC9AFC312B65FE7B009170B0 /* StorageManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */; };
 		BC9AFC332B66052E009170B0 /* ProjectsGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9AFC322B66052E009170B0 /* ProjectsGalleryViewController.swift */; };
@@ -152,6 +154,7 @@
 		BCD19AD72B4E7D22004DCC48 /* PMShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */; };
 		BCD19AD92B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
 		BCD19ADA2B4E8680004DCC48 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD19AD82B4E8680004DCC48 /* Camera.swift */; };
+		BCE1E8D72BD77DD500B1EC10 /* UserInterectionDisabledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE1E8D62BD77DD500B1EC10 /* UserInterectionDisabledView.swift */; };
 		BCE39F4F2BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
 		BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
 		BCE39F522BC677D200055D0D /* ImageAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F512BC677D200055D0D /* ImageAspectView.swift */; };
@@ -227,6 +230,7 @@
 		BC87CB432B5B76DF0002CCDC /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		BC87CB462B5B7F500002CCDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BC87CB472B5D04E70002CCDC /* WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
+		BC95F9B42BD394D90096F077 /* URLSelectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSelectable.swift; sourceTree = "<group>"; };
 		BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManagerProtocol.swift; sourceTree = "<group>"; };
 		BC9AFC322B66052E009170B0 /* ProjectsGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryViewController.swift; sourceTree = "<group>"; };
 		BC9AFC342B66079C009170B0 /* ProjectsGalleryCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsGalleryCollectionViewItem.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 		BCD19AD02B4E747A004DCC48 /* PixelModeling-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixelModeling-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCD19AD52B4E7D22004DCC48 /* PMShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PMShaders.metal; sourceTree = "<group>"; };
 		BCD19AD82B4E8680004DCC48 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		BCE1E8D62BD77DD500B1EC10 /* UserInterectionDisabledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterectionDisabledView.swift; sourceTree = "<group>"; };
 		BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingSession.swift; sourceTree = "<group>"; };
 		BCE39F512BC677D200055D0D /* ImageAspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAspectView.swift; sourceTree = "<group>"; };
 		BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingButton.swift; sourceTree = "<group>"; };
@@ -368,6 +373,7 @@
 				BC521A9A2BCA81F800578E99 /* RemoteContentStatusLoader.swift */,
 				BC87CB472B5D04E70002CCDC /* WebApi.swift */,
 				BC87CB432B5B76DF0002CCDC /* Services.swift */,
+				BC95F9B42BD394D90096F077 /* URLSelectable.swift */,
 				BCD19AA32B4E70EE004DCC48 /* PixelModeling */,
 				BCD19AB82B4E7127004DCC48 /* PixelModeling-iOS */,
 				BC1F600C2B84ABF3002050C7 /* Resources */,
@@ -446,6 +452,7 @@
 				BCD19AA62B4E70EE004DCC48 /* RenderingViewController.swift */,
 				BC1F60132B85B575002050C7 /* RenderingView.swift */,
 				BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */,
+				BCE1E8D62BD77DD500B1EC10 /* UserInterectionDisabledView.swift */,
 			);
 			path = PixelModeling;
 			sourceTree = "<group>";
@@ -601,6 +608,7 @@
 				BC7CB3BC2B53A7120086D31C /* VertexDescriptorLibrary.swift in Sources */,
 				BCD19ACD2B4E73AB004DCC48 /* Renderer.swift in Sources */,
 				BC7CB3C22B53ABE40086D31C /* DepthStencilStateLibrary.swift in Sources */,
+				BC95F9B52BD394D90096F077 /* URLSelectable.swift in Sources */,
 				BC6AC1222B6A31E200AA8328 /* VideoDetailedViewController.swift in Sources */,
 				BC77CA9C2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */,
 				BC87CB352B5B71400002CCDC /* LoginViewController.swift in Sources */,
@@ -654,6 +662,7 @@
 				BC1D5BEF2BC24D2300CD66BA /* DataTransferSession.swift in Sources */,
 				BCD19AD62B4E7D22004DCC48 /* PMShaders.metal in Sources */,
 				BCBAE4DB2B6B5C760095E92D /* TabBarOutlineView.swift in Sources */,
+				BCE1E8D72BD77DD500B1EC10 /* UserInterectionDisabledView.swift in Sources */,
 				BC7CB3BF2B53A93A0086D31C /* RenderPipelineStateLibrary.swift in Sources */,
 				BC7CB3972B5379C80086D31C /* SceneObject.swift in Sources */,
 				BC7CB3AF2B5399AF0086D31C /* SceneManager.swift in Sources */,
@@ -687,6 +696,7 @@
 				BC77CA9D2BC5167A00C2C0C4 /* URL+Placeholder.swift in Sources */,
 				BCD19ACB2B4E7181004DCC48 /* RenderingViewController.swift in Sources */,
 				BC3D48752B88401C001A831D /* OBJHelper.swift in Sources */,
+				BC95F9B62BD394D90096F077 /* URLSelectable.swift in Sources */,
 				BC7CB3A72B5391B20086D31C /* Mesh.swift in Sources */,
 				BC7CB3A12B5390A60086D31C /* SampleScene.swift in Sources */,
 				BC7CB3982B5379C80086D31C /* SceneObject.swift in Sources */,

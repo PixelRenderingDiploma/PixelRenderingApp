@@ -35,8 +35,8 @@ class TabBarViewController: NSViewController {
     private var imageDetailedViewController: ImageDetailedViewController?
     private var videoDetailedViewController: VideoDetailedViewController?
     private var threeDModelDetailedViewController: ThreeDModelDetailedViewController?
-    private var folderViewController: FolderGalleryViewController?
-    private var galleryViewController: ProjectsGalleryViewController?
+    private(set) var folderViewController: FolderGalleryViewController?
+    private(set) var galleryViewController: ProjectsGalleryViewController?
     private var renderingViewController: RenderingViewController?
     
     override func viewDidLoad() {
@@ -531,6 +531,16 @@ class TabBarViewController: NSViewController {
     }
 
     // MARK: Tree utils
+    
+    func selectNode(with url: URL) {
+        guard let indexPath = indexPathOfNode(matching: { node in
+            node.url == url
+        }, in: [treeController.arrangedObjects]) else {
+            return
+        }
+        
+        treeController.setSelectionIndexPath(indexPath)
+    }
     
     func findNode(matching criteria: (Node) -> Bool, in nodes: [NSTreeNode]) -> NSTreeNode? {
         for node in nodes {

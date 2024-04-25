@@ -10,7 +10,6 @@ import Cocoa
 protocol ProjectsGalleryCollectionViewItemDelegate: AnyObject {
     func didUserRequestRenderItem(with id: UUID)
     func didUserDeleteItem(with id: UUID, cloud: Bool)
-    func didUserSelectVideo(with id: UUID)
     
     func didUserSyncProject(with id: UUID)
 }
@@ -65,9 +64,6 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
         
         viewController.view.autoresizingMask = [.width, .height]
         viewController.view.frame = renderedContentView?.bounds ?? .zero
-        
-        let videoTapGesutre = PlatformTapGestureRecognizer(target: self, action: #selector(didSelectVideoItem))
-        viewController.view.addGestureRecognizer(videoTapGesutre)
     }
     
     func update(with viewModel: ProjectsGalleryItemViewModel) {
@@ -148,9 +144,29 @@ class ProjectsGalleryCollectionViewItem: NSCollectionViewItem {
             break
         }
     }
-    
-    @objc
-    private func didSelectVideoItem(_ sender: Any) {
-        viewModel.map { delegate?.didUserSelectVideo(with: $0.id) }
+}
+
+extension ProjectsGalleryCollectionViewItem: SubSelectionCollectionViewItem {
+    func subitemIndex(at point: NSPoint) -> Int? {
+        if let view = renderedContentView, view.bounds.contains(view.convert(point, from: self.view)) {
+            return 1
+        } else if let view = previewImageView, view.bounds.contains(point) {
+            return 0
+        }
+            
+        return nil
     }
+    
+    func object(for selection: Int) -> Any? {
+        switch selection {
+        case 1:
+            viewModel?.folderManager.videosFolder
+        case 0:
+            viewModel?.modelURL
+        default:
+            nil
+        }
+    }
+    
+    func select() {}
 }

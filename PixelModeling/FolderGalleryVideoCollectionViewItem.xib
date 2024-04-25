@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.AVKitIBPlugin" version="22505"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.AVKitIBPlugin" version="22689"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,14 +20,29 @@
             <rect key="frame" x="0.0" y="0.0" width="128" height="144"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <avPlayerView controlsStyle="none" translatesAutoresizingMaskIntoConstraints="NO" id="pay-hz-bdo" customClass="PreviewPlayerView" customModule="PixelModeling" customModuleProvider="target">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="LUZ-Gm-sF0" customClass="UserInterectionDisabledView" customModule="PixelModeling" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="16" width="128" height="128"/>
-                </avPlayerView>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nOR-jZ-ldy" customClass="ImageAspectView" customModule="PixelModeling" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="16" width="128" height="128"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="9eJ-Ol-D1V"/>
-                </imageView>
-                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LXW-VN-wSc">
+                    <subviews>
+                        <avPlayerView controlsStyle="none" translatesAutoresizingMaskIntoConstraints="NO" id="pay-hz-bdo" customClass="PreviewPlayerView" customModule="PixelModeling" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                        </avPlayerView>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nOR-jZ-ldy" customClass="ImageAspectView" customModule="PixelModeling" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="9eJ-Ol-D1V"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="pay-hz-bdo" firstAttribute="leading" secondItem="LUZ-Gm-sF0" secondAttribute="leading" id="8Xd-ca-uQi"/>
+                        <constraint firstItem="nOR-jZ-ldy" firstAttribute="leading" secondItem="LUZ-Gm-sF0" secondAttribute="leading" id="IkV-2d-jA8"/>
+                        <constraint firstAttribute="bottom" secondItem="pay-hz-bdo" secondAttribute="bottom" id="Utd-ii-Q9P"/>
+                        <constraint firstAttribute="trailing" secondItem="pay-hz-bdo" secondAttribute="trailing" id="eYf-A2-UVq"/>
+                        <constraint firstAttribute="bottom" secondItem="nOR-jZ-ldy" secondAttribute="bottom" id="qzo-7r-X8h"/>
+                        <constraint firstItem="pay-hz-bdo" firstAttribute="top" secondItem="LUZ-Gm-sF0" secondAttribute="top" id="t3h-64-6By"/>
+                        <constraint firstItem="nOR-jZ-ldy" firstAttribute="top" secondItem="LUZ-Gm-sF0" secondAttribute="top" id="tFb-PL-ufs"/>
+                        <constraint firstAttribute="trailing" secondItem="nOR-jZ-ldy" secondAttribute="trailing" id="tJo-aF-lrx"/>
+                    </constraints>
+                </customView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LXW-VN-wSc">
                     <rect key="frame" x="-2" y="0.0" width="132" height="16"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="oYs-mF-N0Y">
                         <font key="font" usesAppearanceFont="YES"/>
@@ -37,17 +52,13 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="pay-hz-bdo" secondAttribute="trailing" id="PTd-LA-Rdf"/>
-                <constraint firstAttribute="trailing" secondItem="nOR-jZ-ldy" secondAttribute="trailing" id="bH2-Ki-Aee"/>
+                <constraint firstItem="LUZ-Gm-sF0" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="3yF-yf-2N3"/>
+                <constraint firstItem="LUZ-Gm-sF0" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="XKL-ER-zHm"/>
                 <constraint firstAttribute="bottom" secondItem="LXW-VN-wSc" secondAttribute="bottom" id="cPo-Wy-Nj7"/>
+                <constraint firstItem="LXW-VN-wSc" firstAttribute="top" secondItem="LUZ-Gm-sF0" secondAttribute="bottom" id="cYj-wq-azm"/>
+                <constraint firstAttribute="trailing" secondItem="LUZ-Gm-sF0" secondAttribute="trailing" id="csm-ls-Mj0"/>
                 <constraint firstAttribute="trailing" secondItem="LXW-VN-wSc" secondAttribute="trailing" id="fG4-Y8-sai"/>
-                <constraint firstItem="nOR-jZ-ldy" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="hvR-58-E0o"/>
-                <constraint firstItem="LXW-VN-wSc" firstAttribute="top" secondItem="nOR-jZ-ldy" secondAttribute="bottom" id="kWh-Ii-Lb9"/>
-                <constraint firstItem="pay-hz-bdo" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="oBN-2Y-XyR"/>
-                <constraint firstItem="pay-hz-bdo" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="pKM-Ya-Xq4"/>
-                <constraint firstItem="LXW-VN-wSc" firstAttribute="top" secondItem="pay-hz-bdo" secondAttribute="bottom" id="s30-1h-C8M"/>
                 <constraint firstItem="LXW-VN-wSc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="wq0-gX-zOK"/>
-                <constraint firstItem="nOR-jZ-ldy" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="zZV-ht-UXs"/>
             </constraints>
             <point key="canvasLocation" x="30" y="135"/>
         </customView>

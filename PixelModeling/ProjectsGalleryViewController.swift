@@ -10,7 +10,7 @@ import SceneKit
 import GLTFSceneKit
 
 class ProjectsGalleryViewController: NSViewController {
-    @IBOutlet weak var collectionView: NSCollectionView?
+    @IBOutlet weak var collectionView: SubSelectionCollectionView?
     
     @Service private var storageManager: StorageManagerProtocol
     @Service private var syncService: SyncService
@@ -65,21 +65,6 @@ class ProjectsGalleryViewController: NSViewController {
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "ThreeDModelDetailedSegue":
-            guard let indexPath = sender as? IndexPath else { return }
-            
-            let id = items[indexPath.item]
-            
-            if let destinationVC = segue.destinationController as? ThreeDModelDetailedViewController,
-               let item = storageManager.get(with: id) {
-                destinationVC.update(with: item)
-            }
-        case "PlayerDetailedSegue":
-            guard let id = sender as? UUID else { return }
-            if let destinationVC = segue.destinationController as? VideoDetailedViewController,
-               let url = ProjectFolderManager(with: id)?.video(with: id) {
-                destinationVC.update(with: url)
-            }
         case "RenderRequestSheetSegue":
             guard let id = sender as? UUID else { return }
             if let destinationVC = segue.destinationController as? RenderingRequestViewController {
@@ -128,9 +113,9 @@ extension ProjectsGalleryViewController: NSCollectionViewDataSource {
     }
 }
 
-extension ProjectsGalleryViewController: NSCollectionViewDelegate {
-    func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
-        performSegue(withIdentifier: "ThreeDModelDetailedSegue", sender: indexPaths.first)
+extension ProjectsGalleryViewController: NSCollectionViewDelegate {    
+    func collectionView(_ collectionView: NSCollectionView, shouldSelectItemsAt indexPaths: Set<IndexPath>) -> Set<IndexPath> {
+        (collectionView as? SubSelectionCollectionView)?.validateSelection(for: indexPaths) ?? indexPaths
     }
     
     func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
@@ -155,10 +140,6 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
             
             reload()
         }
-    }
-    
-    func didUserSelectVideo(with id: UUID) {
-        performSegue(withIdentifier: "PlayerDetailedSegue", sender: id)
     }
     
     func didUserSyncProject(with id: UUID) {
@@ -211,6 +192,21 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
         }
         
         self.collectionView?.reloadItems(at: [IndexPath(item: idx, section: 0)])
+    }
+}
+
+extension ProjectsGalleryViewController: URLSelectable {
+    func urlForSelection() -> URL? {
+        if let idx = collectionView?.subselectionIndexPaths.first,
+           let item = collectionView?.item(at: idx.section) as? SubSelectionCollectionViewItem {
+            return item.object(for: idx.item) as? URL
+        }
+        
+        if let idx = collectionView?.selectionIndexPaths.first {
+            return ProjectFolderManager(with: items[idx.item])?.rootProjectFolder
+        }
+        
+        return nil
     }
 }
 

@@ -9,7 +9,7 @@ import Cocoa
 import UniformTypeIdentifiers
 
 class FolderGalleryViewController: NSViewController {
-    @IBOutlet weak var collectionView: NSCollectionView?
+    @IBOutlet weak var collectionView: NotificationCollectionView?
     
     private let contentPreviewLoader = ContentPreviewLoader()
     
@@ -65,5 +65,15 @@ extension FolderGalleryViewController: NSCollectionViewDataSource {
         }
         
         return viewItem ?? NSCollectionViewItem()
+    }
+}
+
+extension FolderGalleryViewController: URLSelectable {
+    func urlForSelection() -> URL? {
+        guard let idx = collectionView?.selectionIndexPaths.first else {
+            return nil
+        }
+        
+        return items[idx.item]
     }
 }

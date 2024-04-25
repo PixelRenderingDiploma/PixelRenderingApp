@@ -8,9 +8,10 @@
 import Foundation
 
 class ProjectsGalleryItemViewModel {
+    let folderManager: ProjectFolderManager
+    let overridedModelURL: URL?
+    
     private let contentLoader: ContentPreviewLoader
-    private let folderManager: ProjectFolderManager
-    private let overridedModelURL: URL?
     
     init(with folderManager: ProjectFolderManager, overridedModelURL: URL?, contentLoader: ContentPreviewLoader) {
         self.folderManager = folderManager
@@ -26,9 +27,12 @@ class ProjectsGalleryItemViewModel {
         folderManager.id.uuidString.lowercased()
     }
     
+    var modelURL: URL {
+        overridedModelURL ?? folderManager.defaultModelURL
+    }
+    
     func loadModelPreview(_ completion: @escaping ContentPreviewLoader.Handler) {
-        let url = overridedModelURL ?? folderManager.defaultModelURL
-        contentLoader.loadPreview(for: url, handler: completion)
+        contentLoader.loadPreview(for: modelURL, handler: completion)
     }
     
     func loadContentPreview(_ completion: @escaping ContentPreviewLoader.Handler) {
