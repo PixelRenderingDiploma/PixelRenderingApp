@@ -47,6 +47,7 @@
 		BC3D48742B88401C001A831D /* OBJHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48732B88401C001A831D /* OBJHelper.swift */; };
 		BC3D48752B88401C001A831D /* OBJHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48732B88401C001A831D /* OBJHelper.swift */; };
 		BC3D48912B89B51C001A831D /* RenderingViewMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */; };
+		BC4651AF2BFC0CDE000833CD /* NSImage+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77CAA42BC55A1B00C2C0C4 /* NSImage+Thumbnail.swift */; };
 		BC473B6C2B68C79500C413A1 /* RendererPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B6A2B68C79500C413A1 /* RendererPreviewViewController.swift */; };
 		BC473B6D2B68C79500C413A1 /* RendererPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC473B6B2B68C79500C413A1 /* RendererPreviewViewController.xib */; };
 		BC473B6F2B68C7A900C413A1 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */; };
@@ -159,7 +160,6 @@
 		BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */; };
 		BCE39F522BC677D200055D0D /* ImageAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE39F512BC677D200055D0D /* ImageAspectView.swift */; };
 		BCEE73912BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
-		BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */; };
 		BCFF4A432B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
 		BCFF4A442B6F77C100E8B608 /* RenderingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */; };
 		BCFF4A462B6F99CA00E8B608 /* RenderingRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF4A452B6F99CA00E8B608 /* RenderingRequestViewController.swift */; };
@@ -304,6 +304,61 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		BC4651AD2BFC0B23000833CD /* Modeling */ = {
+			isa = PBXGroup;
+			children = (
+				BC1F60062B849D68002050C7 /* ThreeDModel.swift */,
+				BC3D48732B88401C001A831D /* OBJHelper.swift */,
+				BCD19ACC2B4E73AB004DCC48 /* Renderer.swift */,
+				BCD19AD82B4E8680004DCC48 /* Camera.swift */,
+				BC7CB3962B5379C80086D31C /* SceneObject.swift */,
+				BC7CB3992B537AC30086D31C /* SceneNode.swift */,
+				BC7CB39C2B5381C60086D31C /* Scene.swift */,
+				BC7CB3AE2B5399AF0086D31C /* SceneManager.swift */,
+				BC7CB39F2B5390A50086D31C /* SampleScene.swift */,
+				BC7CB3A22B5390D50086D31C /* Primitive.swift */,
+				BC7CB3A52B5391B20086D31C /* Mesh.swift */,
+				BC7CB3932B5370B90086D31C /* Math.swift */,
+			);
+			path = Modeling;
+			sourceTree = "<group>";
+		};
+		BC4651AE2BFC0C64000833CD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BC473B712B68F01000C413A1 /* FileManager+Intermediate.swift */,
+				BCBF6C7C2B6F215500ED97B1 /* UTType+Custom.swift */,
+				BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */,
+				BC77CAA42BC55A1B00C2C0C4 /* NSImage+Thumbnail.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BC4651B02BFC0CF1000833CD /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */,
+				BCE1E8D62BD77DD500B1EC10 /* UserInterectionDisabledView.swift */,
+				BCE39F512BC677D200055D0D /* ImageAspectView.swift */,
+				BC1614122BCCA46F005D5602 /* SymbolButton.swift */,
+			);
+			path = HelperViews;
+			sourceTree = "<group>";
+		};
+		BC4651B12BFC1008000833CD /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BC9AFC4C2B661C2A009170B0 /* SCNPreviewGenerator.swift */,
+				BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */,
+				BC95F9B42BD394D90096F077 /* URLSelectable.swift */,
+				BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */,
+				BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */,
+				BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */,
+				BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		BC7CB3BA2B53A6FF0086D31C /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,30 +405,26 @@
 			children = (
 				BC77CAA12BC550B500C2C0C4 /* ContentPreviewLoader.swift */,
 				BC77CA9E2BC54F2C00C2C0C4 /* Cache.swift */,
-				BC77CA9B2BC5167A00C2C0C4 /* URL+Placeholder.swift */,
 				BC24CE842BBD0FC300E74480 /* SyncService.swift */,
 				BC1D5BE52BC224B800CD66BA /* DataTransferService.swift */,
 				BC1D5BEE2BC24D2300CD66BA /* DataTransferSession.swift */,
 				BC1D5BF42BC2530F00CD66BA /* DataTransferOperation.swift */,
-				BC1D5BF72BC2534200CD66BA /* UntilProcessingCompleteFilter.swift */,
-				BC1D5BFA2BC253C100CD66BA /* CombineAsyncPublisher.swift */,
-				BC1D5BEB2BC2422F00CD66BA /* AsyncOperation.swift */,
 				BC1D5BF12BC24FDA00CD66BA /* DownloadingSession.swift */,
 				BCE39F4E2BC64B1A00055D0D /* UploadingSession.swift */,
-				BCEE73902BBA72CD00149B7F /* ProcessingButton.swift */,
-				BC3D48732B88401C001A831D /* OBJHelper.swift */,
-				BC1F60102B84CBD8002050C7 /* PlatformTypes.swift */,
-				BCBF6C7C2B6F215500ED97B1 /* UTType+Custom.swift */,
 				BC473B742B68FCE200C413A1 /* ProjectFolderManager.swift */,
-				BC473B712B68F01000C413A1 /* FileManager+Intermediate.swift */,
-				BC9AFC4C2B661C2A009170B0 /* SCNPreviewGenerator.swift */,
-				BC473B6E2B68C7A900C413A1 /* NibLoadable.swift */,
 				BCFF4A422B6F77C100E8B608 /* RenderingSettings.swift */,
 				BC521A9C2BCA971600578E99 /* RenderingRequest.swift */,
 				BC521A9A2BCA81F800578E99 /* RemoteContentStatusLoader.swift */,
 				BC87CB472B5D04E70002CCDC /* WebApi.swift */,
 				BC87CB432B5B76DF0002CCDC /* Services.swift */,
-				BC95F9B42BD394D90096F077 /* URLSelectable.swift */,
+				BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */,
+				BCBAE4D62B6B3C270095E92D /* Node.swift */,
+				BC87CB362B5B72990002CCDC /* MSAuth */,
+				BC4651B12BFC1008000833CD /* Helpers */,
+				BC4651AD2BFC0B23000833CD /* Modeling */,
+				BC7CB3C72B53B37B0086D31C /* Shaders */,
+				BC7CB3BA2B53A6FF0086D31C /* Graphics */,
+				BC4651AE2BFC0C64000833CD /* Extensions */,
 				BCD19AA32B4E70EE004DCC48 /* PixelModeling */,
 				BCD19AB82B4E7127004DCC48 /* PixelModeling-iOS */,
 				BC1F600C2B84ABF3002050C7 /* Resources */,
@@ -396,27 +447,12 @@
 			isa = PBXGroup;
 			children = (
 				BC87CB462B5B7F500002CCDC /* Info.plist */,
-				BCD19AA42B4E70EE004DCC48 /* AppDelegate.swift */,
-				BCD19ACC2B4E73AB004DCC48 /* Renderer.swift */,
-				BCD19AD82B4E8680004DCC48 /* Camera.swift */,
 				BCD19AD02B4E747A004DCC48 /* PixelModeling-Bridging-Header.h */,
 				BCD19AA82B4E70F1004DCC48 /* Assets.xcassets */,
 				BCD19AAA2B4E70F1004DCC48 /* Main.storyboard */,
 				BCD19AAD2B4E70F1004DCC48 /* PixelModeling.entitlements */,
-				BC7CB3932B5370B90086D31C /* Math.swift */,
-				BC7CB3962B5379C80086D31C /* SceneObject.swift */,
-				BC7CB3992B537AC30086D31C /* SceneNode.swift */,
-				BC7CB39C2B5381C60086D31C /* Scene.swift */,
-				BC7CB3AE2B5399AF0086D31C /* SceneManager.swift */,
-				BC7CB39F2B5390A50086D31C /* SampleScene.swift */,
-				BC7CB3A22B5390D50086D31C /* Primitive.swift */,
-				BC7CB3A52B5391B20086D31C /* Mesh.swift */,
-				BC87CB362B5B72990002CCDC /* MSAuth */,
-				BC7CB3C72B53B37B0086D31C /* Shaders */,
-				BC7CB3BA2B53A6FF0086D31C /* Graphics */,
-				BC77CAA42BC55A1B00C2C0C4 /* NSImage+Thumbnail.swift */,
-				BCE39F512BC677D200055D0D /* ImageAspectView.swift */,
-				BC1614122BCCA46F005D5602 /* SymbolButton.swift */,
+				BCD19AA42B4E70EE004DCC48 /* AppDelegate.swift */,
+				BC4651B02BFC0CF1000833CD /* HelperViews */,
 				BCBAE4D02B6A57D00095E92D /* MainSplitViewController.swift */,
 				BCBAE4D22B6A5A6D0095E92D /* TabBarViewController.swift */,
 				BCBAE4D42B6B2D030095E92D /* TabBarViewController+Delegate.swift */,
@@ -426,7 +462,6 @@
 				BC3C969F2BBFB22C0009A83C /* MenuOutlineViewDelegate.swift */,
 				BC87CB342B5B71400002CCDC /* LoginViewController.swift */,
 				BCBF6C7F2B6F32DC00ED97B1 /* DetailedViewController.swift */,
-				BC9AFC2F2B65FE7B009170B0 /* StorageManagerProtocol.swift */,
 				BC9AFC322B66052E009170B0 /* ProjectsGalleryViewController.swift */,
 				BC473B832B69050000C413A1 /* ProjectsGalleryItemViewModel.swift */,
 				BC9AFC342B66079C009170B0 /* ProjectsGalleryCollectionViewItem.swift */,
@@ -447,12 +482,9 @@
 				BC6AC1212B6A31E200AA8328 /* VideoDetailedViewController.swift */,
 				BCC78EDE2B75B213004CE24D /* ImageDetailedViewController.swift */,
 				BC521A902BC8E58400578E99 /* VideoPreviewViewController.swift */,
-				BCBAE4D62B6B3C270095E92D /* Node.swift */,
-				BC1F60062B849D68002050C7 /* ThreeDModel.swift */,
 				BCD19AA62B4E70EE004DCC48 /* RenderingViewController.swift */,
 				BC1F60132B85B575002050C7 /* RenderingView.swift */,
 				BC3D48902B89B51C001A831D /* RenderingViewMenuController.swift */,
-				BCE1E8D62BD77DD500B1EC10 /* UserInterectionDisabledView.swift */,
 			);
 			path = PixelModeling;
 			sourceTree = "<group>";
@@ -688,7 +720,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC87CB3F2B5B73750002CCDC /* MSAuthProxy.swift in Sources */,
-				BCEE73922BBA72CD00149B7F /* ProcessingButton.swift in Sources */,
 				BCE39F502BC64B1A00055D0D /* UploadingSession.swift in Sources */,
 				BC24CE862BBD0FC300E74480 /* SyncService.swift in Sources */,
 				BC473B762B68FCE200C413A1 /* ProjectFolderManager.swift in Sources */,
@@ -732,6 +763,7 @@
 				BC77CAA32BC550B500C2C0C4 /* ContentPreviewLoader.swift in Sources */,
 				BC7CB3C62B53AC740086D31C /* SamplerStateLibrary.swift in Sources */,
 				BCBF6C812B6F32DC00ED97B1 /* DetailedViewController.swift in Sources */,
+				BC4651AF2BFC0CDE000833CD /* NSImage+Thumbnail.swift in Sources */,
 				BC473B702B68C7A900C413A1 /* NibLoadable.swift in Sources */,
 				BCD19ABA2B4E7127004DCC48 /* AppDelegate.swift in Sources */,
 				BC7CB3CA2B53B4FC0086D31C /* PMShared.metal in Sources */,
