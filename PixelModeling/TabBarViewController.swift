@@ -97,7 +97,7 @@ class TabBarViewController: NSViewController {
     func importModel(url: URL) {
         print("Selected file: \(url.path)")
         
-        let id = UUID()
+        let id = UUID(uuidString: url.deletingPathExtension().lastPathComponent) ?? UUID()
         guard let bookmark = try? url.bookmarkData() else {
             return
         }
@@ -105,9 +105,9 @@ class TabBarViewController: NSViewController {
         let name = url.deletingPathExtension().lastPathComponent
         let item = StorageItem(id: id, name: name, bookmark: bookmark)
         self.storageManager.insert(item)
-        self.galleryViewController?.reload()
         
-        addProjectNode(with: id)
+        self.addProjectNode(with: id)
+        self.galleryViewController?.reload()
     }
     
     // MARK: Projects building

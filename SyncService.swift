@@ -46,6 +46,25 @@ class SyncService {
         self.webApi = nil
     }
     
+    func createProject(with item: StorageItem) throws {
+        guard let webApi else {
+            throw SyncError.unauthorizedRequest
+        }
+        
+        guard let url = item.url,
+              let data = try? Data(contentsOf: url) else {
+            return
+        }
+        
+        let session = UploadingSession(
+            id: item.id,
+            webApi: webApi,
+            blobPath: "models/\(item.id.uuidString.lowercased()).glb",
+            data: data)
+        
+        dataTransfer.add(session: session)
+    }
+    
     func createProject(with id: UUID) throws {
         guard let webApi else {
             throw SyncError.unauthorizedRequest

@@ -151,7 +151,7 @@ extension ProjectsGalleryViewController: ProjectsGalleryCollectionViewItemDelega
             
             switch status {
             case .local:
-                try? syncService.createProject(with: id)
+                try? syncService.createProject(with: item)
                 await reload(item: id, afterSyncOf: [id])
             case .cloud:
                 try? syncService.downloadProject(with: id)
