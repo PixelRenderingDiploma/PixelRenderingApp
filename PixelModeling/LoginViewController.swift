@@ -23,7 +23,7 @@ class LoginViewController: PlatformViewController {
     
     private func sigIn(silently: Bool) {
         authAdapter.setupViewConnection(self)
-        authAdapter.logIn(silently: true, type: .login) { [weak self] result in
+        authAdapter.logIn(silently: silently, type: .login) { [weak self] result in
             switch result {
             case .success(let auth):
                 print(auth)

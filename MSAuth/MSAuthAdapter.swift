@@ -33,6 +33,7 @@ class MSAuthAdapter {
     private let authorityHostName = "hlebushek.b2clogin.com"
     private let clientId = "fdfc1e35-a8cc-426f-b28f-477a4d1f25de"
     private let signupOrSigninPolicy = "B2C_1_susi"
+    private let resetPasswordPolicy = "B2C_1_reset"
     private let redirectUri = "msauth.hlebushek.PixelModeling://auth"
     private let graphURI = "https://graph.microsoft.com/"
     private let scopes: [String] = []
@@ -86,6 +87,19 @@ class MSAuthAdapter {
         }
     }
     
+    private func setupResetPassword() {
+        guard let authorityUrl = URL(string: String(format: self.endpoint, self.authorityHostName, self.tenantName, self.resetPasswordPolicy)) else {
+            MSAuthAdapter.logger.error("Unable to create authority URL")
+            return
+        }
+        
+        do {
+            try authProxy.setupApplication(clientId: clientId, redirectUri: redirectUri, authorityUrl: authorityUrl)
+        } catch {
+            MSAuthAdapter.logger.error("Unable to create Reset Password Application Context: \(String(describing: error))")
+        }
+    }
+    
     private func loadAccount(_ completion: @escaping (Account?) -> Void) {
         authProxy.loadAccount { account, error in
             if let error {
@@ -116,7 +130,16 @@ class MSAuthAdapter {
         authProxy.acquireTokenInteractively(type: type, scopes: scopes) { account, idToken, idUser, error in
             guard let account else {
                 MSAuthAdapter.logger.error("Could not acquire token: No account returned")
-                completion?(.failure(error ?? MSAuthProxy.Error.couldNotAcquireToken))
+                
+                if let error, (error as NSError).code == -50005 {
+                    self.setupResetPassword()
+                    DispatchQueue.main.async {
+                        self.acquireTokenInteractively(type: .login, completion: completion)
+                    }
+                } else {
+                    completion?(.failure(error ?? MSAuthProxy.Error.couldNotAcquireToken))
+                }
+                
                 return
             }
 
@@ -137,6 +160,11 @@ class MSAuthAdapter {
                 MSAuthAdapter.logger.error("Could not acquire token: No account returned")
                 if let error {
                     if (error as? MSAuthProxy.Error) == .interactiveLoginRequired {
+                        DispatchQueue.main.async {
+                            self.acquireTokenInteractively(type: .login, completion: completion)
+                        }
+                    } else if (error as NSError).code == -50005 {
+                        self.setupResetPassword()
                         DispatchQueue.main.async {
                             self.acquireTokenInteractively(type: .login, completion: completion)
                         }

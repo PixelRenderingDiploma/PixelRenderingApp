@@ -41,10 +41,7 @@ class MainSplitViewController: NSSplitViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         
-        if authAdapter.authState.idToken == nil,
-           let viewController = self.storyboard?.instantiateController(withIdentifier: "LoginViewController") as? LoginViewController {
-            self.presentAsSheet(viewController)
-        }
+        validateAuthentication()
     }
     
     private var detailViewController: DetailedViewController {
@@ -161,5 +158,22 @@ class MainSplitViewController: NSSplitViewController {
         }
         
         tabBarViewController.update(content: syncingContent, forProject: id)
+    }
+    
+    // Auth
+    
+    func validateAuthentication() {
+        if authAdapter.authState.idToken == nil,
+           let viewController = self.storyboard?.instantiateController(withIdentifier: "LoginViewController") as? LoginViewController {
+            self.presentAsSheet(viewController)
+        }
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+        authAdapter.logOut { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.validateAuthentication()
+            }
+        }
     }
 }

@@ -51,6 +51,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                                        <menuItem title="Log Out" id="B0C-DR-YzD">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="logOut:" target="Ady-hI-5gd" id="Fo7-SK-Czk"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Quit PixelModeling" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
@@ -720,11 +726,11 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="64" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rf6-Sc-UDt">
-                                <rect key="frame" x="195" y="140" width="61" height="20"/>
+                                <rect key="frame" x="163" y="140" width="125" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1E9-gc-O8r">
-                                        <rect key="frame" x="-7" y="-7" width="75" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="t4c-QE-96r">
+                                        <rect key="frame" x="-7" y="-7" width="139" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Sign-In / Sign-Up" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="t4c-QE-96r">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>

@@ -78,11 +78,11 @@ class RenderingRequestViewController: NSViewController {
         guard let id_model = id,
               let type = RenderingType(rawValue: renderingTypePopupButton.selectedTag()),
               let sceneEffect = SceneEffect(rawValue: sceneEffectPopupButton.selectedTag()),
-              let postEffect = PostEffect(rawValue: postEffectPopupButton.selectedTag()),
-              let startFrame = Int(frameField.stringValue) else {
+              let postEffect = PostEffect(rawValue: postEffectPopupButton.selectedTag()) else {
             return
         }
         
+        let startFrame = Int(frameField.stringValue) ?? 0
         let settings = RenderingSettings(type: type, flyby: .circleHorizontal, scene_effect: sceneEffect, post_effect: postEffect, duration: 0, start_frame: startFrame)
         
         try? await syncService.submit(model: id_model, settings: settings)
